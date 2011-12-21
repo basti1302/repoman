@@ -1,16 +1,48 @@
 {
-    "name": "repoman",
-    "description": "Multi-repo tool",
-    "keywords": ["source", "repository", "scm", "git", "svn"],
-    "version": "0.0.1",
-    "homepage" : "http://github.com/cliffano/repoman",
-    "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
-    "bin": { "repoman": "./bin/repoman" },
-    "repository": { "type": "git", "url": "http://github.com/cliffano/repoman.git" },
-    "bugs": { "web": "http://github.com/cliffano/repoman/issues" },
-    "directories": { "bin": "./bin", "lib": "./lib", "test": "./test" },
-    "dependencies": { "async": "0.1.9", "nomnom": "1.0.0" },
-    "devDependencies": { "vows": "0.5.9" },
-    "engines": { "node": ">= 0.4.0" },
-    "licenses" : [{ "type" : "MIT", "url" : "http://github.com/cliffano/repoman/raw/master/LICENSE" } ]
+  "name": "repoman",
+  "description": "Simple multi-repository management tool",
+  "keywords": [
+    "source code",
+    "repository",
+    "scm",
+    "git",
+    "svn"
+  ],
+  "version": "0.0.1",
+  "homepage": "http://github.com/cliffano/repoman",
+  "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
+  "bin": {
+    "repoman": "./bin/repoman"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/cliffano/repoman.git"
+  },
+  "bugs": {
+    "url": "http://github.com/cliffano/repoman/issues"
+  },
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "dependencies": {
+    "async": "0.1.15",
+    "mkdirp": "0.2.1",
+    "ncp": "0.2.2",
+    "nomnom": "1.5.1"
+  },
+  "devDependencies": {
+    "sandboxed-module": "0.1.2",
+    "vows": "0.5.9"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/cliffano/repoman/raw/master/LICENSE"
+    }
+  ]
 }
