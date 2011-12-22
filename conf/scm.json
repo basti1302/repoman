@@ -1,13 +1,14 @@
 {
   "git": {
-    "init": "git clone {url} {workspaceDir}/{name}",
-    "refresh": "cd {workspaceDir}/{name}; git pull",
-    "save": "git push origin master"
+    "init": "git clone {url} {workspace}/{name}",
+    "receive": "cd {workspace}/{name}; git pull",
+    "diff": "git diff .",
+    "send": "git push origin master"
   },
   "svn": {
-    "init": "svn checkout {url} {workspaceDir}/{name}",
-    "refresh": "cd {workspaceDir}/{name}; svn up",
-    "check": "svn diff",
-    "save": "svn commit -m \"Commited by Repoman\""
+    "init": "svn checkout {url} {workspace}/{name}",
+    "receive": "cd {workspace}/{name}; svn up",
+    "diff": "svn diff",
+    "send": "svn commit -m \"Commited by Repoman\""
   }
 }
