@@ -27,10 +27,8 @@
     "test": "./test"
   },
   "dependencies": {
-    "async": "0.1.15",
-    "mkdirp": "0.2.1",
-    "ncp": "0.2.2",
-    "nomnom": "1.5.1"
+    "nomnom": "1.5.1",
+    "underscore": "1.2.2"
   },
   "devDependencies": {
     "sandboxed-module": "0.1.2",
