@@ -1,0 +1,17 @@
+[
+  {
+  	"name": "ae86",
+  	"type": "git",
+  	"url": "http://github.com/cliffano/ae86"
+  },
+  {
+  	"name": "nestor",
+  	"type": "git",
+  	"url": "http://github.com/cliffano/nestor"
+  },
+  {
+  	"name": "repoman",
+  	"type": "git",
+  	"url": "http://github.com/cliffano/repoman"
+  }
+]
