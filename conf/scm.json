@@ -1,14 +1,18 @@
 {
   "git": {
+    "clean": "rm -rf {workspace}/{name}",
     "init": "git clone {url} {workspace}/{name}",
-    "receive": "cd {workspace}/{name}; git pull",
-    "diff": "git diff .",
-    "send": "git push origin master"
+    "pull": "cd {workspace}/{name}; git pull",
+    "stat": "cd {workspace}/{name}; git status",
+    "diff": "cd {workspace}/{name}; git diff .",
+    "push": "cd {workspace}/{name}; git push origin master"
   },
   "svn": {
+    "clean": "rm -rf {workspace}/{name}",
     "init": "svn checkout {url} {workspace}/{name}",
-    "receive": "cd {workspace}/{name}; svn up",
-    "diff": "svn diff",
-    "send": "svn commit -m \"Commited by Repoman\""
+    "pull": "cd {workspace}/{name}; svn up",
+    "stat": "cd {workspace}/{name}; svn status",
+    "diff": "cd {workspace}/{name}; svn diff",
+    "push": "cd {workspace}/{name}; svn commit -m \"Commited by Repoman\""
   }
 }
