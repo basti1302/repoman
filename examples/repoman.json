@@ -1,17 +1,14 @@
-[
-  {
-  	"name": "ae86",
+{
+  "ae86": {
   	"type": "git",
   	"url": "http://github.com/cliffano/ae86"
   },
-  {
-  	"name": "nestor",
+  "bloojm": {
+    "type": "svn",
+    "url": "https://bloojm.googlecode.com/svn/trunk"
+  },
+  "nestor": {
   	"type": "git",
   	"url": "http://github.com/cliffano/nestor"
-  },
-  {
-  	"name": "repoman",
-  	"type": "git",
-  	"url": "http://github.com/cliffano/repoman"
   }
-]
+}
