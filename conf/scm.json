@@ -11,7 +11,7 @@
     "clean": "rm -rf {workspace}/{name}",
     "init": "svn checkout {url} {workspace}/{name}",
     "pull": "cd {workspace}/{name}; svn up",
-    "stat": "cd {workspace}/{name}; svn status",
+    "stat": "cd {workspace}/{name}; svn stat",
     "diff": "cd {workspace}/{name}; svn diff",
     "push": "cd {workspace}/{name}; svn commit -m \"Commited by Repoman\""
   }
