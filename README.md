@@ -58,8 +58,8 @@ At the moment, Repoman only supports Git and Subversion.
   </tr>
   <tr>
     <td>repoman init</td>
-    <td>git clone {url} {workspace}/{name}</td>
-    <td>svn checkout {url} {workspace}/{name}</td>
+    <td>git clone {url}</td>
+    <td>svn checkout {url}</td>
   </tr>
   <tr>
     <td>repoman get</td>
