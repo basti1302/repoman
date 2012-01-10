@@ -77,6 +77,7 @@ At the moment, Repoman only supports Git and Subversion.
     <td>svn commit -m "Commited by Repoman"</td>
   </tr>
 </table>
+.
 
 Colophon
 --------
