@@ -45,6 +45,9 @@ vows.describe('cli').addBatch({
               },
               parseArgs: function () {
                 checks.parseArgsCount = 1;
+              },
+              getUsage: function () {
+                return 'dummyusage instruction';
               }
             },
             fs: {
@@ -68,6 +71,9 @@ vows.describe('cli').addBatch({
             console: {
               error: function (message) {
                 checks.messages.push(message);
+              },
+              log: function (message) {
+                checks.messages.push(message);
               }
             }
           }
@@ -81,12 +87,13 @@ vows.describe('cli').addBatch({
       assert.equal(checks.code, 1);
       assert.equal(checks.parseArgsCount, 1);
       // 5, one for each action
-      assert.equal(checks.messages.length, 5);
+      assert.equal(checks.messages.length, 6);
       assert.equal(checks.messages[0], 'some error');
       assert.equal(checks.messages[1], 'some error');
       assert.equal(checks.messages[2], 'some error');
       assert.equal(checks.messages[3], 'some error');
       assert.equal(checks.messages[4], 'some error');
+      assert.equal(checks.messages[5], 'dummyusage instruction');
     },
     'should pass exit code 0 when action callbacks have no error': function (topic) {
       var checks = {},
@@ -94,7 +101,17 @@ vows.describe('cli').addBatch({
       cli.exec();
       assert.equal(checks.code, 0);
       assert.equal(checks.parseArgsCount, 1);
-      assert.equal(checks.messages.length, 0);
+      assert.equal(checks.messages.length, 1);
+      assert.equal(checks.messages[0], 'dummyusage instruction');
+    },
+    'should log usage message when no command is supplied': function (topic) {
+      var checks = {},
+        cli = topic('', {}, checks);
+      cli.exec();
+      assert.equal(checks.code, 0);
+      assert.equal(checks.parseArgsCount, 1);
+      assert.equal(checks.messages.length, 1);
+      assert.equal(checks.messages[0], 'dummyusage instruction');
     }
   }
 }).exportTo(module);
