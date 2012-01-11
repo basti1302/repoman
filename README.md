@@ -1,4 +1,4 @@
-Repoman ![http://travis-ci.org/cliffano/repoman](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)
+Repoman [![http://travis-ci.org/cliffano/repoman](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
 -------
 
 Repoman is a simple multi-repository management tool.
