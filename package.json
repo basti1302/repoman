@@ -14,6 +14,9 @@
   "bin": {
     "repoman": "./bin/repoman"
   },
+  "scripts": {
+    "test": "npm install -g bob; bob clean lint test;"
+  },
   "repository": {
     "type": "git",
     "url": "http://github.com/cliffano/repoman.git"
