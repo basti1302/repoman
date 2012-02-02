@@ -1,5 +1,6 @@
 var _ = require('underscore'),
   assert = require('assert'),
+  jscoverageHack = require('../lib/repoman'),
   sandbox = require('sandboxed-module'),
   vows = require('vows');
 
