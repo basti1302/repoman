@@ -1,4 +1,4 @@
-### 0.0.2
+### 0.0.2 (SNAPSHOT)
 * Display usage on arg-less comamand
 
 ### 0.0.1
