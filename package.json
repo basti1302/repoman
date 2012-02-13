@@ -35,7 +35,7 @@
     "underscore": "1.2.2"
   },
   "devDependencies": {
-    "sandboxed-module": "0.1.2",
+    "sandboxed-module": "http://nodeload.github.com/cliffano/node-sandboxed-module/tarball/master",
     "vows": "0.6.1"
   },
   "engines": {
