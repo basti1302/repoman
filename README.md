@@ -13,20 +13,20 @@ Usage
 
 Create repoman.json file:
 
-		{
-		  "ae86": {
-		  	"type": "git",
-		  	"url": "http://github.com/cliffano/ae86"
-		  },
-		  "bloojm": {
-		    "type": "svn",
-		    "url": "https://bloojm.googlecode.com/svn/trunk"
-		  },
-		  "nestor": {
-		  	"type": "git",
-		  	"url": "http://github.com/cliffano/nestor"
-		  }
-		}
+    {
+      "ae86": {
+        "type": "git",
+        "url": "ssh://git@github.com/cliffano/ae86.git"
+      },
+      "bloojm": {
+        "type": "svn",
+        "url": "https://bloojm.googlecode.com/svn/trunk"
+      },
+      "nestor": {
+        "type": "git",
+        "url": "http://github.com/cliffano/nestor"
+      }
+    }
 
 Initialise local repositories:
 
@@ -78,6 +78,15 @@ At the moment, Repoman only supports Git and Subversion.
   </tr>
 </table>
 .
+
+Authentication
+--------------
+
+It's much easier to use keys over SSH: 
+* Git: [GitHub](http://help.github.com/set-up-git-redirect/), [Bitbucket](http://confluence.atlassian.com/display/BITBUCKET/Using+the+SSH+protocol+with+bitbucket).
+* [SVN](http://tortoisesvn.net/ssh_howto.html)
+
+Otherwise, username/password will be prompted as usual.
 
 Colophon
 --------
