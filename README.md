@@ -82,7 +82,8 @@ At the moment, Repoman only supports Git and Subversion.
 Authentication
 --------------
 
-It's much easier to use keys over SSH: 
+It's much easier to authenticate using keys over SSH:
+
 * Git: [GitHub](http://help.github.com/set-up-git-redirect/), [Bitbucket](http://confluence.atlassian.com/display/BITBUCKET/Using+the+SSH+protocol+with+bitbucket).
 * [SVN](http://tortoisesvn.net/ssh_howto.html)
 
