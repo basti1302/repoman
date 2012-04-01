@@ -1,5 +1,5 @@
 ### 0.0.3 (SNAPSHOT)
-*
+* Use cly to handle process exit
 
 ### 0.0.2
 * Display usage on arg-less comamand
