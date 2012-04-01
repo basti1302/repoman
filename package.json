@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "async": "0.1.15",
-    "cly": "0.0.3",
+    "cly": "0.0.4",
     "underscore": "1.2.2"
   },
   "devDependencies": {
