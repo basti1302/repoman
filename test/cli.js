@@ -24,39 +24,17 @@ vows.describe('cli').addBatch({
                 };
               }
             },
-            nomnom: {
-              scriptName: function (name) {
-                assert.equal(name, 'repoman');
-                return {
-                  opts: function (scriptOpts) {
-                    assert.equal(scriptOpts.version.string, '-v');
-                    assert.isTrue(scriptOpts.version.flag);
-                    assert.equal(scriptOpts.version.help, 'Repoman version number');
-                    assert.equal(scriptOpts.version.callback(), '1.2.3');
-                  }
-                };
+            cly: {
+              readJsonFile: function (file) {
+                if (file === 'dummydir/repoman.json') {
+                  return '{ "foo": "bar" }';
+                } 
               },
-              command: function (name) {
-                return {
-                  callback: function (cb) {
-                    cb({});
-                  }
-                };
-              },
-              parseArgs: function () {
-                checks.parseArgsCount = 1;
-              },
-              getUsage: function () {
-                return 'dummyusage instruction';
+              parse: function (dir, scriptName, commands) {
+                checks.scriptName = scriptName;
+                checks.commands = commands;
+                commands.init.callback();
               }
-            },
-            fs: {
-              readFileSync: function (file) {
-                return '{ "version": "1.2.3" }';
-              }
-            },
-            'dummydir/params': {
-              params: { foo: 'bar' }
             }
           },
           globals: {
@@ -71,9 +49,6 @@ vows.describe('cli').addBatch({
             console: {
               error: function (message) {
                 checks.messages.push(message);
-              },
-              log: function (message) {
-                checks.messages.push(message);
               }
             }
           }
@@ -85,33 +60,18 @@ vows.describe('cli').addBatch({
         cli = topic('init', { err: new Error('some error')}, checks);
       cli.exec();
       assert.equal(checks.code, 1);
-      assert.equal(checks.parseArgsCount, 1);
-      // 5, one for each action
-      assert.equal(checks.messages.length, 6);
+      assert.equal(checks.scriptName, 'repoman');
+      assert.equal(_.keys(checks.commands).length, 5);
+      assert.equal(checks.messages.length, 1);
       assert.equal(checks.messages[0], 'some error');
-      assert.equal(checks.messages[1], 'some error');
-      assert.equal(checks.messages[2], 'some error');
-      assert.equal(checks.messages[3], 'some error');
-      assert.equal(checks.messages[4], 'some error');
-      assert.equal(checks.messages[5], 'dummyusage instruction');
     },
     'should pass exit code 0 when action callbacks have no error': function (topic) {
       var checks = {},
         cli = topic('init', {}, checks);
       cli.exec();
       assert.equal(checks.code, 0);
-      assert.equal(checks.parseArgsCount, 1);
-      assert.equal(checks.messages.length, 1);
-      assert.equal(checks.messages[0], 'dummyusage instruction');
-    },
-    'should log usage message when no command is supplied': function (topic) {
-      var checks = {},
-        cli = topic('', {}, checks);
-      cli.exec();
-      assert.equal(checks.code, 0);
-      assert.equal(checks.parseArgsCount, 1);
-      assert.equal(checks.messages.length, 1);
-      assert.equal(checks.messages[0], 'dummyusage instruction');
+      assert.equal(_.keys(checks.commands).length, 5);
+      assert.equal(checks.messages.length, 0);
     }
   }
 }).exportTo(module);
