@@ -26,7 +26,7 @@ vows.describe('cli').addBatch({
             },
             cly: {
               readJsonFile: function (file) {
-                if (file === 'dummydir/repoman.json') {
+                if (file === 'dummydir/.repoman.json') {
                   return '{ "foo": "bar" }';
                 } 
               },
