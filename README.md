@@ -11,7 +11,7 @@ Installation
 Usage
 -----
 
-Create repoman.json file:
+Create .repoman.json file:
 
     {
       "ae86": {
