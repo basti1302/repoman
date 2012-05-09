@@ -1,14 +1,14 @@
 {
-  "ae86": {
+  "couchdb": {
   	"type": "git",
-  	"url": "http://github.com/cliffano/ae86"
+  	"url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
   },
-  "bloojm": {
+  "httpd": {
     "type": "svn",
-    "url": "https://bloojm.googlecode.com/svn/trunk"
+    "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
   },
-  "nestor": {
+  "node": {
   	"type": "git",
-  	"url": "http://github.com/cliffano/nestor"
+  	"url": "http://github.com/joyent/node"
   }
 }
