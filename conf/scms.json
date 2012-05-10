@@ -1,0 +1,16 @@
+{
+  "git": {
+    "delete": "rm -rf {workspace}/{name}",
+    "init": "git clone {url} {workspace}/{name}",
+    "get": "cd {workspace}/{name}; git pull",
+    "changes": "cd {workspace}/{name}; git status",
+    "save": "cd {workspace}/{name}; git push origin master"
+  },
+  "svn": {
+    "delete": "rm -rf {workspace}/{name}",
+    "init": "svn checkout {url} {workspace}/{name}",
+    "get": "cd {workspace}/{name}; svn up",
+    "changes": "cd {workspace}/{name}; svn stat",
+    "save": "cd {workspace}/{name}; svn commit -m \"Commited by Repoman\""
+  }
+}
