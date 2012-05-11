@@ -1,71 +1,88 @@
-var _ = require('underscore'),
-  assert = require('assert'),
-  jscoverageHack = require('../lib/repoman'),
+var bag = require('bagofholding'),
   sandbox = require('sandboxed-module'),
-  vows = require('vows');
+  should = require('should'),
+  checks, mocks,
+  repoman;
 
-vows.describe('repoman').addBatch({
-  'run': {
-    topic: function () {
-      return function (checks) {
-        return sandbox.require('../lib/repoman', {
-          requires: {
-            cly: {
-              exec: function (command, fallthrough, cb) {
-                assert.isTrue(fallthrough);
-                // simulate success on git repo and failure on svn repo
-                if (command === 'git clone http://github.com/x/y /workspace/xy') {
-                  cb(null, { status: 'success', checks: checks });
-                } else if (command === 'svn checkout http://abc.googlecode.com /workspace/abc') {
-                  cb(new Error('dummyerror'), { status: 'error', checks: checks });
-                }
-              }
+describe('repoman', function () {
+
+  function create(checks, mocks) {
+    return sandbox.require('../lib/repoman', {
+      requires: {
+        bagofholding: {
+          cli: {
+            exec: function fn(command, fallthrough, cb) {
+              cb(null, fn['arguments']);
             }
           },
-          globals: {
-            console: {
-              log: function (message) {
-                checks.messages.log.push(message);
-              }
-            }
-          }
-        });
-      };
-    },
-    'when command execution has successful and failure command executions': {
-      topic: function (topic) {
-        var checks = { messages: { log: [], error: [] } },
-          repoman = new topic(checks).Repoman({
-            workspace: '/workspace',
-            repos: {
-              xy: { url: 'http://github.com/x/y', type: 'git' },
-              abc: { url: 'http://abc.googlecode.com', type: 'svn' }
-            },
-            scms: {
-              "git": {
-                "init": "git clone {url} {workspace}/{name}"
-              },
-              "svn": {
-                "init": "svn checkout {url} {workspace}/{name}"
-              }
-            }
-          });
-        repoman.run('init', this.callback);
+          text: bag.text
+        }
       },
-      'then successful command should have status ok': function (err, results) {
-        assert.equal(results.xy.status, 'success');
-        assert.equal(results.abc.status, 'error');
-      },
-      'and failure command should pass correct error message': function (err, results) {
-        assert.equal(err.message, 'dummyerror');
-      },
-      'and log messages should be written to console': function (err, results) {
-        assert.equal(results.xy.checks.messages.log.length, 4);
-        assert.equal(results.xy.checks.messages.log[0], '+ xy');
-        assert.equal(results.xy.checks.messages.log[1], 'git clone http://github.com/x/y /workspace/xy');
-        assert.equal(results.xy.checks.messages.log[2], '+ abc');
-        assert.equal(results.xy.checks.messages.log[3], 'svn checkout http://abc.googlecode.com /workspace/abc');
+      globals: {
+        console: bag.mock.console(checks),
+        process: bag.mock.process(checks, mocks)
       }
-    }
+    });
   }
-}).exportTo(module);
+
+  beforeEach(function () {
+    checks = {};
+    mocks = {};
+  });
+
+  describe('run', function () {
+
+    it('should not log anything when repositories and scms do not exist', function (done) {
+      mocks.process_cwd = '/somedir';
+      repoman = new (create(checks, mocks))({}, {});
+      repoman.run('init', function cb(err, results) {
+        checks.repoman_run_cb_args = cb['arguments'];
+        done();        
+      });
+      checks.console_log_messages.length.should.equal(0);
+
+      should.not.exist(checks.repoman_run_cb_args[0]);
+      Object.keys(checks.repoman_run_cb_args[1]).length.should.equal(0);
+    });
+
+    it('should log repositories name and execute commands with parameters applied when repositories exist', function (done) {
+      mocks.process_cwd = '/somedir';
+      var repos = {
+          "couchdb": {
+            "type": "git",
+            "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+          },
+          "httpd": {
+            "type": "svn",
+            "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+          }
+        },
+        scms = {
+          "git": {
+            "init": "git clone {url} {workspace}/{name}"
+          },
+          "svn": {
+            "init": "svn checkout {url} {workspace}/{name}"
+          }
+        };
+      repoman = new (create(checks, mocks))(repos, scms);
+      repoman.run('init', function cb(err, results) {
+        checks.repoman_run_cb_args = cb['arguments'];
+        done();        
+      });
+      checks.console_log_messages.length.should.equal(2);
+      checks.console_log_messages[0].should.equal('+ couchdb');
+      checks.console_log_messages[1].should.equal('+ httpd');
+
+      should.not.exist(checks.repoman_run_cb_args[0]);
+
+      checks.repoman_run_cb_args[1][0][0].should.equal('git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb')
+      checks.repoman_run_cb_args[1][0][1].should.equal(true);
+      checks.repoman_run_cb_args[1][0][2].should.be.a('function');
+      checks.repoman_run_cb_args[1][1][0].should.equal('svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd')
+      checks.repoman_run_cb_args[1][1][1].should.equal(true);
+      checks.repoman_run_cb_args[1][1][2].should.be.a('function');
+    });
+  });
+});
+ 
