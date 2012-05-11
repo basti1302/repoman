@@ -28,7 +28,7 @@ describe('cli', function () {
               checks.repoman_run_command = command;
               checks.repoman_run_exit = exit;
             }
-          }
+          };
         }
       },
       locals: {
@@ -58,8 +58,8 @@ describe('cli', function () {
     });
 
     it('should contain delete commands and deletegate to repoman run when exec is called', function () {
-      checks.bag_parse_commands.delete.desc.should.equal('delete the local repositories');
-      checks.bag_parse_commands.delete.action();
+      checks.bag_parse_commands['delete'].desc.should.equal('delete the local repositories');
+      checks.bag_parse_commands['delete'].action();
       checks.repoman_run_command.should.equal('delete');
       checks.repoman_run_exit.should.be.a('function');
     });

@@ -76,10 +76,10 @@ describe('repoman', function () {
 
       should.not.exist(checks.repoman_run_cb_args[0]);
 
-      checks.repoman_run_cb_args[1][0][0].should.equal('git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb')
+      checks.repoman_run_cb_args[1][0][0].should.equal('git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
       checks.repoman_run_cb_args[1][0][1].should.equal(true);
       checks.repoman_run_cb_args[1][0][2].should.be.a('function');
-      checks.repoman_run_cb_args[1][1][0].should.equal('svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd')
+      checks.repoman_run_cb_args[1][1][0].should.equal('svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
       checks.repoman_run_cb_args[1][1][1].should.equal(true);
       checks.repoman_run_cb_args[1][1][2].should.be.a('function');
     });
