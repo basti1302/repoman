@@ -2,7 +2,7 @@
 * Use cly to handle process exit
 * Config file name is now .repoman.json
 * Replace cly with bagofholding, replace vows with mocha
-* Config file .repoman.json can now be placed at user home directory or current directory.
+* Config file .repoman.json can now be placed at user home directory, or at current directory
 
 ### 0.0.2
 * Display usage on arg-less comamand
