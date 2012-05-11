@@ -1,71 +1,96 @@
-var _ = require('underscore'),
-  assert = require('assert'),
+var bag = require('bagofholding'),
   sandbox = require('sandboxed-module'),
-  vows = require('vows');
+  should = require('should'),
+  checks, mocks,
+  cli;
 
-vows.describe('cli').addBatch({
-  'exec': {
-    topic: function () {
-      return function (command, repoman, checks) {
-        checks.messages = [];
-        return sandbox.require('../lib/cli', {
-          requires: {
-            './repoman': {
-              Repoman: function () {
-                return {
-                  run: function (action, cb) {
-                    assert.isNotNull(action);
-                    if (repoman.err) {
-                      cb(repoman.err);
-                    } else {
-                      cb(null, {});
-                    }
-                  }
-                };
-              }
+describe('cli', function () {
+
+  function create(checks, mocks) {
+    return sandbox.require('../lib/cli', {
+      requires: {
+        bagofholding: {
+          cli: {
+            exit: bag.cli.exit,
+            parse: function (commands, dir) {
+              checks.bag_parse_commands = commands;
+              checks.bag_parse_dir = dir;
             },
-            cly: {
-              readJsonFile: function (file) {
-                if (file === 'dummydir/.repoman.json') {
-                  return '{ "foo": "bar" }';
-                } 
-              },
-              parse: function (dir, scriptName, commands) {
-                checks.scriptName = scriptName;
-                checks.commands = commands;
-                commands.init.callback();
-              },
-              exit: function (err, result) {
-                checks.err = err;
-                checks.result = result;
-              }
-            }
-          },
-          globals: {
-            process: {
-              cwd: function () {
-                return 'dummydir';
-              }
+            readConfigFileSync: function (file) {
+              return mocks['fs_readFileSync_/someuserhome/.repoman.json'];
             }
           }
-        });
-      };
-    },
-    'should pass exit code 1 when action callbacks have an error': function (topic) {
-      var checks = {},
-        cli = topic('init', { err: new Error('some error')}, checks);
-      cli.exec();
-      assert.equal(checks.err.message, 'some error');
-      assert.isUndefined(checks.result);
-      assert.equal(checks.scriptName, 'repoman');
-      assert.equal(_.keys(checks.commands).length, 5);
-    },
-    'should pass exit code 0 when action callbacks have no error': function (topic) {
-      var checks = {},
-        cli = topic('init', {}, checks);
-      cli.exec();
-      assert.isNull(checks.err);
-      assert.equal(_.keys(checks.commands).length, 5);
-    }
+        },
+        fs: bag.mock.fs(checks, mocks),
+        './repoman': function(config, scms) {
+          return {
+            run: function (command, exit) {
+              checks.repoman_run_command = command;
+              checks.repoman_run_exit = exit;
+            }
+          }
+        }
+      },
+      locals: {
+        __dirname: '/somedir/repoman/lib'
+      }
+    });
   }
-}).exportTo(module);
+
+  beforeEach(function () {
+    checks = {};
+    mocks = {};
+  });
+
+  describe('exec', function () {
+
+    beforeEach(function () {
+      mocks = {
+        'fs_readFileSync_/somedir/repoman/conf/scms.json': '{}',
+        'fs_readFileSync_/someuserhome/.repoman.json': '{}'
+      };
+      cli = create(checks, mocks);
+      cli.exec();
+    });
+
+    afterEach(function () {
+      checks.bag_parse_dir.should.equal('/somedir/repoman/lib');
+    });
+
+    it('should contain delete commands and deletegate to repoman run when exec is called', function () {
+      checks.bag_parse_commands.delete.desc.should.equal('delete the local repositories');
+      checks.bag_parse_commands.delete.action();
+      checks.repoman_run_command.should.equal('delete');
+      checks.repoman_run_exit.should.be.a('function');
+    });
+
+    it('should contain init commands and deletegate to repoman run when exec is called', function () {
+      checks.bag_parse_commands.init.desc.should.equal('initialise the repositories');
+      checks.bag_parse_commands.init.action();
+      checks.repoman_run_command.should.equal('init');
+      checks.repoman_run_exit.should.be.a('function');
+    });
+
+    it('should contain get commands and deletegate to repoman run when exec is called', function () {
+      checks.bag_parse_commands.get.desc.should.equal('update local repositories with changes from remote repositories');
+      checks.bag_parse_commands.get.action();
+      checks.repoman_run_command.should.equal('get');
+      checks.repoman_run_exit.should.be.a('function');
+    });
+
+    it('should contain changes commands and deletegate to repoman run when exec is called', function () {
+      checks.bag_parse_commands.changes.desc.should.equal('display the changes in local repositories');
+      checks.bag_parse_commands.changes.action();
+      checks.repoman_run_command.should.equal('changes');
+      checks.repoman_run_exit.should.be.a('function');
+    });
+
+    it('should contain save commands and deletegate to repoman run when exec is called', function () {
+      checks.bag_parse_commands.save.desc.should.equal('update remote repositories with changes from local repositories');
+      checks.bag_parse_commands.save.action();
+      checks.repoman_run_command.should.equal('save');
+      checks.repoman_run_exit.should.be.a('function');
+    });
+  });
+});
+ 
