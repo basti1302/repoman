@@ -8,7 +8,7 @@
     "git",
     "svn"
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "http://github.com/cliffano/repoman",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "bin": {
