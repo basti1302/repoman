@@ -1,7 +1,9 @@
 Repoman [![http://travis-ci.org/cliffano/repoman](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
 -------
 
-Repoman is a simple multi-repository management tool.
+Simple multi-repository management command-line tool.
+
+This is handy when you're working on multiple SCM repositories and/or on multiple computers. E.g. rather than updating each repository one by one, it's easier to just run `repoman get` and automatically update all of them in one go.
 
 Installation
 ------------
@@ -11,36 +13,23 @@ Installation
 Usage
 -----
 
-Create .repoman.json file:
+Create sample .repoman.json configuration file:
 
-    {
-      "ae86": {
-        "type": "git",
-        "url": "ssh://git@github.com/cliffano/ae86.git"
-      },
-      "bloojm": {
-        "type": "svn",
-        "url": "https://bloojm.googlecode.com/svn/trunk"
-      },
-      "nestor": {
-        "type": "git",
-        "url": "http://github.com/cliffano/nestor"
-      }
-    }
+    repoman config
 
 Initialise local repositories:
 
     repoman init
 
-Retrieve latest code from remote repositories:
+Update local repositories with changes from remote repositories:
 
     repoman get
 
-Display new and modified files:
+Display the changes in local repositories:
 
     repoman changes
 
-Save local code to remote repositories:
+Update remote repositories with changes from local repositories:
 
     repoman save
 
@@ -48,7 +37,7 @@ Delete local repositories:
 
     repoman delete
 
-At the moment, Repoman only supports Git and Subversion.
+Repoman uses the following SCM command mapping, it currently only supports Git and Subversion:
 
 <table>
   <tr>
@@ -79,17 +68,34 @@ At the moment, Repoman only supports Git and Subversion.
 </table>
 .
 
+Configuration
+-------------
+
+Repositories can be configured in .repoman.json file:
+
+    {
+      "couchdb": {
+        "type": "git",
+        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+      },
+      "httpd": {
+        "type": "svn",
+        "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+      },
+      "node": {
+        "type": "git",
+        "url": "http://github.com/joyent/node"
+      }
+    }
+
+This file can be placed in any directory and you can use Repoman from that same directory. However, it's recommended to place it in your HOME directory, so you can use Repoman from any directory.
+
 Authentication
 --------------
 
-It's much easier to authenticate using keys over SSH:
+It's recommended to authenticate using keys over SSH:
 
 * Git: [GitHub](http://help.github.com/set-up-git-redirect/), [Bitbucket](http://confluence.atlassian.com/display/BITBUCKET/Using+the+SSH+protocol+with+bitbucket).
 * [SVN](http://tortoisesvn.net/ssh_howto.html)
 
-Otherwise, username/password will be prompted as usual.
-
-Colophon
---------
-
-Follow [@cliffano](http://twitter.com/cliffano) on Twitter.
+If keys are not set up, then username/password will be prompted interactively.
