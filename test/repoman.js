@@ -30,19 +30,26 @@ describe('repoman', function () {
     mocks = {};
   });
 
-  describe('run', function () {
+  describe('config', function () {
+
+    it('should copy sample .repoman.json file to current directory when config is called', function () {
+      // TODO
+    });
+  });
+
+  describe('exec', function () {
 
     it('should not log anything when repositories and scms do not exist', function (done) {
       mocks.process_cwd = '/somedir';
       repoman = new (create(checks, mocks))({}, {});
-      repoman.run('init', function cb(err, results) {
-        checks.repoman_run_cb_args = cb['arguments'];
+      repoman.exec('init', function cb(err, results) {
+        checks.repoman_exec_cb_args = cb['arguments'];
         done();        
       });
       checks.console_log_messages.length.should.equal(0);
 
-      should.not.exist(checks.repoman_run_cb_args[0]);
-      Object.keys(checks.repoman_run_cb_args[1]).length.should.equal(0);
+      should.not.exist(checks.repoman_exec_cb_args[0]);
+      Object.keys(checks.repoman_exec_cb_args[1]).length.should.equal(0);
     });
 
     it('should log repositories name and execute commands with parameters applied when repositories exist', function (done) {
@@ -66,22 +73,22 @@ describe('repoman', function () {
           }
         };
       repoman = new (create(checks, mocks))(repos, scms);
-      repoman.run('init', function cb(err, results) {
-        checks.repoman_run_cb_args = cb['arguments'];
+      repoman.exec('init', function cb(err, results) {
+        checks.repoman_exec_cb_args = cb['arguments'];
         done();        
       });
       checks.console_log_messages.length.should.equal(2);
       checks.console_log_messages[0].should.equal('+ couchdb');
       checks.console_log_messages[1].should.equal('+ httpd');
 
-      should.not.exist(checks.repoman_run_cb_args[0]);
+      should.not.exist(checks.repoman_exec_cb_args[0]);
 
-      checks.repoman_run_cb_args[1][0][0].should.equal('git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
-      checks.repoman_run_cb_args[1][0][1].should.equal(true);
-      checks.repoman_run_cb_args[1][0][2].should.be.a('function');
-      checks.repoman_run_cb_args[1][1][0].should.equal('svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
-      checks.repoman_run_cb_args[1][1][1].should.equal(true);
-      checks.repoman_run_cb_args[1][1][2].should.be.a('function');
+      checks.repoman_exec_cb_args[1][0][0].should.equal('git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
+      checks.repoman_exec_cb_args[1][0][1].should.equal(true);
+      checks.repoman_exec_cb_args[1][0][2].should.be.a('function');
+      checks.repoman_exec_cb_args[1][1][0].should.equal('svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
+      checks.repoman_exec_cb_args[1][1][1].should.equal(true);
+      checks.repoman_exec_cb_args[1][1][2].should.be.a('function');
     });
   });
 });

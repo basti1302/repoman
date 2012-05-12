@@ -1,5 +1,5 @@
 ### 0.0.4 (SNAPSHOT)
-* 
+* Add config command for creating sample .repoman.json file
 
 ### 0.0.3
 * Use cly to handle process exit
