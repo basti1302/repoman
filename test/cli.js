@@ -74,7 +74,7 @@ describe('cli', function () {
     });
 
     it('should contain init commands and delegate to repoman exec when exec is called', function () {
-      checks.bag_parse_commands.init.desc.should.equal('initialise the repositories');
+      checks.bag_parse_commands.init.desc.should.equal('initialise local repositories');
       checks.bag_parse_commands.init.action();
       checks.repoman_run_command.should.equal('init');
       checks.repoman_run_exit.should.be.a('function');
