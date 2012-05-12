@@ -1,4 +1,7 @@
-### 0.0.4 (SNAPSHOT)
+### 0.0.5 (SNAPSHOT)
+*
+
+### 0.0.4
 * Add config command for creating sample .repoman.json file
 
 ### 0.0.3
