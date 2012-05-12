@@ -61,8 +61,8 @@ describe('cli', function () {
     });
 
     it('should contain config commands and delegate to repoman config when exec is called', function () {
-      checks.bag_parse_commands['config'].desc.should.equal('create sample configuration file');
-      checks.bag_parse_commands['config'].action();
+      checks.bag_parse_commands.config.desc.should.equal('create sample configuration file');
+      checks.bag_parse_commands.config.action();
       checks.repoman_config_exit.should.be.a('function');
     });
 

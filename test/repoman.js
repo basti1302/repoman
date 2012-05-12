@@ -1,4 +1,5 @@
 var bag = require('bagofholding'),
+  _jscov = require('../lib/repoman'),
   sandbox = require('sandboxed-module'),
   should = require('should'),
   checks, mocks,
@@ -8,19 +9,13 @@ describe('repoman', function () {
 
   function create(checks, mocks) {
     return sandbox.require('../lib/repoman', {
-      requires: {
-        bagofholding: {
-          cli: {
-            exec: function fn(command, fallthrough, cb) {
-              cb(null, fn['arguments']);
-            }
-          },
-          text: bag.text
-        }
-      },
+      requires: mocks.requires,
       globals: {
         console: bag.mock.console(checks),
         process: bag.mock.process(checks, mocks)
+      },
+      locals: {
+        __dirname: '/somedir/repoman/lib'
       }
     });
   }
@@ -32,12 +27,39 @@ describe('repoman', function () {
 
   describe('config', function () {
 
-    it('should copy sample .repoman.json file to current directory when config is called', function () {
-      // TODO
+    it('should copy sample .repoman.json file to current directory when config is called', function (done) {
+      mocks.requires = {
+        'fs.extra': {
+          copy: function (source, target, cb) {
+            checks.fsx_copy_source = source;
+            checks.fsx_copy_target = target;
+            cb();
+          }
+        }
+      };
+      repoman = new (create(checks, mocks))();
+      repoman.config(function () {
+        done();
+      }); 
+      checks.fsx_copy_source.should.equal('/somedir/repoman/examples/.repoman.json');
+      checks.fsx_copy_target.should.equal('.repoman.json');
     });
   });
 
   describe('exec', function () {
+
+    beforeEach(function () {
+      mocks.requires = {
+        bagofholding: {
+          cli: {
+            exec: function fn(command, fallthrough, cb) {
+              cb(null, fn['arguments']);
+            }
+          },
+          text: bag.text
+        }
+      };
+    });
 
     it('should not log anything when repositories and scms do not exist', function (done) {
       mocks.process_cwd = '/somedir';
