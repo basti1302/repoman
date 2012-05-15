@@ -1,0 +1,17 @@
+{
+  "name": "Repository"
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["git", "svn"],
+      "description": "Repository type",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "description": "Repository URL",
+      "required": true
+    }
+  }
+}

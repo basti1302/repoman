@@ -1,0 +1,31 @@
+{
+  "name": "SCM"
+  "type": "object",
+  "properties": {
+    "delete": {
+      "type": "string",
+      "description": "Command to delete local repository",
+      "required": true
+    },
+    "init": {
+      "type": "string",
+      "description": "Command to initialise local repository",
+      "required": true
+    },
+    "get": {
+      "type": "string",
+      "description": "Command to update local repository with changes from remote repository",
+      "required": true
+    },
+    "changes": {
+      "type": "string",
+      "description": "Command to display the changes in local repository",
+      "required": true
+    },
+    "save": {
+      "type": "string",
+      "description": "Command to update remote repository with changes from local repository",
+      "required": true
+    }
+  }
+}
