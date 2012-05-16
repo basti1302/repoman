@@ -3,7 +3,7 @@ Repoman [![http://travis-ci.org/cliffano/repoman](https://secure.travis-ci.org/c
 
 Simple multi-repository management command-line tool.
 
-This is handy when you're working on multiple SCM repositories and/or on multiple computers. E.g. rather than updating each repository one by one, it's easier to just run `repoman get` and automatically update all of them in one go.
+This is handy when you're working on multiple SCM repositories and/or on multiple computers. E.g. rather than updating each repository one by one, it's easier to just run `repoman get` and update all of them in one go. Rather than checking for uncommitted local changes one by one, it's easier to just run `repoman changes` and check all in one go.
 
 Installation
 ------------
