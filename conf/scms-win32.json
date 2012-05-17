@@ -7,7 +7,7 @@
     "save": "cd {workspace}/{name} && git push origin master"
   },
   "svn": {
-    "delete": "rmdir -rf {workspace}/{name} /s /q",
+    "delete": "rmdir {workspace}/{name} /s /q",
     "init": "svn checkout {url} {workspace}/{name}",
     "get": "cd {workspace}/{name} && svn up",
     "changes": "cd {workspace}/{name} && svn stat",
