@@ -1,5 +1,5 @@
 ### 0.0.5 (SNAPSHOT)
-*
+* Add Windows support
 
 ### 0.0.4
 * Add config command for creating sample .repoman.json file
