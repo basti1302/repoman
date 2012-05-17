@@ -90,7 +90,9 @@ Repositories can be configured in .repoman.json file:
       }
     }
 
-This file can be placed in any directory and you can use Repoman from that same directory. However, it's recommended to place it in your HOME directory, so you can use Repoman from any directory.
+It's better to place this file in your home directory (process.env.USERPROFILE on Windows, process.env.HOME on *nix), so you can use Repoman from any directory. If this file is placed in another directory, then Repoman can only be used from that same directory.
+
+If configuration file exists in both current and home directories, then the one in current directory takes precedence over the one in the home directory.
 
 Authentication
 --------------

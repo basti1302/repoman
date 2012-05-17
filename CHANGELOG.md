@@ -1,5 +1,6 @@
 ### 0.0.5 (SNAPSHOT)
 * Add Windows support
+* Configuration file in current directory now takes precedence over one in home directory
 
 ### 0.0.4
 * Add config command for creating sample .repoman.json file
