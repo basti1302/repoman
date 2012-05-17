@@ -43,6 +43,8 @@ describe('repoman', function () {
       }); 
       checks.fsx_copy_source.should.equal('/somedir/repoman/examples/.repoman.json');
       checks.fsx_copy_target.should.equal('.repoman.json');
+      checks.console_log_messages.length.should.equal(1);
+      checks.console_log_messages[0].should.equal('Creating sample configuration file: .repoman.json');
     });
   });
 
