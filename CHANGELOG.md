@@ -1,4 +1,7 @@
-### 0.0.5 (SNAPSHOT)
+### 0.0.6 (SNAPSHOT)
+*
+
+### 0.0.5
 * Add Windows support
 * Configuration file in current directory now takes precedence over one in home directory
 
