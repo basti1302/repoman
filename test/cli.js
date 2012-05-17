@@ -64,14 +64,14 @@ describe('cli', function () {
     });
 
     it('should contain config command and delegate to repoman config when exec is called', function () {
-      checks.bag_parse_commands.config.desc.should.equal('create sample configuration file');
+      checks.bag_parse_commands.config.desc.should.equal('Create sample configuration file');
       checks.bag_parse_commands.config.action();
       checks.repoman_config_exit.should.be.a('function');
       should.not.exist(checks.fs_readFileSync_file);
     });
 
     it('should contain delete command and delegate to repoman exec when exec is called', function () {
-      checks.bag_parse_commands['delete'].desc.should.equal('delete the local repositories');
+      checks.bag_parse_commands['delete'].desc.should.equal('Delete the local repositories');
       checks.bag_parse_commands['delete'].action();
       checks.repoman_run_command.should.equal('delete');
       checks.repoman_run_exit.should.be.a('function');
@@ -79,7 +79,7 @@ describe('cli', function () {
     });
 
     it('should contain init command and delegate to repoman exec when exec is called', function () {
-      checks.bag_parse_commands.init.desc.should.equal('initialise local repositories');
+      checks.bag_parse_commands.init.desc.should.equal('Initialise local repositories');
       checks.bag_parse_commands.init.action();
       checks.repoman_run_command.should.equal('init');
       checks.repoman_run_exit.should.be.a('function');
@@ -87,7 +87,7 @@ describe('cli', function () {
     });
 
     it('should contain get command and delegate to repoman exec when exec is called', function () {
-      checks.bag_parse_commands.get.desc.should.equal('update local repositories with changes from remote repositories');
+      checks.bag_parse_commands.get.desc.should.equal('Update local repositories with changes from remote repositories');
       checks.bag_parse_commands.get.action();
       checks.repoman_run_command.should.equal('get');
       checks.repoman_run_exit.should.be.a('function');
@@ -95,7 +95,7 @@ describe('cli', function () {
     });
 
     it('should contain changes command and delegate to repoman exec when exec is called', function () {
-      checks.bag_parse_commands.changes.desc.should.equal('display the changes in local repositories');
+      checks.bag_parse_commands.changes.desc.should.equal('Display the changes in local repositories');
       checks.bag_parse_commands.changes.action();
       checks.repoman_run_command.should.equal('changes');
       checks.repoman_run_exit.should.be.a('function');
@@ -103,7 +103,7 @@ describe('cli', function () {
     });
 
     it('should contain save command and delegate to repoman exec when exec is called', function () {
-      checks.bag_parse_commands.save.desc.should.equal('update remote repositories with changes from local repositories');
+      checks.bag_parse_commands.save.desc.should.equal('Update remote repositories with changes from local repositories');
       checks.bag_parse_commands.save.action();
       checks.repoman_run_command.should.equal('save');
       checks.repoman_run_exit.should.be.a('function');
