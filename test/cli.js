@@ -22,7 +22,7 @@ describe('cli', function () {
           }
         },
         fs: bag.mock.fs(checks, mocks),
-        './repoman': function(config, scms) {
+        './repoman': function (config, scms) {
           return {
             config: function (exit) {
               checks.repoman_config_exit = exit;
