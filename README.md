@@ -1,8 +1,8 @@
-Overview [![http://travis-ci.org/cliffano/repoman](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
---------
-Repoman is a simple multi-repository management command-line tool.
+Repoman [![http://travis-ci.org/cliffano/repoman](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
+-------
+Simple multi-repository management command-line tool.
 
-It is handy when you're working on multiple SCM repositories and/or on multiple computers.
+This is handy when you're working on multiple SCM repositories and/or on multiple computers.
 E.g. rather than updating each repository one by one, it's easier to just run `repoman get` and update all of them in one go. Rather than checking for uncommitted local changes one by one, it's easier to just run `repoman changes` and check all in one go.
 And if you often switch between multiple computers, simply use the same .repoman.json file on those computers and easily manage the same set of repositories.
 
