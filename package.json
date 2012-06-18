@@ -5,7 +5,8 @@
     "repository",
     "scm",
     "git",
-    "svn"
+    "svn",
+    "command-line"
   ],
   "version": "0.0.6",
   "homepage": "http://github.com/cliffano/repoman",
