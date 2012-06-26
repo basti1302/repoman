@@ -1,5 +1,5 @@
 ### 0.0.6 (SNAPSHOT)
-*
+* Set max node engine to < 0.9.0
 
 ### 0.0.5
 * Add Windows support
