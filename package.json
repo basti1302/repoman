@@ -1,6 +1,6 @@
 {
   "name": "repoman",
-  "description": "Simple multi-repository management command-line tool",
+  "description": "Multi-repository source code management command-line tool",
   "keywords": [
     "repository",
     "scm",
