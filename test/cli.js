@@ -23,6 +23,7 @@ describe('cli', function () {
         },
         fs: bag.mock.fs(checks, mocks),
         './repoman': function (config, scms) {
+          checks.repoman_config = config;
           return {
             config: function (exit) {
               checks.repoman_config_exit = exit;
@@ -52,8 +53,10 @@ describe('cli', function () {
 
     beforeEach(function () {
       mocks = {
+        process_cwd: '/some/path/to/',
         'fs_readFileSync_/somedir/repoman/conf/scms.json': '{}',
-        'fs_readFileSync_/someuserhome/.repoman.json': '{}'
+        'fs_readFileSync_/someuserhome/.repoman.json': '{}',
+        'fs_readFileSync_/some/path/to/.customrepoman.json': '{ "customfoo": "custombar" }'
       };
       cli = create(checks, mocks);
       cli.exec();
@@ -84,6 +87,12 @@ describe('cli', function () {
       checks.repoman_run_command.should.equal('init');
       checks.repoman_run_exit.should.be.a('function');
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
+    });
+
+    it('should use custom config file when config arg is specified', function () {
+      checks.bag_parse_commands.init.desc.should.equal('Initialise local repositories');
+      checks.bag_parse_commands.init.action({ config: '.customrepoman.json' });
+      checks.repoman_config.customfoo.should.equal('custombar');
     });
 
     it('should contain get command and delegate to repoman exec when exec is called', function () {

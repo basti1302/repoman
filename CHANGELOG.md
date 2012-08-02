@@ -1,5 +1,5 @@
 ### 0.0.7 (SNAPSHOT)
-*
+* Add custom config file override
 
 ### 0.0.6
 * Set max node engine to < 0.9.0
