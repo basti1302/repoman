@@ -38,6 +38,10 @@ Delete local repositories:
 
     repoman delete
 
+Override default .repoman.json configuration file:
+
+    repoman -c somerepoman.json init|get|changes|save|delete
+
 Repoman uses the following SCM command mapping, it currently only supports Git and Subversion:
 
 <table>
