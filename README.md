@@ -100,6 +100,7 @@ Repositories can be configured in .repoman.json file:
 Type property is optional. If not provided, Repoman will try to determine the type from the URL by checking the existence of keywords: git, svn, subversion. If type can't be determined from the URL, it defaults to git.
 
 Repoman will choose which configuration file to use in this order:
+
 1. Any file specified in -c/--config-file flag
 2. .repoman.json file in the current directory
 3. .repoman.json file in home directory (process.env.USERPROFILE on Windows, process.env.HOME on *nix)
