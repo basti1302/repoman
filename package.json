@@ -11,6 +11,10 @@
   "version": "0.0.8",
   "homepage": "http://github.com/cliffano/repoman",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
+  "contributors": [
+    "All contributors (https://github.com/cliffano/repoman/graphs/contributors)"
+  ],
+  "main": "./lib/repoman",
   "bin": {
     "repoman": "./bin/repoman"
   },
@@ -37,6 +41,7 @@
     "sandboxed-module": "0.1.3",
     "should": "1.1.0"
   },
+  "scripts": {},
   "engines": {
     "node": ">= 0.4.0"
   },
