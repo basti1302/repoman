@@ -1,4 +1,7 @@
-### 0.0.7 (SNAPSHOT)
+### 0.0.8 (SNAPSHOT)
+*
+
+### 0.0.7
 * Add custom config file override
 * Add exec command
 
