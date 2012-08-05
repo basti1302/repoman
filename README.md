@@ -97,9 +97,12 @@ Repositories can be configured in .repoman.json file:
       }
     }
 
-It's better to place this file in your home directory (process.env.USERPROFILE on Windows, process.env.HOME on *nix), so you can use Repoman from any directory. If this file is placed in another directory, then Repoman can only be used from that same directory.
+Type property is optional. If not provided, Repoman will try to determine the type from the URL by checking the existence of keywords: git, svn, subversion. If type can't be determined from the URL, it defaults to git.
 
-If configuration file exists in both current and home directories, then the one in current directory takes precedence over the one in the home directory.
+Repoman will choose which configuration file to use in this order:
+1. Any file specified in -c/--config-file flag
+2. .repoman.json file in the current directory
+3. .repoman.json file in home directory (process.env.USERPROFILE on Windows, process.env.HOME on *nix)
 
 Authentication
 --------------
