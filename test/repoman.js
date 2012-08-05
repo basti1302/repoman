@@ -114,6 +114,45 @@ describe('repoman', function () {
       checks.repoman_exec_cb_args[1][1][1].should.equal(true);
       checks.repoman_exec_cb_args[1][1][2].should.be.a('function');
     });
+
+    it('should execute command as-is on each repository when command is unsupported', function (done) {
+      mocks.process_cwd = '/somedir';
+      var repos = {
+          "couchdb": {
+            "type": "git",
+            "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+          },
+          "httpd": {
+            "type": "svn",
+            "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+          }
+        },
+        scms = {
+          "git": {
+            "init": "git clone {url} {workspace}/{name}"
+          },
+          "svn": {
+            "init": "svn checkout {url} {workspace}/{name}"
+          }
+        };
+      repoman = new (create(checks, mocks))(repos, scms);
+      repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', function cb(err, results) {
+        checks.repoman_exec_cb_args = cb['arguments'];
+        done();        
+      });
+      checks.console_log_messages.length.should.equal(2);
+      checks.console_log_messages[0].should.equal('+ couchdb');
+      checks.console_log_messages[1].should.equal('+ httpd');
+
+      should.not.exist(checks.repoman_exec_cb_args[0]);
+
+      checks.repoman_exec_cb_args[1][0][0].should.equal('cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      checks.repoman_exec_cb_args[1][0][1].should.equal(true);
+      checks.repoman_exec_cb_args[1][0][2].should.be.a('function');
+      checks.repoman_exec_cb_args[1][1][0].should.equal('cd /somedir/httpd; touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
+      checks.repoman_exec_cb_args[1][1][1].should.equal(true);
+      checks.repoman_exec_cb_args[1][1][2].should.be.a('function');
+    });
   });
 });
  

@@ -78,7 +78,7 @@ describe('cli', function () {
 
     it('should contain delete command and delegate to repoman exec when exec is called', function () {
       checks.bag_parse_commands['delete'].desc.should.equal('Delete the local repositories');
-      checks.bag_parse_commands['delete'].action();
+      checks.bag_parse_commands['delete'].action({ name: 'delete', parent: {} });
       checks.repoman_run_command.should.equal('delete');
       checks.repoman_run_exit.should.be.a('function');
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
@@ -86,7 +86,7 @@ describe('cli', function () {
 
     it('should contain init command and delegate to repoman exec when exec is called', function () {
       checks.bag_parse_commands.init.desc.should.equal('Initialise local repositories');
-      checks.bag_parse_commands.init.action();
+      checks.bag_parse_commands.init.action({ name: 'init', parent: {} });
       checks.repoman_run_command.should.equal('init');
       checks.repoman_run_exit.should.be.a('function');
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
@@ -94,13 +94,13 @@ describe('cli', function () {
 
     it('should use custom config file when config arg is specified', function () {
       checks.bag_parse_commands.init.desc.should.equal('Initialise local repositories');
-      checks.bag_parse_commands.init.action({ config: '.custom.repoman.json' });
+      checks.bag_parse_commands.init.action({ name: 'init', parent: { configFile: '.custom.repoman.json' } });
       checks.repoman_config.customfoo.should.equal('custombar');
     });
 
     it('should contain get command and delegate to repoman exec when exec is called', function () {
       checks.bag_parse_commands.get.desc.should.equal('Update local repositories with changes from remote repositories');
-      checks.bag_parse_commands.get.action();
+      checks.bag_parse_commands.get.action({ name: 'get', parent: {} });
       checks.repoman_run_command.should.equal('get');
       checks.repoman_run_exit.should.be.a('function');
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
@@ -108,7 +108,7 @@ describe('cli', function () {
 
     it('should contain changes command and delegate to repoman exec when exec is called', function () {
       checks.bag_parse_commands.changes.desc.should.equal('Display the changes in local repositories');
-      checks.bag_parse_commands.changes.action();
+      checks.bag_parse_commands.changes.action({ name: 'changes', parent: {} });
       checks.repoman_run_command.should.equal('changes');
       checks.repoman_run_exit.should.be.a('function');
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
@@ -116,7 +116,7 @@ describe('cli', function () {
 
     it('should contain save command and delegate to repoman exec when exec is called', function () {
       checks.bag_parse_commands.save.desc.should.equal('Update remote repositories with changes from local repositories');
-      checks.bag_parse_commands.save.action();
+      checks.bag_parse_commands.save.action({ name: 'save', parent: {} });
       checks.repoman_run_command.should.equal('save');
       checks.repoman_run_exit.should.be.a('function');
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
@@ -130,8 +130,15 @@ describe('cli', function () {
       };
       cli = create(checks, mocks);
       cli.exec();
-      checks.bag_parse_commands['delete'].action();
+      checks.bag_parse_commands['delete'].action({ name: 'delete', parent: {} });
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms-win32.json');
+    });
+
+    it('should contain exec command and delegate to repoman exec with first argument as the command', function () {
+      checks.bag_parse_commands.exec.desc.should.equal('Execute custom command against local repositories');
+      checks.bag_parse_commands.exec.action('touch .gitignore;', { name: 'exec', parent: {} });
+      checks.repoman_run_command.should.equal('touch .gitignore;');
+      checks.repoman_run_exit.should.be.a('function');
     });
   });
 });

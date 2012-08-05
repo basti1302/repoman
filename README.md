@@ -38,9 +38,13 @@ Delete local repositories:
 
     repoman delete
 
+Execute custom command against local repositories:
+
+    repoman exec 'touch .gitignore; echo "Created {workspace}/{name}/.gitignore file;"'
+
 Override default .repoman.json configuration file:
 
-    repoman -c somerepoman.json init|get|changes|save|delete
+    repoman -c somerepoman.json init|get|changes|save|delete|exec
 
 Repoman uses the following SCM command mapping, it currently only supports Git and Subversion:
 
