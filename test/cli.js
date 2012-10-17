@@ -28,7 +28,8 @@ describe('cli', function () {
         './repoman': function (config, scms) {
           checks.repoman_config = config;
           return {
-            config: function (exit) {
+            config: function (opts, exit) {
+              checks.repoman_config_opts = opts;
               checks.repoman_config_exit = exit;
             },
             exec: function (command, exit) {
@@ -71,7 +72,31 @@ describe('cli', function () {
 
     it('should contain config command and delegate to repoman config when exec is called', function () {
       checks.bag_parse_commands.config.desc.should.equal('Create sample configuration file');
-      checks.bag_parse_commands.config.action();
+      checks.bag_parse_commands.config.options.length.should.equal(4);
+      checks.bag_parse_commands.config.options[0].arg.should.equal('--github-user <githubUser>');
+      checks.bag_parse_commands.config.options[0].desc.should.equal('GitHub username');
+      checks.bag_parse_commands.config.options[1].arg.should.equal('--github-org <githubOrg>');
+      checks.bag_parse_commands.config.options[1].desc.should.equal('GitHub organisation');
+      checks.bag_parse_commands.config.options[2].arg.should.equal('--github-auth-user <githubAuthUser>');
+      checks.bag_parse_commands.config.options[2].desc.should.equal('GitHub authentication username');
+      checks.bag_parse_commands.config.options[3].arg.should.equal('--github-auth-pass <githubAuthPass>');
+      checks.bag_parse_commands.config.options[3].desc.should.equal('GitHub authentication password');
+
+      // without any flag
+      checks.bag_parse_commands.config.action({});
+
+      // with github flags
+      checks.bag_parse_commands.config.action({
+        githubUser: 'somegithubuser',
+        githubOrg: 'somegithuborg',
+        githubAuthUser: 'somegithubauthuser',
+        githubAuthPass: 'somegithubauthpass'
+      });
+      checks.repoman_config_opts.github.user.should.equal('somegithubuser');
+      checks.repoman_config_opts.github.org.should.equal('somegithuborg');
+      checks.repoman_config_opts.github.auth.user.should.equal('somegithubauthuser');
+      checks.repoman_config_opts.github.auth.pass.should.equal('somegithubauthpass');
+
       checks.repoman_config_exit.should.be.a('function');
       should.not.exist(checks.fs_readFileSync_file);
     });

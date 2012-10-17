@@ -38,13 +38,59 @@ describe('repoman', function () {
         }
       };
       repoman = new (create(checks, mocks))();
-      repoman.config(function () {
+      repoman.config({}, function () {
         done();
       }); 
       checks.fsx_copy_source.should.equal('/somedir/repoman/examples/.repoman.json');
       checks.fsx_copy_target.should.equal('.repoman.json');
       checks.console_log_messages.length.should.equal(1);
       checks.console_log_messages[0].should.equal('Creating sample configuration file: .repoman.json');
+    });
+
+    it('should create .repoman.json file containing GitHub repositories when config is called with github flags', function () {
+      mocks.requires = {
+        fs: {
+          writeFile: function (file, data, cb) {
+            checks.fs_writeFile_file = file;
+            checks.fs_writeFile_data = data;
+            cb();
+          }
+        },
+        github: function (opts) {
+          checks.github_opts = opts;
+          return {
+            authenticate: function (opts) {
+              checks.github_authenticate_opts = opts;
+            },
+            repos: {
+              getFromUser: function (opts) {
+                checks.github_getFromUser_opts = opts;
+                return [
+                  { name: 'someuserrepo1', git_url: 'someusergiturl1' },
+                  { name: 'someuserrepo2', git_url: 'someusergiturl2' }
+                ];
+              },
+              getFromOrg: function (opts) {
+                checks.github_getFromOrg_opts = opts;
+                return [
+                  { name: 'someorgrepo1', git_url: 'someorggiturl1' },
+                  { name: 'someorgrepo2', git_url: 'someorggiturl2' }
+                ];
+              }
+            }
+          };
+        }
+      };
+      repoman = new (create(checks, mocks))();
+      /*
+      repoman.config({ github: { user: 'someuser', org: 'someorg', auth: { user: 'someauthuser', pass: 'someauthpass' } } }, function () {
+        done();
+      }); 
+      checks.github_opts.version.should.equal('3.0.0');
+      checks.fs_writeFile_file.should.equal('.repoman.json');
+      checks.console_log_messages.length.should.equal(1);
+      checks.console_log_messages[0].should.equal('Creating configuration file: .repoman.json, with GitHub repositories');
+      */
     });
   });
 

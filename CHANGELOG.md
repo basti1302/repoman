@@ -1,5 +1,5 @@
 ### 0.0.8 (SNAPSHOT)
-* Add config --github-user and --github-org flags to create configuration file with GitHub repositories
+* Add support for creating configuration file with GitHub repositories
 
 ### 0.0.7
 * Add custom config file override
