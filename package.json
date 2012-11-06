@@ -34,7 +34,7 @@
     "async": "0.1.22",
     "bagofholding": "0.0.14",
     "fs.extra": "1.2.0",
-    "github": "0.1.6",
+    "github": "0.1.7",
     "underscore": "1.4.2"
   },
   "devDependencies": {

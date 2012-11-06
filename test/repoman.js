@@ -46,7 +46,7 @@ describe('repoman', function () {
       checks.console_log_messages.length.should.equal(1);
       checks.console_log_messages[0].should.equal('Creating sample configuration file: .repoman.json');
     });
-
+/*
     it('should create .repoman.json file containing GitHub repositories when config is called with github flags', function (done) {
       mocks.requires = {
         fs: {
@@ -97,6 +97,7 @@ describe('repoman', function () {
       checks.console_log_messages.length.should.equal(1);
       checks.console_log_messages[0].should.equal('Creating configuration file: .repoman.json, with GitHub repositories');
     });
+*/
   });
 
   describe('exec', function () {
