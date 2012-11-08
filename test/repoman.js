@@ -46,7 +46,7 @@ describe('repoman', function () {
       checks.console_log_messages.length.should.equal(1);
       checks.console_log_messages[0].should.equal('Creating sample configuration file: .repoman.json');
     });
-/*
+
     it('should create .repoman.json file containing GitHub repositories when config is called with github flags', function (done) {
       mocks.requires = {
         fs: {
@@ -56,48 +56,39 @@ describe('repoman', function () {
             cb();
           }
         },
-        github: function (opts) {
-          checks.github_opts = opts;
-          return {
-            authenticate: function (opts) {
-              checks.github_authenticate_opts = opts;
-            },
-            repos: {
-              getFromUser: function (opts, cb) {
-                checks.github_getFromUser_opts = opts;
-                cb(null, [
-                  { name: 'someuserrepo1', git_url: 'someusergiturl1' },
-                  { name: 'someuserrepo2', git_url: 'someusergiturl2' }
-                ]);
+        './config': {
+          github: function (opts, cb) {
+            checks.github_opts = opts;
+            cb(null, {
+              "someuserrepo1": {
+                "url": "someusergiturl1"
               },
-              getFromOrg: function (opts, cb) {
-                checks.github_getFromOrg_opts = opts;
-                cb(null, [
-                  { name: 'someorgrepo1', git_url: 'someorggiturl1' },
-                  { name: 'someorgrepo2', git_url: 'someorggiturl2' }
-                ]);
+              "someuserrepo2": {
+                "url": "someusergiturl2"
+              },
+              "someorgrepo1": {
+                "url": "someorggiturl1"
+              },
+              "someorgrepo2": {
+                "url": "someorggiturl2"
               }
-            }
-          };
+            });
+          }
         }
       };
       repoman = new (create(checks, mocks))();
       repoman.config({ github: { user: 'someuser', org: 'someorg', auth: { user: 'someauthuser', pass: 'someauthpass' } } }, function () {
         done();
       }); 
-      checks.github_opts.version.should.equal('3.0.0');
-      checks.github_getFromUser_opts.user.should.equal('someuser');
-      checks.github_getFromUser_opts.page.should.equal(100);
-      checks.github_getFromUser_opts.per_page.should.equal(100);
-      checks.github_getFromOrg_opts.org.should.equal('someorg');
-      checks.github_getFromOrg_opts.page.should.equal(100);
-      checks.github_getFromOrg_opts.per_page.should.equal(100);
+      checks.github_opts.user.should.equal('someuser');
+      checks.github_opts.org.should.equal('someorg');
+      checks.github_opts.auth.user.should.equal('someauthuser');
+      checks.github_opts.auth.pass.should.equal('someauthpass');
       checks.fs_writeFile_file.should.equal('.repoman.json');
       checks.fs_writeFile_data.should.equal('{\n  "someuserrepo1": {\n    "url": "someusergiturl1"\n  },\n  "someuserrepo2": {\n    "url": "someusergiturl2"\n  },\n  "someorgrepo1": {\n    "url": "someorggiturl1"\n  },\n  "someorgrepo2": {\n    "url": "someorggiturl2"\n  }\n}');
       checks.console_log_messages.length.should.equal(1);
       checks.console_log_messages[0].should.equal('Creating configuration file: .repoman.json, with GitHub repositories');
     });
-*/
   });
 
   describe('exec', function () {

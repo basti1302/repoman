@@ -74,9 +74,9 @@ describe('cli', function () {
       checks.bag_parse_commands.config.desc.should.equal('Create sample configuration file');
       checks.bag_parse_commands.config.options.length.should.equal(4);
       checks.bag_parse_commands.config.options[0].arg.should.equal('--github-user <githubUser>');
-      checks.bag_parse_commands.config.options[0].desc.should.equal('GitHub username');
+      checks.bag_parse_commands.config.options[0].desc.should.equal('Comma-separated GitHub usernames');
       checks.bag_parse_commands.config.options[1].arg.should.equal('--github-org <githubOrg>');
-      checks.bag_parse_commands.config.options[1].desc.should.equal('GitHub organisation');
+      checks.bag_parse_commands.config.options[1].desc.should.equal('Comma-separated GitHub organisations');
       checks.bag_parse_commands.config.options[2].arg.should.equal('--github-auth-user <githubAuthUser>');
       checks.bag_parse_commands.config.options[2].desc.should.equal('GitHub authentication username');
       checks.bag_parse_commands.config.options[3].arg.should.equal('--github-auth-pass <githubAuthPass>');
