@@ -147,6 +147,14 @@ describe('cli', function () {
       checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
     });
 
+    it('should contain undo command and delegate to repoman exec when exec is called', function () {
+      checks.bag_parse_commands.undo.desc.should.equal('Remove uncommitted changes from local repositories');
+      checks.bag_parse_commands.undo.action({ name: 'undo', parent: {} });
+      checks.repoman_run_command.should.equal('undo');
+      checks.repoman_run_exit.should.be.a('function');
+      checks.fs_readFileSync_file.should.equal('/somedir/repoman/conf/scms.json');
+    });
+
     it('should contain command and use windows-specific config file when platform is windows', function () {
       mocks = {
         process_platform: 'win32',

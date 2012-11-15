@@ -1,5 +1,6 @@
 ### 0.0.8 (SNAPSHOT)
 * Add support for creating configuration file with GitHub repositories
+* Add undo command
 
 ### 0.0.7
 * Add custom config file override

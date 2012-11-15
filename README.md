@@ -38,6 +38,10 @@ Delete local repositories:
 
     repoman delete
 
+Remove uncommitted changes from local repositories:
+
+    repoman undo
+
 Execute custom command against local repositories:
 
     repoman exec 'touch .gitignore; echo "Created {workspace}/{name}/.gitignore file;"'
@@ -73,6 +77,11 @@ Repoman uses the following SCM command mapping, it currently only supports Git a
     <td>repoman save</td>
     <td>git push origin master</td>
     <td>svn commit -m "Commited by Repoman"</td>
+  </tr>
+  <tr>
+    <td>repoman undo</td>
+    <td>git stash + git stash clear</td>
+    <td>svn revert -R .</td>
   </tr>
 </table>
 .
