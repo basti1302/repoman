@@ -1,4 +1,7 @@
-### 0.0.8 (SNAPSHOT)
+### 0.0.9 (SNAPSHOT)
+*
+
+### 0.0.8
 * Add support for creating configuration file containing GitHub repositories
 * Add undo command
 * Add clean command
