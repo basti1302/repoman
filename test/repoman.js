@@ -271,5 +271,175 @@ describe('repoman', function () {
       checks.repoman_exec_cb_args[1][1][2].should.be.a('function');
     });
   });
+
+  describe('clean', function () {
+
+    it('should pass an error when directory does not exist', function (done) {
+      checks.fsx_remove_files = [];
+      mocks.process_cwd = '/somedir';
+      mocks.requires = {
+        fs: {
+          readdir: function (dir, cb) {
+            dir.should.equal('/somedir');
+            cb(new Error('dir not found'));
+          }
+        }
+      };
+      var repos = {
+          "couchdb": {
+            "url": "http://keywordless/repos/asf/couchdb"
+          },
+          "httpd": {
+            "url": "http://keywordless/repos/asf/httpd/httpd/trunk/"
+          }
+        };
+      repoman = new (create(checks, mocks))(repos);
+      repoman.clean(false, function (err, results) {
+        checks.clean_err = err;
+        done();        
+      });
+      checks.clean_err.message.should.equal('dir not found');
+    });
+
+    it('should remove nothing when only hidden files exist', function (done) {
+      checks.fsx_remove_files = [];
+      mocks.process_cwd = '/somedir';
+      mocks.requires = {
+        fs: {
+          readdir: function (dir, cb) {
+            dir.should.equal('/somedir');
+            cb(null, ['.repoman.json', '.bob.json']);
+          }
+        }
+      };
+      var repos = {
+          "couchdb": {
+            "url": "http://keywordless/repos/asf/couchdb"
+          },
+          "httpd": {
+            "url": "http://keywordless/repos/asf/httpd/httpd/trunk/"
+          }
+        };
+      repoman = new (create(checks, mocks))(repos);
+      repoman.clean(false, function (err, results) {
+        should.not.exist(err);
+        should.not.exist(results[0]);
+        should.not.exist(results[1]);
+        done();
+      });
+      checks.fsx_remove_files.length.should.equal(0);
+      checks.console_log_messages.length.should.equal(0);
+    });
+
+    it('should remove non-repos files and directories when they exist', function (done) {
+      checks.fsx_remove_files = [];
+      mocks.process_cwd = '/somedir';
+      mocks.requires = {
+        fs: {
+          readdir: function (dir, cb) {
+            dir.should.equal('/somedir');
+            cb(null, ['foo', 'couchdb', 'httpd', 'bar']);
+          }
+        },
+        'fs.extra': {
+          remove: function (file, cb) {
+            checks.fsx_remove_files.push(file);
+            cb(null);
+          }
+        }
+      };
+      var repos = {
+          "couchdb": {
+            "url": "http://keywordless/repos/asf/couchdb"
+          },
+          "httpd": {
+            "url": "http://keywordless/repos/asf/httpd/httpd/trunk/"
+          }
+        };
+      repoman = new (create(checks, mocks))(repos);
+      repoman.clean(false, function (err, results) {
+        should.not.exist(err);
+        done();        
+      });
+      checks.fsx_remove_files.length.should.equal(2);
+      checks.fsx_remove_files[0].should.equal('foo');
+      checks.fsx_remove_files[1].should.equal('bar');
+      checks.console_log_messages.length.should.equal(2);
+      checks.console_log_messages[0].should.equal('- foo has been deleted');
+      checks.console_log_messages[1].should.equal('- bar has been deleted');
+    });
+
+    it('should return a list of files and directories to be removed when clean is a dry run', function (done) {
+      checks.fsx_remove_files = [];
+      mocks.process_cwd = '/somedir';
+      mocks.requires = {
+        fs: {
+          readdir: function (dir, cb) {
+            dir.should.equal('/somedir');
+            cb(null, ['.bob.json', 'foo', 'couchdb', 'httpd', 'bar']);
+          }
+        },
+        'fs.extra': {
+          remove: function (file, cb) {
+            checks.fsx_remove_files.push(file);
+            cb(null);
+          }
+        }
+      };
+      var repos = {
+          "couchdb": {
+            "url": "http://keywordless/repos/asf/couchdb"
+          },
+          "httpd": {
+            "url": "http://keywordless/repos/asf/httpd/httpd/trunk/"
+          }
+        };
+      repoman = new (create(checks, mocks))(repos);
+      repoman.clean(true, function (err, results) {
+        should.not.exist(err);
+        checks.repoman_clean_results = results;
+        done();        
+      });
+      checks.fsx_remove_files.length.should.equal(0);
+      checks.repoman_clean_results.length.should.equal(2);
+      checks.repoman_clean_results[0].should.equal('foo');
+      checks.repoman_clean_results[1].should.equal('bar');
+    });
+
+    it('should return empty list when clean is a dry run and none should be deleted', function (done) {
+      checks.fsx_remove_files = [];
+      mocks.process_cwd = '/somedir';
+      mocks.requires = {
+        fs: {
+          readdir: function (dir, cb) {
+            dir.should.equal('/somedir');
+            cb(null, ['.bob.json', 'couchdb', 'httpd']);
+          }
+        },
+        'fs.extra': {
+          remove: function (file, cb) {
+            checks.fsx_remove_files.push(file);
+            cb(null);
+          }
+        }
+      };
+      var repos = {
+          "couchdb": {
+            "url": "http://keywordless/repos/asf/couchdb"
+          },
+          "httpd": {
+            "url": "http://keywordless/repos/asf/httpd/httpd/trunk/"
+          }
+        };
+      repoman = new (create(checks, mocks))(repos);
+      repoman.clean(true, function (err, results) {
+        should.not.exist(err);
+        checks.repoman_clean_results = results;
+        done();        
+      });
+      checks.fsx_remove_files.length.should.equal(0);
+      checks.repoman_clean_results.length.should.equal(0);
+    });
+  });
 });
  

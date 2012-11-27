@@ -11,7 +11,10 @@ describe('cli', function () {
       requires: {
         bagofholding: {
           cli: {
-            exit: bag.cli.exit,
+            exit: function (err, result) {
+              checks.bag_cli_exit_err = err;
+              checks.bag_cli_exit_result = result;
+            },
             parse: function (commands, dir) {
               checks.bag_parse_commands = commands;
               checks.bag_parse_dir = dir;
@@ -24,10 +27,25 @@ describe('cli', function () {
             }
           }
         },
+        commander: {
+          prompt: function (question, cb) {
+            checks.commander_prompt_question = question;
+            cb(mocks.commander_prompt_answer);
+          }
+        },
         fs: bag.mock.fs(checks, mocks),
         './repoman': function (config, scms) {
           checks.repoman_config = config;
           return {
+            clean: function (dryRun, cb) {
+              if (dryRun) {
+                cb(mocks.clean_dryRun_err,
+                  mocks.clean_dryRun_result);
+              } else {
+                cb(mocks.clean_nonDryRun_err,
+                  mocks.clean_nonDryRun_result);
+              }
+            },
             config: function (opts, exit) {
               checks.repoman_config_opts = opts;
               checks.repoman_config_exit = exit;
@@ -40,7 +58,8 @@ describe('cli', function () {
         }
       },
       globals: {
-        process: bag.mock.process(checks, mocks)
+        process: bag.mock.process(checks, mocks),
+        console: bag.mock.console(checks, mocks)
       },
       locals: {
         __dirname: '/somedir/repoman/lib'
@@ -172,6 +191,66 @@ describe('cli', function () {
       checks.bag_parse_commands.exec.action('touch .gitignore;', { name: 'exec', parent: {} });
       checks.repoman_run_command.should.equal('touch .gitignore;');
       checks.repoman_run_exit.should.be.a('function');
+    });
+
+    it('should contain clean command and delegate to repoman exec with first argument as the command', function () {
+      checks.bag_parse_commands.clean.desc.should.equal('Delete non-Repoman local repositories');
+      checks.bag_parse_commands.clean.action({ name: 'clean', parent: {} });
+    });
+  });
+
+  describe('clean', function () {
+
+    beforeEach(function () {
+      mocks = {
+        process_cwd: '/curr/dir/',
+        'fs_readFileSync_/someuserhome/.repoman.json': '{}'
+      };
+    });
+
+    it('should pass error when dry run clean returns an error', function () {
+      mocks.clean_dryRun_err = new Error('someerror');
+      cli = create(checks, mocks);
+      cli.exec();
+      checks.bag_parse_commands.clean.action({ parent: {}});
+      checks.bag_cli_exit_err.message.should.equal('someerror');
+      should.not.exist(checks.bag_cli_exit_result);
+    });
+
+    it('should display nothing to delete message when dry run returns empty result', function () {
+      mocks.clean_dryRun_result = [];
+      cli = create(checks, mocks);
+      cli.exec();
+      checks.bag_parse_commands.clean.action({ parent: {}});
+      checks.process_exit_code.should.equal(0);
+      checks.console_log_messages.length.should.equal(1);
+      checks.console_log_messages[0].should.equal('Nothing to delete.');
+    });
+
+    it('should display nothing is deleted when confirmation answer is not Y', function () {
+      mocks.clean_dryRun_result = ['foo', 'bar'];
+      mocks.commander_prompt_answer = 'N';
+      cli = create(checks, mocks);
+      cli.exec();
+      checks.bag_parse_commands.clean.action({ parent: {}});
+      checks.commander_prompt_question.should.equal('Are you sure? (Y/N)');
+      checks.process_exit_code.should.equal(0);
+      checks.console_log_messages.length.should.equal(2);
+      checks.console_log_messages[0].should.equal('The following files/directories will be deleted: foo, bar');
+      checks.console_log_messages[1].should.equal('Nothing is deleted.');
+    });
+
+    it('should call non dry run clean when confirmation answer is Y', function () {
+      mocks.clean_dryRun_result = ['foo', 'bar'];
+      mocks.clean_nonDryRun_result = 'dummyresult';
+      mocks.commander_prompt_answer = 'Y';
+      cli = create(checks, mocks);
+      cli.exec();
+      checks.bag_parse_commands.clean.action({ parent: {}});
+      checks.commander_prompt_question.should.equal('Are you sure? (Y/N)');
+      checks.console_log_messages.length.should.equal(1);
+      checks.console_log_messages[0].should.equal('The following files/directories will be deleted: foo, bar');
+      checks.bag_cli_exit_result.should.equal('dummyresult');
     });
   });
 });
