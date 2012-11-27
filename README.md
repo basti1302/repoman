@@ -18,6 +18,18 @@ Create sample .repoman.json configuration file:
 
     repoman config
 
+Create .repoman.json containing GitHub projects of a user:
+
+    repoman --github-user cliffano config
+
+Create .repoman.json containing GitHub projects of an organisation:
+
+    repoman --github-org jenkinsci config
+
+Create .repoman.json containing GitHub projects of multiple users and organisations:
+
+    repoman --github-user cliffano,foo --github-org jenkinsci,bar config
+
 Initialise local repositories:
 
     repoman init
@@ -41,7 +53,7 @@ Delete local repositories:
 Delete non-Repoman local repositories:
 
     repoman clean
-    
+
 Remove uncommitted changes from local repositories:
 
     repoman undo

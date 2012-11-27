@@ -90,7 +90,7 @@ describe('cli', function () {
     });
 
     it('should contain config command and delegate to repoman config when exec is called', function () {
-      checks.bag_parse_commands.config.desc.should.equal('Create sample configuration file');
+      checks.bag_parse_commands.config.desc.should.equal('Create configuration file');
       checks.bag_parse_commands.config.options.length.should.equal(4);
       checks.bag_parse_commands.config.options[0].arg.should.equal('--github-user <githubUser>');
       checks.bag_parse_commands.config.options[0].desc.should.equal('Comma-separated GitHub usernames');
