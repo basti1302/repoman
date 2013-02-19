@@ -1,3 +1,4 @@
+/*
 var bag = require('bagofholding'),
   _jscov = require('../lib/repoman'),
   sandbox = require('sandboxed-module'),
@@ -443,3 +444,5 @@ describe('repoman', function () {
   });
 });
  
+
+*/
