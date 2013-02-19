@@ -1,0 +1,12 @@
+{
+  "build": "clean lint complexity test coverage",
+  "test": {
+    "type": "buster"
+  },
+  "test-integration": {
+    "type": "buster"
+  },
+  "coverage": {
+    "type": "buster-istanbul"
+  }
+}
