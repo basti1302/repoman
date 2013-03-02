@@ -1,0 +1,16 @@
+{
+  "commands": {
+    "delete": {
+      "desc": "Delete local repositories\nUsage: repoman [-c/--config <file>] delete",
+      "options": [
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ]
+    },
+    "init": {
+      "desc": "Initialise local repositories\nUsage: repoman [-c/--config <file>] init",
+      "options": [
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ]
+    },
+  }
+}
