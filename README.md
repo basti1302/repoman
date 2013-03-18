@@ -1,4 +1,4 @@
-Repoman [![http://travis-ci.org/cliffano/repoman](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
+Repoman [![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman) [![Dependencies Status](https://david-dm.org/cliffano/repoman.png)](http://david-dm.org/cliffano/repoman)
 -------
 Simple multi-repository management command-line tool.
 
