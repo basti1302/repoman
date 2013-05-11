@@ -1,31 +1,48 @@
-/*
 var bag = require('bagofholding'),
-  _jscov = require('../lib/repoman'),
-  sandbox = require('sandboxed-module'),
-  should = require('should'),
-  checks, mocks,
-  repoman;
+  buster = require('buster'),
+  config = require('../lib/config'),
+  fs = require('fs'),
+  fsx = require('fs.extra'),
+  Repoman = require('../lib/repoman');
 
-describe('repoman', function () {
-
-  function create(checks, mocks) {
-    return sandbox.require('../lib/repoman', {
-      requires: mocks.requires,
-      globals: {
-        console: bag.mock.console(checks),
-        process: bag.mock.process(checks, mocks)
-      },
-      locals: {
-        __dirname: '/somedir/repoman/lib'
-      }
+buster.testCase('repoman - config', {
+  setUp: function () {
+    this.mockConfig = this.mock(config);
+    this.mockConsole = this.mock(console);
+    this.mockFs = this.mock(fs);
+    this.repoman = new Repoman();
+  },
+  'should copy sample couchpenter.js file to current directory when init is called': function (done) {
+    this.mockConsole.expects('log').once().withExactArgs('Creating sample configuration file: %s', '.repoman.json');
+    this.stub(fsx, 'copy', function (src, dest, cb) {
+      assert.isTrue(src.match(/\/examples\/.repoman.json$/).length === 1);
+      assert.equals(dest, '.repoman.json');
+      cb();
+    });
+    this.repoman.config({}, function (err, result) {
+      assert.equals(err, undefined);
+      done();
+    });
+  },
+  'should create .repoman.json containing repos on github when github config is specified': function (done) {
+    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with GitHub repositories', '.repoman.json');
+    this.mockConfig.expects('github').once().callsArgWith(1, null, { foo: 'bar' });
+    this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    this.repoman.config({ github: { user: 'someuser' } }, function (err, result) {
+      assert.isNull(err);
+      done();
+    });
+  },
+  'should pass error to callback when an error occurs while creating config containing github repos': function (done) {
+    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with GitHub repositories', '.repoman.json');
+    this.mockConfig.expects('github').once().callsArgWith(1, new Error('some error'));
+    this.repoman.config({ github: { user: 'someuser' } }, function (err, result) {
+      assert.equals(err.message, 'some error');
+      done();
     });
   }
-
-  beforeEach(function () {
-    checks = {};
-    mocks = {};
-  });
-
+});
+/*
   describe('config', function () {
 
     it('should copy sample .repoman.json file to current directory when config is called', function (done) {
@@ -443,6 +460,4 @@ describe('repoman', function () {
     });
   });
 });
- 
-
 */

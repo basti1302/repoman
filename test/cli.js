@@ -1,3 +1,7 @@
+var buster = require('buster');
+
+buster.testCase('cli', {
+});
 /*
 var bag = require('bagofholding'),
   sandbox = require('sandboxed-module'),
