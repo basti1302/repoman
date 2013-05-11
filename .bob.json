@@ -1,5 +1,11 @@
 {
-  "build": "clean lint complexity test coverage",
+  "build": "clean lint complexity test coverage doc",
+  "lint": {
+    "type": "jshint"
+  },
+  "complexity": {
+    "type": "plato"
+  },
   "test": {
     "type": "buster"
   },
@@ -8,5 +14,8 @@
   },
   "coverage": {
     "type": "buster-istanbul"
+  },
+  "doc": {
+    "type": "dox-foundation"
   }
 }
