@@ -1,14 +1,14 @@
 {
   "couchdb": {
-  	"type": "git",
-  	"url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+    "type": "git",
+    "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
   },
   "httpd": {
     "type": "svn",
     "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
   },
   "node": {
-  	"type": "git",
-  	"url": "http://github.com/joyent/node"
+    "type": "git",
+    "url": "http://github.com/joyent/node"
   }
 }
