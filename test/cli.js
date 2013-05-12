@@ -1,7 +1,100 @@
-var buster = require('buster');
+var bag = require('bagofholding'),
+  buster = require('buster'),
+  cli = require('../lib/cli'),
+  Repoman = new require('../lib/repoman');
 
-buster.testCase('cli', {
+buster.testCase('cli - exec', {
+  'should contain commands with actions': function (done) {
+    var mockCommand = function (base, actions) {
+      assert.defined(base);
+      assert.defined(actions.commands.config.action);
+      assert.defined(actions.commands['delete'].action);
+      assert.defined(actions.commands.init.action);
+      assert.defined(actions.commands.get.action);
+      assert.defined(actions.commands.changes.action);
+      assert.defined(actions.commands.save.action);
+      assert.defined(actions.commands.undo.action);
+      assert.defined(actions.commands.exec.action);
+      assert.defined(actions.commands.clean.action);
+      done();
+    };
+    this.stub(bag, 'cli', { command: mockCommand });
+    cli.exec();
+  }
 });
+
+buster.testCase('cli - config', {
+  setUp: function () {
+    this.mockConsole = this.mock(console);
+    this.mockProcess = this.mock(process);
+  },
+  'should pass empty opts when there is no arg': function () {
+    this.stub(bag, 'cli', {
+      command: function (base, actions) {
+        actions.commands.config.action({});
+      },
+      exit: bag.cli.exit
+    });
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(Repoman.prototype, 'config', function (opts, cb) {
+      assert.equals(opts, {});
+      cb();
+    });
+    cli.exec();
+  },
+  'should pass github opts when specified in args': function () {
+    this.stub(bag, 'cli', {
+      command: function (base, actions) {
+        actions.commands.config.action({
+          githubUser: 'someuser',
+          githubOrg: 'someorg',
+          githubAuthUser: 'someauthuser',
+          githubAuthPass: 'someauthpass'
+        });
+      },
+      exit: bag.cli.exit
+    });
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(Repoman.prototype, 'config', function (opts, cb) {
+      assert.equals(opts.github.user, 'someuser');
+      assert.equals(opts.github.org, 'someorg');
+      assert.equals(opts.github.auth.user, 'someauthuser');
+      assert.equals(opts.github.auth.pass, 'someauthpass');
+      cb();
+    });
+    cli.exec();
+  }
+});
+
+/*
+buster.testCase('cli - _exec', {
+  'should execute custom command specified in arg if command is exec': function () {
+
+  },
+  'should pass non-exec command as-is': function () {
+
+  },
+  'should use win32 command when executed on windows': function () {
+
+  }
+});
+
+buster.testCase('cli - clean', {
+  'should delete nothing when there is no directory to clean up': function () {
+
+  },
+  'should delete directories to clean up when user confirms to do so': function () {
+
+  },
+  'should not delete directories to clean up when user confirms to not clean': function () {
+
+  },
+  'should pass error to callback when there is an error during dry run': function () {
+
+  }
+});
+*/
+
 /*
 var bag = require('bagofholding'),
   sandbox = require('sandboxed-module'),
