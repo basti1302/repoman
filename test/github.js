@@ -33,11 +33,11 @@ buster.testCase('github - generate', {
     };
     gitHub._paginate = function (result, cb) {
       console.log('blah');
-      cb(null, [{ name: 'someapp', git_url: 'git://somegiturl' }]);
+      cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
     };
     gitHub.generate(['user1'], ['org1'], function (err, result) {
       assert.equals(err, undefined);
-      assert.equals(result, { someapp: { url: "git://somegiturl" } });
+      assert.equals(result, { someapp: { url: "https://somecloneurl" } });
       done();
     });
   },
@@ -56,7 +56,7 @@ buster.testCase('github - generate', {
       cb(new Error('some error'));
     };
     gitHub._paginate = function (result, cb) {
-      cb(null, [{ name: 'someapp', git_url: 'git://somegiturl' }]);
+      cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
     };
     gitHub.generate(['user1'], ['org1'], function (err, result) {
       assert.equals(err.message, 'some error');

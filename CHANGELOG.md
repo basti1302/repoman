@@ -1,5 +1,5 @@
 ### 0.0.9 (SNAPSHOT)
-*
+* GitHub configuration file uses clone URL
 
 ### 0.0.8
 * Add support for creating configuration file containing GitHub repositories
