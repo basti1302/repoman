@@ -60,8 +60,8 @@ buster.testCase('cli - config', {
     this.stub(Repoman.prototype, 'config', function (opts, cb) {
       assert.equals(opts.github.user, 'someuser');
       assert.equals(opts.github.org, 'someorg');
-      assert.equals(opts.github.auth.user, 'someauthuser');
-      assert.equals(opts.github.auth.pass, 'someauthpass');
+      assert.equals(opts.github.authUser, 'someauthuser');
+      assert.equals(opts.github.authPass, 'someauthpass');
       cb();
     });
     cli.exec();

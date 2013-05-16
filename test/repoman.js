@@ -1,15 +1,15 @@
 var bag = require('bagofholding'),
   buster = require('buster'),
-  config = require('../lib/config'),
+  GitHub = require('../lib/github'),
   fs = require('fs'),
   fsx = require('fs.extra'),
   Repoman = require('../lib/repoman');
 
 buster.testCase('repoman - config', {
   setUp: function () {
-    this.mockConfig = this.mock(config);
     this.mockConsole = this.mock(console);
     this.mockFs = this.mock(fs);
+    this.mockGitHub = this.mock(GitHub.prototype);
     this.repoman = new Repoman();
   },
   'should copy sample couchpenter.js file to current directory when init is called': function (done) {
@@ -25,18 +25,18 @@ buster.testCase('repoman - config', {
     });
   },
   'should create .repoman.json containing repos on github when github config is specified': function (done) {
+    this.mockGitHub.expects('generate').once().withArgs(['someuser'], ['someorg']).callsArgWith(2, null, { foo: 'bar' });
     this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with GitHub repositories', '.repoman.json');
-    this.mockConfig.expects('github').once().callsArgWith(1, null, { foo: 'bar' });
     this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
-    this.repoman.config({ github: { user: 'someuser' } }, function (err, result) {
+    this.repoman.config({ github: { user: 'someuser', org: 'someorg' } }, function (err, result) {
       assert.isNull(err);
       done();
     });
   },
   'should pass error to callback when an error occurs while creating config containing github repos': function (done) {
+    this.mockGitHub.expects('generate').once().withArgs([], []).callsArgWith(2, new Error('some error'));
     this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with GitHub repositories', '.repoman.json');
-    this.mockConfig.expects('github').once().callsArgWith(1, new Error('some error'));
-    this.repoman.config({ github: { user: 'someuser' } }, function (err, result) {
+    this.repoman.config({ github: {} }, function (err, result) {
       assert.equals(err.message, 'some error');
       done();
     });
