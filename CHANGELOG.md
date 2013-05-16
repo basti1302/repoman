@@ -1,4 +1,7 @@
-### 0.0.9 (SNAPSHOT)
+### 0.0.10-pre
+*
+
+### 0.0.9
 * GitHub configuration file uses clone URL
 
 ### 0.0.8
