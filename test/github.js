@@ -1,16 +1,20 @@
-var buster = require('buster'),
+var bag = require('bagofholding'),
+  buster = require('buster'),
   github = require('github'),
   GitHub = require('../lib/github');
 
 buster.testCase('github - github', {
   setUp: function () {
     this.mockGithub = this.mock(github.prototype);
+    this.mockHttp = this.mock(bag.http);
   },
   'should authenticate when username and password are specified': function () {
+    this.mockHttp.expects('proxy').withExactArgs().returns('http://someproxy:1234');
     this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
     new GitHub('someuser', 'somepass');
   },
   'should not authenticate when username and password are not specified': function () {
+    this.mockHttp.expects('proxy').withExactArgs().returns(null);
     this.mockGithub.expects('authenticate').never();
     new GitHub();
   }
@@ -32,7 +36,6 @@ buster.testCase('github - generate', {
       cb(null, 'someorgresult');
     };
     gitHub._paginate = function (result, cb) {
-      console.log('blah');
       cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
     };
     gitHub.generate(['user1'], ['org1'], function (err, result) {

@@ -1,5 +1,5 @@
 ### 0.0.10-pre
-*
+* Add GitHub client proxy setting
 
 ### 0.0.9
 * GitHub configuration file uses clone URL
