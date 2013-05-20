@@ -1,49 +1,49 @@
 {
   "commands": {
     "delete": {
-      "desc": "Delete local repositories\nUsage: repoman [-c/--config <file>] delete",
+      "desc": "Delete local repositories",
       "options": [
         { "arg": "-c, --config <file>", "desc": "Configuration file" }
       ]
     },
     "init": {
-      "desc": "Initialise local repositories\nUsage: repoman [-c/--config <file>] init",
+      "desc": "Initialise local repositories",
       "options": [
         { "arg": "-c, --config <file>", "desc": "Configuration file" }
       ]
     },
     "config": {
-      "desc": "Create configuration file\nUsage: repoman [-ghu/--github-user <githubUser>] [-gho/--github-org <githubOrg>] [-ghau/--github-auth-user <githubAuthUser>] [-ghap/--github-auth-pass <githubPass>] config",
+      "desc": "Create configuration file",
       "options": [
-        { "arg": "-ghu, --github-user <githubUser>", "desc": "Comma-separated GitHub usernames" },
-        { "arg": "-gho, --github-org <githubOrg>", "desc": "Comma-separated GitHub organisations" },
-        { "arg": "-ghau, --github-auth-user <githubAuthUser>", "desc": "GitHub authentication username" },
-        { "arg": "-ghap, --github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" }
+        { "arg": "-u, --github-user <githubUser>", "desc": "Comma-separated GitHub usernames" },
+        { "arg": "-o, --github-org <githubOrg>", "desc": "Comma-separated GitHub organisations" },
+        { "arg": "--github-auth-user <githubAuthUser>", "desc": "GitHub authentication username" },
+        { "arg": "--github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" }
       ]
     },
     "delete": {
-      "desc": "Delete local repositories\nUsage: repoman [-c/--config-file <configFile>] delete"
+      "desc": "Delete local repositories"
     },
     "init": {
-      "desc": "Initialise non-Repoman local repositories\nUsage: repoman [-c/--config-file <configFile>] init"
+      "desc": "Initialise non-Repoman local repositories"
     },
     "get": {
-      "desc": "Update local repositories with changes from remote repositories\nUsage: repoman [-c/--config-file <configFile>] get"
+      "desc": "Update local repositories with changes from remote repositories"
     },
     "changes": {
-      "desc": "Display the changes in local repositories\nUsage: repoman [-c/--config-file <configFile>] changes"
+      "desc": "Display the changes in local repositories"
     },
     "save": {
-      "desc": "Update remote repositories with changes from local repositories\nUsage: repoman [-c/--config-file <configFile>] save"
+      "desc": "Update remote repositories with changes from local repositories"
     },
     "undo": {
-      "desc": "Remove uncommitted changes from local repositories\nUsage: repoman [-c/--config-file <configFile>] undo"
+      "desc": "Remove uncommitted changes from local repositories"
     },
     "exec": {
-      "desc": "Execute custom command against local repositories\nUsage: repoman [-c/--config-file <configFile>] exec"
+      "desc": "Execute custom command against local repositories"
     },
     "clean": {
-      "desc": "Delete non-Repoman local repositories\nUsage: repoman [-c/--config-file <configFile>] clean"
+      "desc": "Delete non-Repoman local repositories"
     }
   }
 }
