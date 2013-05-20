@@ -1,4 +1,7 @@
-### 0.0.10-pre
+### 0.0.11-pre
+*
+
+### 0.0.10
 * Add GitHub client proxy setting
 
 ### 0.0.9
