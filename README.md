@@ -133,3 +133,8 @@ Repoman will choose which configuration file to use in this order:
 1. Any file specified in -c/--config-file flag
 2. .repoman.json file in the current directory
 3. .repoman.json file in home directory (process.env.USERPROFILE on Windows, process.env.HOME on *nix)
+
+Colophon
+--------
+
+* [Introducing Repoman](http://blog.cliffano.com/2013/05/26/introducing-repoman/)
