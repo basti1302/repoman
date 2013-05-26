@@ -8,6 +8,8 @@ This is handy when you're working on multiple SCM repositories and/or on multipl
 E.g. rather than updating each repository one by one, it's easier to just run `repoman get` and update all of them in one go. Rather than checking for uncommitted local changes one by one, it's easier to just run `repoman changes` and check all in one go.
 And if you often switch between multiple computers, simply use the same .repoman.json file on those computers and easily manage the same set of repositories.
 
+If you are a GitHub user, you can use Repoman to clone all of your repositories on GitHub in just two simple commands.
+
 Installation
 ------------
 
@@ -30,7 +32,7 @@ Create .repoman.json containing GitHub projects of an organisation:
 
 Create .repoman.json containing GitHub projects of multiple users and organisations:
 
-    repoman --github-user cliffano,foo --github-org jenkinsci,bar config
+    repoman --github-user cliffano --github-org jenkinsci,github config
 
 Initialise local repositories:
 
@@ -131,13 +133,3 @@ Repoman will choose which configuration file to use in this order:
 1. Any file specified in -c/--config-file flag
 2. .repoman.json file in the current directory
 3. .repoman.json file in home directory (process.env.USERPROFILE on Windows, process.env.HOME on *nix)
-
-Authentication
---------------
-
-It's recommended to authenticate using keys over SSH:
-
-* Git: [GitHub](http://help.github.com/set-up-git-redirect/), [Bitbucket](http://confluence.atlassian.com/display/BITBUCKET/Using+the+SSH+protocol+with+bitbucket).
-* [SVN](http://tortoisesvn.net/ssh_howto.html)
-
-If keys are not set up, then username/password will be prompted interactively.
