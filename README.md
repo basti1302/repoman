@@ -2,7 +2,7 @@ Repoman [![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branc
 -------
 <img align="right" src="https://raw.github.com/cliffano/repoman/master/avatar.jpg" alt="Avatar"/>
 
-Simple multi-repository management command-line tool.
+Multi-repository management command-line tool.
 
 This is handy when you're working on multiple SCM repositories and/or on multiple computers.
 E.g. rather than updating each repository one by one, it's easier to just run `repoman get` and update all of them in one go. Rather than checking for uncommitted local changes one by one, it's easier to just run `repoman changes` and check all in one go.
