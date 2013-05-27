@@ -1,5 +1,14 @@
 {
   "commands": {
+    "config": {
+      "desc": "Create configuration file",
+      "options": [
+        { "arg": "--github-user <githubUser>", "desc": "Comma-separated GitHub usernames" },
+        { "arg": "--github-org <githubOrg>", "desc": "Comma-separated GitHub organisations" },
+        { "arg": "--github-auth-user <githubAuthUser>", "desc": "GitHub authentication username" },
+        { "arg": "--github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" }
+      ]
+    },
     "delete": {
       "desc": "Delete local repositories",
       "options": [
@@ -12,38 +21,41 @@
         { "arg": "-c, --config <file>", "desc": "Configuration file" }
       ]
     },
-    "config": {
-      "desc": "Create configuration file",
+    "get": {
+      "desc": "Update local repositories with changes from remote repositories",
       "options": [
-        { "arg": "--github-user <githubUser>", "desc": "Comma-separated GitHub usernames" },
-        { "arg": "--github-org <githubOrg>", "desc": "Comma-separated GitHub organisations" },
-        { "arg": "--github-auth-user <githubAuthUser>", "desc": "GitHub authentication username" },
-        { "arg": "--github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" }
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
       ]
     },
-    "delete": {
-      "desc": "Delete local repositories"
-    },
-    "init": {
-      "desc": "Initialise non-Repoman local repositories"
-    },
-    "get": {
-      "desc": "Update local repositories with changes from remote repositories"
-    },
     "changes": {
-      "desc": "Display the changes in local repositories"
+      "desc": "Display the changes in local repositories",
+      "options": [
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ]
     },
     "save": {
-      "desc": "Update remote repositories with changes from local repositories"
+      "desc": "Update remote repositories with changes from local repositories",
+      "options": [
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ]
     },
     "undo": {
-      "desc": "Remove uncommitted changes from local repositories"
+      "desc": "Remove uncommitted changes from local repositories",
+      "options": [
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ]
     },
     "exec": {
-      "desc": "Execute custom command against local repositories"
+      "desc": "Execute custom command against local repositories",
+      "options": [
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ]
     },
     "clean": {
-      "desc": "Delete non-Repoman local repositories"
+      "desc": "Delete non-Repoman local repositories",
+      "options": [
+        { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ]
     }
   }
 }

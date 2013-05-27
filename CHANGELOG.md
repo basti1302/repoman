@@ -1,5 +1,5 @@
 ### 0.0.11-pre
-*
+* Re-add custom config file override (accidentally removed)
 
 ### 0.0.10
 * Add GitHub client proxy setting
