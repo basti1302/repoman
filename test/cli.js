@@ -134,7 +134,7 @@ buster.testCase('cli - _exec', {
   'should use custom config file when specified in args': function () {
     this.stub(bag, 'cli', {
       command: function (base, actions) {
-        actions.commands.exec.action({ _name: 'init', parent: { configFile: '.somerepoman.json'} });
+        actions.commands.exec.action({ _name: 'init', config: '.somerepoman.json' });
       },
       lookupFile: function (file) {
         assert.equals(file, '.somerepoman.json');
@@ -167,7 +167,7 @@ buster.testCase('cli - clean', {
     });
     this.stub(bag, 'cli', {
       command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json'} });
+        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
       },
       lookupFile: function (file) {
         assert.equals(file, '.somerepoman.json');
@@ -189,7 +189,7 @@ buster.testCase('cli - clean', {
     });
     this.stub(bag, 'cli', {
       command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json'} });
+        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
       },
       lookupFile: function (file) {
         assert.equals(file, '.somerepoman.json');
@@ -210,7 +210,7 @@ buster.testCase('cli - clean', {
     });
     this.stub(bag, 'cli', {
       command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json'} });
+        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
       },
       lookupFile: function (file) {
         assert.equals(file, '.somerepoman.json');
@@ -230,7 +230,7 @@ buster.testCase('cli - clean', {
     });
     this.stub(bag, 'cli', {
       command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json'} });
+        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
       },
       lookupFile: function (file) {
         assert.equals(file, '.somerepoman.json');
