@@ -8,7 +8,7 @@ This is handy when you're working on multiple SCM repositories and/or on multipl
 E.g. rather than updating each repository one by one, it's easier to just run `repoman get` and update all of them in one go. Rather than checking for uncommitted local changes one by one, it's easier to just run `repoman changes` and check all in one go.
 And if you often switch between multiple computers, simply use the same .repoman.json file on those computers and easily manage the same set of repositories.
 
-If you are a GitHub user, you can use Repoman to clone all of your repositories on GitHub in just two simple commands.
+If you are a GitHub user, you can use Repoman to clone all of your repositories from GitHub with a one liner: `repoman --github-user <user> && repoman init` .
 
 Installation
 ------------
