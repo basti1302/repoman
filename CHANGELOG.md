@@ -1,4 +1,5 @@
 ### 0.0.12-pre
+* Display commands to execute on each repo
 * Replace underscore with lodash, replace bagofholding with bagofcli and bagofrequest
 
 ### 0.0.11
