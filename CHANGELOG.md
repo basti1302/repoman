@@ -1,5 +1,5 @@
 ### 0.0.12-pre
-*
+* Replace underscore with lodash, replace bagofholding with bagofcli and bagofrequest
 
 ### 0.0.11
 * Re-add custom config file override (accidentally removed)

@@ -1,4 +1,4 @@
-var bag = require('bagofholding'),
+var bag = require('bagofcli'),
   buster = require('buster'),
   cli = require('../lib/cli'),
   commander = require('commander'),
@@ -20,7 +20,7 @@ buster.testCase('cli - exec', {
       assert.defined(actions.commands.clean.action);
       done();
     };
-    this.stub(bag, 'cli', { command: mockCommand });
+    this.stub(bag, 'command', mockCommand);
     cli.exec();
   }
 });
@@ -31,11 +31,8 @@ buster.testCase('cli - config', {
     this.mockProcess = this.mock(process);
   },
   'should pass empty opts when there is no arg': function () {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.config.action({});
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.config.action({});
     });
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(Repoman.prototype, 'config', function (opts, cb) {
@@ -45,16 +42,13 @@ buster.testCase('cli - config', {
     cli.exec();
   },
   'should pass github opts when specified in args': function () {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.config.action({
-          githubUser: 'someuser',
-          githubOrg: 'someorg',
-          githubAuthUser: 'someauthuser',
-          githubAuthPass: 'someauthpass'
-        });
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.config.action({
+        githubUser: 'someuser',
+        githubOrg: 'someorg',
+        githubAuthUser: 'someauthuser',
+        githubAuthPass: 'someauthpass'
+      });
     });
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(Repoman.prototype, 'config', function (opts, cb) {
@@ -74,15 +68,12 @@ buster.testCase('cli - _exec', {
     this.mockProcess = this.mock(process);
   },
   'should execute custom command specified in arg if command is exec': function () {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.exec.action('ls -al', { _name: 'exec', parent: {} });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.repoman.json');
-        return '{}';
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.exec.action('ls -al', { _name: 'exec', parent: {} });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.repoman.json');
+      return '{}';
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
@@ -93,15 +84,12 @@ buster.testCase('cli - _exec', {
     cli.exec();
   },
   'should pass built-in command as-is': function () {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.exec.action({ _name: 'init', parent: {} });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.repoman.json');
-        return '{}';
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.exec.action({ _name: 'init', parent: {} });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.repoman.json');
+      return '{}';
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
@@ -113,15 +101,12 @@ buster.testCase('cli - _exec', {
   },
   'should use win32 command when executed on windows': function () {
     this.stub(process, 'platform', 'win32');
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.exec.action({ _name: 'init', parent: {} });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.repoman.json');
-        return '{}';
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.exec.action({ _name: 'init', parent: {} });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.repoman.json');
+      return '{}';
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
@@ -132,15 +117,12 @@ buster.testCase('cli - _exec', {
     cli.exec();
   },
   'should use custom config file when specified in args': function () {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.exec.action({ _name: 'init', config: '.somerepoman.json' });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.somerepoman.json');
-        return '{}';
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.exec.action({ _name: 'init', config: '.somerepoman.json' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.somerepoman.json');
+      return '{}';
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
@@ -165,14 +147,12 @@ buster.testCase('cli - clean', {
       assert.equals(dryRun, true);
       cb(null, null);
     });
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.somerepoman.json');
-        return '{}';
-      }
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.somerepoman.json');
+      return '{}';
     });
     cli.exec();
   },
@@ -187,15 +167,12 @@ buster.testCase('cli - clean', {
         cb();
       }
     });
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.somerepoman.json');
-        return '{}';
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.somerepoman.json');
+      return '{}';
     });
     cli.exec();
   },
@@ -208,14 +185,12 @@ buster.testCase('cli - clean', {
       assert.equals(dryRun, true);
       cb(null, ['dir1', 'dir2']);
     });
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.somerepoman.json');
-        return '{}';
-      }
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.somerepoman.json');
+      return '{}';
     });
     cli.exec();
   },
@@ -228,14 +203,12 @@ buster.testCase('cli - clean', {
       assert.equals(dryRun, true);
       cb(null, ['dir1', 'dir2']);
     });
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.somerepoman.json');
-        return '{}';
-      }
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.somerepoman.json');
+      return '{}';
     });
     cli.exec();
   },
@@ -246,15 +219,12 @@ buster.testCase('cli - clean', {
       assert.equals(dryRun, true);
       cb(new Error('some error'));
     });
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.clean.action({ _name: 'clean', parent: {} });
-      },
-      lookupFile: function (file) {
-        assert.equals(file, '.repoman.json');
-        return '{}';
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.clean.action({ _name: 'clean', parent: {} });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.repoman.json');
+      return '{}';
     });
     cli.exec();
   }

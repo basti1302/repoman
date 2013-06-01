@@ -1,4 +1,4 @@
-var bag = require('bagofholding'),
+var bag = require('bagofcli'),
   buster = require('buster'),
   GitHub = require('../lib/github'),
   fs = require('fs'),
@@ -79,7 +79,7 @@ buster.testCase('repoman - exec', {
   'should log repositories name and execute commands with parameters applied when repositories exist': function (done) {
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'couchdb');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'httpd');
-    this.stub(bag.cli, 'exec', function (command, fallthrough, cb) {
+    this.stub(bag, 'exec', function (command, fallthrough, cb) {
       assert.isTrue(fallthrough);
       cb(null, command);
     });
@@ -93,7 +93,7 @@ buster.testCase('repoman - exec', {
   'should execute command as-is on each repository when command is unsupported': function (done) {
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'couchdb');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'httpd');
-    this.stub(bag.cli, 'exec', function (command, fallthrough, cb) {
+    this.stub(bag, 'exec', function (command, fallthrough, cb) {
       assert.isTrue(fallthrough);
       cb(null, command);
     });

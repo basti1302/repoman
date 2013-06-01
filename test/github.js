@@ -1,4 +1,4 @@
-var bag = require('bagofholding'),
+var bag = require('bagofrequest'),
   buster = require('buster'),
   github = require('github'),
   GitHub = require('../lib/github');
@@ -6,15 +6,15 @@ var bag = require('bagofholding'),
 buster.testCase('github - github', {
   setUp: function () {
     this.mockGithub = this.mock(github.prototype);
-    this.mockHttp = this.mock(bag.http);
+    this.mockBag = this.mock(bag);
   },
   'should authenticate when username and password are specified': function () {
-    this.mockHttp.expects('proxy').withExactArgs().returns('http://someproxy:1234');
+    this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
     this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
     new GitHub('someuser', 'somepass');
   },
   'should not authenticate when username and password are not specified': function () {
-    this.mockHttp.expects('proxy').withExactArgs().returns(null);
+    this.mockBag.expects('proxy').withExactArgs().returns(null);
     this.mockGithub.expects('authenticate').never();
     new GitHub();
   }
