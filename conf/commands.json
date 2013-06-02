@@ -54,6 +54,9 @@
         { "arg": "-c, --config <file>", "desc": "Configuration file" }
       ]
     },
+    "list": {
+      "desc": "Display a list of repository names"
+    },
     "clean": {
       "desc": "Delete non-Repoman local repositories",
       "options": [

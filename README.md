@@ -66,13 +66,17 @@ Execute custom command against local repositories:
 
     repoman exec 'touch .gitignore; echo "Created {workspace}/{name}/.gitignore file;"'
 
-Execute custom command and exit as soon as there is any error:
+Execute custom command and exit as soon as there is any command failure:
 
     repoman --fail-fast exec 'chown -R user:group /some/path/{name}';
 
+Write repository names to standard output and pipe to another command:
+
+    repoman list | parallel nestor build {}
+
 Override default .repoman.json configuration file:
 
-    repoman -c somerepoman.json init|get|changes|save|delete|clean|exec
+    repoman -c somerepoman.json init|get|changes|save|delete|clean|exec|list
 
 Repoman uses the following SCM command mapping, it currently only supports Git and Subversion:
 
