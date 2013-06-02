@@ -66,6 +66,10 @@ Execute custom command against local repositories:
 
     repoman exec 'touch .gitignore; echo "Created {workspace}/{name}/.gitignore file;"'
 
+Execute custom command and exit as soon as there is any error:
+
+    repoman --fail-fast exec 'chown -R user:group /some/path/{name}';
+
 Override default .repoman.json configuration file:
 
     repoman -c somerepoman.json init|get|changes|save|delete|clean|exec
