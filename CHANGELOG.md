@@ -1,5 +1,6 @@
 ### 0.0.12-pre
 * Display commands to execute on each repo
+* Add -f/--fail-fast flag
 * Replace underscore with lodash, replace bagofholding with bagofcli and bagofrequest
 
 ### 0.0.11

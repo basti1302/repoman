@@ -1,4 +1,7 @@
 {
+  "options": [
+    { "arg": "-f, --fail-fast", "desc": "Exit as soon as any command failure" }
+  ],
   "commands": {
     "config": {
       "desc": "Create configuration file",

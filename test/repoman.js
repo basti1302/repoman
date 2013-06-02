@@ -70,7 +70,7 @@ buster.testCase('repoman - exec', {
   },
   'should return empty results when there is no repository and scm': function (done) {
     var repoman = new Repoman();
-    repoman.exec('init', function cb(err, results) {
+    repoman.exec('init', { failFast: false }, function cb(err, results) {
       assert.equals(err, undefined);
       assert.equals(results, []);
       done();        
@@ -86,7 +86,7 @@ buster.testCase('repoman - exec', {
       cb(null, command);
     });
     var repoman = new Repoman(this.repos, this.scms);
-    repoman.exec('init', function cb(err, results) {
+    repoman.exec('init', {}, function cb(err, results) {
       assert.equals(results[0], 'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
       assert.equals(results[1], 'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
       done();        
@@ -102,7 +102,7 @@ buster.testCase('repoman - exec', {
       cb(null, command);
     });
     var repoman = new Repoman(this.repos, this.scms);
-    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', function cb(err, results) {
+    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', undefined, function cb(err, results) {
       assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       assert.equals(results[1], 'cd /somedir/httpd; touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
       done();        

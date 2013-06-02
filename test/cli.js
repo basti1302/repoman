@@ -77,8 +77,9 @@ buster.testCase('cli - _exec', {
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.stub(Repoman.prototype, 'exec', function (command, cb) {
+    this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'ls -al');
+      assert.equals(opts.failFast, undefined);
       cb();
     });
     cli.exec();
@@ -93,8 +94,9 @@ buster.testCase('cli - _exec', {
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.stub(Repoman.prototype, 'exec', function (command, cb) {
+    this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'init');
+      assert.equals(opts.failFast, undefined);
       cb();
     });
     cli.exec();
@@ -110,15 +112,16 @@ buster.testCase('cli - _exec', {
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.stub(Repoman.prototype, 'exec', function (command, cb) {
+    this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'init');
+      assert.equals(opts.failFast, undefined);
       cb();
     });
     cli.exec();
   },
   'should use custom config file when specified in args': function () {
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.exec.action({ _name: 'init', config: '.somerepoman.json' });
+      actions.commands.exec.action({ _name: 'init', config: '.somerepoman.json', parent: { failFast: true } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');
@@ -126,8 +129,9 @@ buster.testCase('cli - _exec', {
     });
     this.mockFs.expects('readFileSync').returns('{}');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.stub(Repoman.prototype, 'exec', function (command, cb) {
+    this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'init');
+      assert.equals(opts.failFast, true);
       cb();
     });
     cli.exec();
