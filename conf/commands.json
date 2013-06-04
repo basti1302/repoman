@@ -9,7 +9,9 @@
         { "arg": "--github-user <githubUser>", "desc": "Comma-separated GitHub usernames" },
         { "arg": "--github-org <githubOrg>", "desc": "Comma-separated GitHub organisations" },
         { "arg": "--github-auth-user <githubAuthUser>", "desc": "GitHub authentication username" },
-        { "arg": "--github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" }
+        { "arg": "--github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" },
+        { "arg": "--gitorious-url <gitoriousUrl>", "desc": "Gitorious URL" },
+        { "arg": "--gitorious-project <gitoriousProject>", "desc": "Comma-separated Gitorious projects" }
       ]
     },
     "delete": {

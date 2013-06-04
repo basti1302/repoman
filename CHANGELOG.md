@@ -2,6 +2,7 @@
 * Display commands to execute on each repo
 * Add -f/--fail-fast flag
 * Add list command
+* Add Gitorious repositories configuration file generation
 * Replace underscore with lodash, replace bagofholding with bagofcli and bagofrequest
 
 ### 0.0.11
