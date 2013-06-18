@@ -59,6 +59,21 @@ buster.testCase('cli - config', {
       cb();
     });
     cli.exec();
+  },
+  'should pass gitorious opts when specified in args': function () {
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.config.action({
+        gitoriousUrl: 'http://somehost.com',
+        gitoriousProject: 'someproject'
+      });
+    });
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(Repoman.prototype, 'config', function (opts, cb) {
+      assert.equals(opts.gitorious.url, 'http://somehost.com');
+      assert.equals(opts.gitorious.project, 'someproject');
+      cb();
+    });
+    cli.exec();
   }
 });
 
@@ -133,6 +148,36 @@ buster.testCase('cli - _exec', {
       assert.equals(command, 'init');
       assert.equals(opts.failFast, true);
       cb();
+    });
+    cli.exec();
+  }
+});
+
+buster.testCase('cli - list', {
+  setUp: function () {
+    this.mockConsole = this.mock(console);
+    this.mockProcess = this.mock(process);
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.list.action({ _name: 'list', config: '.somerepoman.json' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.somerepoman.json');
+      return '{}';
+    });
+  },
+  'should log each repo name when there is result array': function () {
+    this.mockConsole.expects('log').once().withExactArgs('somerepo1');
+    this.mockConsole.expects('log').once().withExactArgs('somerepo2');
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(Repoman.prototype, 'list', function (cb) {
+      cb(null, ['somerepo1', 'somerepo2']);
+    });
+    cli.exec();
+  },
+  'should not log anything when there is no result': function () {
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(Repoman.prototype, 'list', function (cb) {
+      cb(null, []);
     });
     cli.exec();
   }
