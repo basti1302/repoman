@@ -157,13 +157,6 @@ buster.testCase('cli - list', {
   setUp: function () {
     this.mockConsole = this.mock(console);
     this.mockProcess = this.mock(process);
-    this.stub(bag, 'command', function (base, actions) {
-      actions.commands.list.action({ _name: 'list', config: '.somerepoman.json' });
-    });
-    this.stub(bag, 'lookupFile', function (file) {
-      assert.equals(file, '.somerepoman.json');
-      return '{}';
-    });
   },
   'should log each repo name when there is result array': function () {
     this.mockConsole.expects('log').once().withExactArgs('somerepo1');
@@ -172,12 +165,26 @@ buster.testCase('cli - list', {
     this.stub(Repoman.prototype, 'list', function (cb) {
       cb(null, ['somerepo1', 'somerepo2']);
     });
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.list.action({ _name: 'list' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.repoman.json');
+      return '{}';
+    });
     cli.exec();
   },
   'should not log anything when there is no result': function () {
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(Repoman.prototype, 'list', function (cb) {
       cb(null, []);
+    });
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.list.action({ _name: 'list', config: '.somerepoman.json' });
+    });
+    this.stub(bag, 'lookupFile', function (file) {
+      assert.equals(file, '.somerepoman.json');
+      return '{}';
     });
     cli.exec();
   }
