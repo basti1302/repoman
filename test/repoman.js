@@ -1,6 +1,7 @@
 var bag = require('bagofcli'),
   buster = require('buster'),
   GitHub = require('../lib/github'),
+  Gitorious = require('../lib/gitorious'),
   fs = require('fs'),
   fsx = require('fs.extra'),
   Repoman = require('../lib/repoman');
@@ -10,6 +11,7 @@ buster.testCase('repoman - config', {
     this.mockConsole = this.mock(console);
     this.mockFs = this.mock(fs);
     this.mockGitHub = this.mock(GitHub.prototype);
+    this.mockGitorious = this.mock(Gitorious.prototype);
     this.repoman = new Repoman();
   },
   'should copy sample couchpenter.js file to current directory when init is called': function (done) {
@@ -37,6 +39,23 @@ buster.testCase('repoman - config', {
     this.mockGitHub.expects('generate').once().withArgs([], []).callsArgWith(2, new Error('some error'));
     this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with GitHub repositories', '.repoman.json');
     this.repoman.config({ github: {} }, function (err, result) {
+      assert.equals(err.message, 'some error');
+      done();
+    });
+  },
+  'should create .repoman.json containing repos on gitorious when gitorious config is specified': function (done) {
+    this.mockGitorious.expects('generate').once().withArgs(['someproject1', 'someproject2']).callsArgWith(1, null, { foo: 'bar' });
+    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with Gitorious repositories', '.repoman.json');
+    this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    this.repoman.config({ gitorious: { url: 'http://someurl', project: 'someproject1,someproject2' } }, function (err, result) {
+      assert.isNull(err);
+      done();
+    });
+  },
+  'should pass error to callback when an error occurs while creating config containing gitorious repos': function (done) {
+    this.mockGitorious.expects('generate').once().withArgs([]).callsArgWith(1, new Error('some error'));
+    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with Gitorious repositories', '.repoman.json');
+    this.repoman.config({ gitorious: { url: 'http://someurl' } }, function (err, result) {
       assert.equals(err.message, 'some error');
       done();
     });
@@ -106,6 +125,29 @@ buster.testCase('repoman - exec', {
       assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       assert.equals(results[1], 'cd /somedir/httpd; touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
       done();        
+    });
+  }
+});
+
+buster.testCase('repoman - clean', {
+  setUp: function () {
+    this.repos = {
+      "couchdb": {
+        "type": "git",
+        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+      },
+      "httpd": {
+        "type": "svn",
+        "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+      }
+    };
+  },
+  'should pass repositories keys as list value': function (done) {
+    var repoman = new Repoman(this.repos);
+    repoman.list(function (err, result) {
+      assert.isNull(err);
+      assert.equals(result, ['couchdb', 'httpd']);
+      done();
     });
   }
 });
