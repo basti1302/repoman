@@ -1,4 +1,7 @@
-### 0.0.12-pre
+### 0.0.13-pre
+*
+
+### 0.0.12
 * Add -f/--fail-fast flag
 * Add list command
 * Add Gitorious repositories configuration file generation
