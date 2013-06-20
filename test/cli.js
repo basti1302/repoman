@@ -269,7 +269,7 @@ buster.testCase('cli - clean', {
     cli.exec();
   },
   'should pass error to callback when there is an error during dry run': function () {
-    this.mockConsole.expects('error').once().withExactArgs('some error');
+    this.mockConsole.expects('error').once().withExactArgs('some error'.red);
     this.mockProcess.expects('exit').once().withExactArgs(1);
     this.stub(Repoman.prototype, 'clean', function (dryRun, cb) {
       assert.equals(dryRun, true);

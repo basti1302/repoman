@@ -1,9 +1,9 @@
 ### 0.0.12-pre
-* Display commands to execute on each repo
 * Add -f/--fail-fast flag
 * Add list command
 * Add Gitorious repositories configuration file generation
 * Replace underscore with lodash, replace bagofholding with bagofcli and bagofrequest
+* Display commands to be executed on each repo
 
 ### 0.0.11
 * Re-add custom config file override (accidentally removed)

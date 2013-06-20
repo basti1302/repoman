@@ -113,9 +113,9 @@ buster.testCase('repoman - exec', {
   },
   'should execute command as-is on each repository when command is unsupported': function (done) {
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'couchdb');
-    this.mockConsole.expects('log').once().withExactArgs('> %s', 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+    this.mockConsole.expects('log').once().withExactArgs('> %s', 'echo "Created /somedir/couchdb/.gitignore file";');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'httpd');
-    this.mockConsole.expects('log').once().withExactArgs('> %s', 'cd /somedir/httpd; touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
+    this.mockConsole.expects('log').once().withExactArgs('> %s', 'echo "Created /somedir/httpd/.gitignore file";');
     this.stub(bag, 'exec', function (command, fallthrough, cb) {
       assert.isTrue(fallthrough);
       cb(null, command);
