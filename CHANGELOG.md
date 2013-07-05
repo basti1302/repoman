@@ -1,5 +1,5 @@
 ### 0.0.13-pre
-*
+* Fix exec command argument handling.
 
 ### 0.0.12
 * Add -f/--fail-fast flag
