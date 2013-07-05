@@ -1,4 +1,4 @@
-Repoman [![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman) [![Dependencies Status](https://david-dm.org/cliffano/repoman.png)](http://david-dm.org/cliffano/repoman)
+Repoman [![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman) [![Dependencies Status](https://david-dm.org/cliffano/repoman.png)](http://david-dm.org/cliffano/repoman) [![Published Version](https://badge.fury.io/js/repoman.png)](http://badge.fury.io/js/repoman)
 -------
 <img align="right" src="https://raw.github.com/cliffano/repoman/master/avatar.jpg" alt="Avatar"/>
 
