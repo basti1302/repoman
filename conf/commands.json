@@ -52,6 +52,9 @@
     },
     "exec": {
       "desc": "Execute custom command against local repositories",
+      "args": [
+        { "name": "command", "rules": [ "notEmpty" ] }
+      ],
       "options": [
         { "arg": "-c, --config <file>", "desc": "Configuration file" }
       ]
