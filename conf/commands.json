@@ -12,6 +12,10 @@
         { "arg": "--github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" },
         { "arg": "--gitorious-url <gitoriousUrl>", "desc": "Gitorious URL" },
         { "arg": "--gitorious-project <gitoriousProject>", "desc": "Comma-separated Gitorious projects" }
+      ],
+      "examples": [
+        "repoman --github-user cliffano config",
+        "repoman --github-org jenkinsci config"
       ]
     },
     "delete": {
@@ -57,6 +61,10 @@
       ],
       "options": [
         { "arg": "-c, --config <file>", "desc": "Configuration file" }
+      ],
+      "examples": [
+        "repoman exec 'touch .gitignore; echo \"Created {workspace}/{name}/.gitignore file;\"'",
+        "repoman --fail-fast exec 'chown -R user:group /some/path/{name}';"
       ]
     },
     "list": {
