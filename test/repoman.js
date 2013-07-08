@@ -96,9 +96,9 @@ buster.testCase('repoman - exec', {
     });
   },
   'should log repositories name and execute commands with parameters applied when repositories exist': function (done) {
-    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'couchdb');
+    this.mockConsole.expects('log').once().withExactArgs('\n+ %s', 'couchdb');
     this.mockConsole.expects('log').once().withExactArgs('> %s', 'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
-    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'httpd');
+    this.mockConsole.expects('log').once().withExactArgs('\n+ %s', 'httpd');
     this.mockConsole.expects('log').once().withExactArgs('> %s', 'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
     this.stub(bag, 'exec', function (command, fallthrough, cb) {
       assert.isTrue(fallthrough);
@@ -112,9 +112,9 @@ buster.testCase('repoman - exec', {
     });
   },
   'should execute command as-is on each repository when command is unsupported': function (done) {
-    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'couchdb');
+    this.mockConsole.expects('log').once().withExactArgs('\n+ %s', 'couchdb');
     this.mockConsole.expects('log').once().withExactArgs('> %s', 'echo "Created /somedir/couchdb/.gitignore file";');
-    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'httpd');
+    this.mockConsole.expects('log').once().withExactArgs('\n+ %s', 'httpd');
     this.mockConsole.expects('log').once().withExactArgs('> %s', 'echo "Created /somedir/httpd/.gitignore file";');
     this.stub(bag, 'exec', function (command, fallthrough, cb) {
       assert.isTrue(fallthrough);
