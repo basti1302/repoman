@@ -1,6 +1,13 @@
-Repoman [![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman) [![Dependencies Status](https://david-dm.org/cliffano/repoman.png)](http://david-dm.org/cliffano/repoman) [![Published Version](https://badge.fury.io/js/repoman.png)](http://badge.fury.io/js/repoman)
--------
 <img align="right" src="https://raw.github.com/cliffano/repoman/master/avatar.jpg" alt="Avatar"/>
+
+[![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
+[![Dependencies Status](https://david-dm.org/cliffano/repoman.png)](http://david-dm.org/cliffano/repoman)
+[![Published Version](https://badge.fury.io/js/repoman.png)](http://badge.fury.io/js/repoman)
+<br/>
+[![npm Badge](https://nodei.co/npm/repoman.png)](http://npmjs.org/package/repoman)
+
+Repoman
+-------
 
 Multi-repository management command-line tool.
 
