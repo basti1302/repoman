@@ -1,4 +1,7 @@
-### 0.0.13-pre
+### 0.0.14
+*
+
+### 0.0.13
 * Fix exec command argument handling.
 
 ### 0.0.12
