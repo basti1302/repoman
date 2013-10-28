@@ -1,6 +1,8 @@
-var buster = require('buster'),
+var buster = require('buster-node'),
   gitorioujs = require('gitoriou.js'),
-  Gitorious = require('../lib/gitorious');
+  Gitorious = require('../lib/gitorious'),
+  referee = require('referee'),
+  assert = referee.assert;
 
 buster.testCase('gitorious - generate', {
   setUp: function () {

@@ -1,10 +1,12 @@
 var bag = require('bagofcli'),
-  buster = require('buster'),
+  buster = require('buster-node'),
   GitHub = require('../lib/github'),
   Gitorious = require('../lib/gitorious'),
   fs = require('fs'),
   fsx = require('fs.extra'),
-  Repoman = require('../lib/repoman');
+  referee = require('referee'),
+  Repoman = require('../lib/repoman'),
+  assert = referee.assert;
 
 buster.testCase('repoman - config', {
   setUp: function () {

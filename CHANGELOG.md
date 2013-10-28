@@ -1,5 +1,7 @@
 ### 0.0.14
-*
+* Fix clean command prompt handling
+* Change test lib to buster-node + referee
+* Set min node engine to >= v0.8.0
 
 ### 0.0.13
 * Fix exec command argument handling.

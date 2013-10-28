@@ -1,9 +1,11 @@
 var bag = require('bagofcli'),
-  buster = require('buster'),
+  buster = require('buster-node'),
   cli = require('../lib/cli'),
-  commander = require('commander'),
   fs = require('fs'),
-  Repoman = new require('../lib/repoman');
+  referee = require('referee'),
+  prompt = require('prompt'),
+  Repoman = new require('../lib/repoman'),
+  assert = referee.assert;
 
 buster.testCase('cli - exec', {
   'should contain commands with actions': function (done) {
@@ -192,9 +194,9 @@ buster.testCase('cli - list', {
 
 buster.testCase('cli - clean', {
   setUp: function () {
-    this.mockCommander = this.mock(commander);
     this.mockConsole = this.mock(console);
     this.mockProcess = this.mock(process);
+    this.mockPrompt = this.mock(prompt);
   },
   'should delete nothing when there is no directory to clean up': function () {
     this.mockConsole.expects('log').once().withExactArgs('Nothing to delete.');
@@ -215,7 +217,8 @@ buster.testCase('cli - clean', {
   'should delete directories to clean up when user confirms to do so': function () {
     this.mockConsole.expects('log').once().withExactArgs('The following files/directories will be deleted: %s', 'dir1, dir2');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.mockCommander.expects('prompt').once().withArgs('Are you sure? (Y/N)').callsArgWith(1, 'Y');
+    this.mockPrompt.expects('start').once().withExactArgs();
+    this.mockPrompt.expects('get').once().withArgs(['Are you sure? (Y/N)']).callsArgWith(1, null, { 'Are you sure? (Y/N)': 'Y' });
     this.stub(Repoman.prototype, 'clean', function (dryRun, cb) {
       if (dryRun) {
         cb(null, ['dir1', 'dir2']);
@@ -236,7 +239,8 @@ buster.testCase('cli - clean', {
     this.mockConsole.expects('log').once().withExactArgs('The following files/directories will be deleted: %s', 'dir1, dir2');
     this.mockConsole.expects('log').once().withExactArgs('Nothing is deleted.');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.mockCommander.expects('prompt').once().withArgs('Are you sure? (Y/N)').callsArgWith(1, 'N');
+    this.mockPrompt.expects('start').once().withExactArgs();
+    this.mockPrompt.expects('get').once().withArgs(['Are you sure? (Y/N)']).callsArgWith(1, null, { 'Are you sure? (Y/N)': 'N' });
     this.stub(Repoman.prototype, 'clean', function (dryRun, cb) {
       assert.equals(dryRun, true);
       cb(null, ['dir1', 'dir2']);
@@ -254,7 +258,8 @@ buster.testCase('cli - clean', {
     this.mockConsole.expects('log').once().withExactArgs('The following files/directories will be deleted: %s', 'dir1, dir2');
     this.mockConsole.expects('log').once().withExactArgs('Nothing is deleted.');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.mockCommander.expects('prompt').once().withArgs('Are you sure? (Y/N)').callsArgWith(1, '');
+    this.mockPrompt.expects('start').once().withExactArgs();
+    this.mockPrompt.expects('get').once().withArgs(['Are you sure? (Y/N)']).callsArgWith(1, null, { 'Are you sure? (Y/N)': '' });
     this.stub(Repoman.prototype, 'clean', function (dryRun, cb) {
       assert.equals(dryRun, true);
       cb(null, ['dir1', 'dir2']);
