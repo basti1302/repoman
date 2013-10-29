@@ -10,9 +10,9 @@
 - description: Command init should fail due to inexisting repo but give exit code 0 due to non-fail-fast
   command: ../../../../../bin/repoman init
   exitcode: 0
-  output: 'fatal: HTTP request failed'
+  output: 'someinexistinghost'
 
 - description: Command init should fail due to inexisting repo and give exit code 1 due to fail-fast
   command: ../../../../../bin/repoman init --fail-fast
   exitcode: 1
-  output: 'Command failed'
+  output: 'someinexistinghost'
