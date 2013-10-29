@@ -15,4 +15,4 @@
 - description: Command init should fail due to inexisting repo and give exit code 1 due to fail-fast
   command: ../../../../../bin/repoman init --fail-fast
   exitcode: 1
-  output: 'fatal: HTTP request failed'
+  output: 'Command failed'
