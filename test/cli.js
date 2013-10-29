@@ -199,7 +199,7 @@ buster.testCase('cli - clean', {
     this.mockPrompt = this.mock(prompt);
   },
   'should delete nothing when there is no directory to clean up': function () {
-    this.mockConsole.expects('log').once().withExactArgs('Nothing to delete.');
+    this.mockConsole.expects('log').once().withExactArgs('Nothing to delete');
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(Repoman.prototype, 'clean', function (dryRun, cb) {
       assert.equals(dryRun, true);
@@ -237,7 +237,7 @@ buster.testCase('cli - clean', {
   },
   'should not delete directories to clean up when user confirms to not clean': function () {
     this.mockConsole.expects('log').once().withExactArgs('The following files/directories will be deleted: %s', 'dir1, dir2');
-    this.mockConsole.expects('log').once().withExactArgs('Nothing is deleted.');
+    this.mockConsole.expects('log').once().withExactArgs('Nothing is deleted');
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.mockPrompt.expects('start').once().withExactArgs();
     this.mockPrompt.expects('get').once().withArgs(['Are you sure? (Y/N)']).callsArgWith(1, null, { 'Are you sure? (Y/N)': 'N' });
@@ -256,7 +256,7 @@ buster.testCase('cli - clean', {
   },
   'should not delete directories to clean up when user does not provide confirmation answer': function () {
     this.mockConsole.expects('log').once().withExactArgs('The following files/directories will be deleted: %s', 'dir1, dir2');
-    this.mockConsole.expects('log').once().withExactArgs('Nothing is deleted.');
+    this.mockConsole.expects('log').once().withExactArgs('Nothing is deleted');
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.mockPrompt.expects('start').once().withExactArgs();
     this.mockPrompt.expects('get').once().withArgs(['Are you sure? (Y/N)']).callsArgWith(1, null, { 'Are you sure? (Y/N)': '' });

@@ -1,0 +1,33 @@
+- description: Prepare failure test fixture with existing repositories
+  command: cp ../../../../../test-integration/fixtures/.somerepoman_success.json .repoman.json
+  exitcode: 0
+
+- description: Command list should list down all repositories
+  command: ../../../../../bin/repoman list
+  exitcode: 0
+  output: ^datagen\nnestor\n$
+
+- description: Command init should succeed due to existing repositories
+  command: ../../../../../bin/repoman init
+  exitcode: 0
+  output: 'Cloning into '
+
+- description: Command get should update repositories
+  command: ../../../../../bin/repoman get
+  exitcode: 0
+  output: 'Already up-to-date.'
+
+- description: Command exec should execute same command on all repositories
+  command: ../../../../../bin/repoman exec 'touch somefile'
+  exitcode: 0
+  output: 'touch somefile'
+
+- description: Command changes should display uncommitted changes
+  command: ../../../../../bin/repoman changes
+  exitcode: 0
+  output: 'somefile'
+
+- description: Command undo should remove uncommitted changes
+  command: ../../../../../bin/repoman undo
+  exitcode: 0
+  output: 'No local changes to save'

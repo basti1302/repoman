@@ -1,0 +1,19 @@
+- description: Command help should display help information
+  command: ../../../../../bin/repoman --help
+  exitcode: 0
+  output: 'Usage: repoman'
+
+- description: Command config should create configuration file
+  command: ../../../../../bin/repoman config
+  exitcode: 0
+  output: 'Creating sample configuration file: .repoman.json'
+
+- description: Command list should list down all repositories
+  command: ../../../../../bin/repoman list
+  exitcode: 0
+  output: ^couchdb\nhttpd\nnode\n$
+
+- description: Command clean should know when there is no directory to delete
+  command: ../../../../../bin/repoman clean
+  exitcode: 0
+  output: Nothing to delete
