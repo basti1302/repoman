@@ -2,7 +2,7 @@
   "git": {
     "delete": "rmdir {workspace}\\\\{name} /s /q",
     "init": "git clone {url} {workspace}\\\\{name}",
-    "get": "cd {workspace}\\\\{name} && git pull",
+    "get": "cd {workspace}\\\\{name} && git pull --rebase",
     "changes": "cd {workspace}\\\\{name} && git status",
     "save": "cd {workspace}\\\\{name} && git push origin master",
     "undo": "cd {workspace}\\\\{name} && git stash && git stash clear"

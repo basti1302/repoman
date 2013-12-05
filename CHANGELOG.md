@@ -1,5 +1,5 @@
 ### 0.0.15-pre
-*
+* Change get command for git to use --rebase 
 
 ### 0.0.14
 * Fix clean command prompt handling
