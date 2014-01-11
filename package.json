@@ -35,13 +35,13 @@
     "async": "~0.2.9",
     "bagofcli": "~0.0.8",
     "bagofrequest": "~0.0.6",
-    "commander": "~2.0.0",
+    "commander": "~2.1.0",
     "fs.extra": "~1.2.1",
     "github": "~0.1.12",
     "gitoriou.js": "~0.0.1",
     "jazz": "~0.0.18",
-    "lodash": "~2.2.1",
-    "prompt": "~0.2.11"
+    "lodash": "~2.4.1",
+    "prompt": "~0.2.12"
   },
   "devDependencies": {
     "buster-node": "~0.7.0",
