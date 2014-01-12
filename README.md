@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
 [![Dependencies Status](https://david-dm.org/cliffano/repoman.png)](http://david-dm.org/cliffano/repoman)
+[![Coverage Status](https://coveralls.io/repos/cliffano/repoman/badge.png?branch=master)](https://coveralls.io/r/cliffano/repoman?branch=master)
 [![Published Version](https://badge.fury.io/js/repoman.png)](http://badge.fury.io/js/repoman)
 <br/>
 [![npm Badge](https://nodei.co/npm/repoman.png)](http://npmjs.org/package/repoman)
