@@ -1,6 +1,6 @@
 var buster = require('buster-node'),
   gitorioujs = require('gitoriou.js'),
-  Gitorious = require('../lib/gitorious'),
+  Gitorious = require('../../lib/generator/gitorious'),
   referee = require('referee'),
   assert = referee.assert;
 

@@ -1,7 +1,7 @@
 var bag = require('bagofrequest'),
   buster = require('buster-node'),
   github = require('github'),
-  GitHub = require('../lib/github'),
+  GitHub = require('../../lib/generator/github'),
   referee = require('referee'),
   assert = referee.assert;
 
