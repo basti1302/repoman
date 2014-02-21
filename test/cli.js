@@ -83,9 +83,10 @@ buster.testCase('cli - config', {
         local: true
       });
     });
+    this.mockProcess.expects('cwd').withExactArgs().returns('somedir');
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(Repoman.prototype, 'config', function (opts, cb) {
-      assert.equals(opts.local, true);
+      assert.equals(opts.local.dir, 'somedir');
       cb();
     });
     cli.exec();

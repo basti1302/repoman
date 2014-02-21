@@ -60,7 +60,7 @@ buster.testCase('repoman - config', {
     this.mockLocal.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
     this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with local repositories', '.repoman.json');
     this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
-    this.repoman.config({ local: true }, function (err, result) {
+    this.repoman.config({ local: { dir: 'somedir' } }, function (err, result) {
       assert.isNull(err);
       done();
     });
