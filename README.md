@@ -32,19 +32,19 @@ Create sample .repoman.json configuration file:
 
 Create .repoman.json containing GitHub projects of a user:
 
-    repoman --github-user cliffano config
+    repoman config --github-user cliffano
 
 Create .repoman.json containing GitHub projects of an organisation:
 
-    repoman --github-org jenkinsci config
+    repoman config --github-org jenkinsci
 
 Create .repoman.json containing GitHub projects of multiple users and organisations:
 
-    repoman --github-user cliffano --github-org jenkinsci,github config
+    repoman config --github-user cliffano --github-org jenkinsci,github
 
 Create .repoman.json configuration file from local repositories in current directory:
 
-    repoman --local config
+    repoman config --local
 
 Initialise local repositories:
 

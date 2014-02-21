@@ -15,9 +15,9 @@
         { "arg": "--local", "desc": "Create configuration file from local repositories" }
       ],
       "examples": [
-        "repoman --github-user cliffano config",
-        "repoman --github-org jenkinsci config",
-        "repoman --local config"
+        "repoman config --github-user <user>",
+        "repoman config --github-org <org>",
+        "repoman config --local"
       ]
     },
     "delete": {
