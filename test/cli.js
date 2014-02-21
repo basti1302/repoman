@@ -76,6 +76,19 @@ buster.testCase('cli - config', {
       cb();
     });
     cli.exec();
+  },
+  'should pass local opts when specified in args': function () {
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.config.action({
+        local: true
+      });
+    });
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(Repoman.prototype, 'config', function (opts, cb) {
+      assert.equals(opts.local, true);
+      cb();
+    });
+    cli.exec();
   }
 });
 

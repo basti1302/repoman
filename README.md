@@ -42,9 +42,9 @@ Create .repoman.json containing GitHub projects of multiple users and organisati
 
     repoman --github-user cliffano --github-org jenkinsci,github config
 
-Create .repoman.json configuration file based on repos in your current working directory:
+Create .repoman.json configuration file from local repositories in current directory:
 
-    repoman config --fromcwd
+    repoman --local config
 
 Initialise local repositories:
 

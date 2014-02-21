@@ -1,9 +1,10 @@
 var bag = require('bagofcli'),
   buster = require('buster-node'),
-  GitHub = require('../lib/github'),
-  Gitorious = require('../lib/gitorious'),
   fs = require('fs'),
   fsx = require('fs.extra'),
+  GitHub = require('../lib/github'),
+  Gitorious = require('../lib/gitorious'),
+  Local = require('../lib/local'),
   referee = require('referee'),
   Repoman = require('../lib/repoman'),
   assert = referee.assert;
@@ -14,6 +15,7 @@ buster.testCase('repoman - config', {
     this.mockFs = this.mock(fs);
     this.mockGitHub = this.mock(GitHub.prototype);
     this.mockGitorious = this.mock(Gitorious.prototype);
+    this.mockLocal = this.mock(Local.prototype);
     this.repoman = new Repoman();
   },
   'should copy sample couchpenter.js file to current directory when init is called': function (done) {
@@ -50,6 +52,15 @@ buster.testCase('repoman - config', {
     this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with Gitorious repositories', '.repoman.json');
     this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
     this.repoman.config({ gitorious: { url: 'http://someurl', project: 'someproject1,someproject2' } }, function (err, result) {
+      assert.isNull(err);
+      done();
+    });
+  },
+  'should create .repoman.json containing repos on local repositories when local config is specified': function (done) {
+    this.mockLocal.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
+    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with local repositories', '.repoman.json');
+    this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    this.repoman.config({ local: true }, function (err, result) {
       assert.isNull(err);
       done();
     });

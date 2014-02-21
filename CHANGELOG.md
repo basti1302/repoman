@@ -1,5 +1,5 @@
 ### 0.0.16-pre
-* Add option to generate config from current checkout: config --fromcwd [Stephen Steneker](https://github.com/stennie)
+* Add --local flag to config command, for generating config file from local repositories [Stephen Steneker](https://github.com/stennie)
 
 ### 0.0.15
 * Change get command for git to use --rebase 

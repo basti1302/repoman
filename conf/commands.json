@@ -12,11 +12,12 @@
         { "arg": "--github-auth-pass <githubAuthPass>", "desc": "GitHub authentication password" },
         { "arg": "--gitorious-url <gitoriousUrl>", "desc": "Gitorious URL" },
         { "arg": "--gitorious-project <gitoriousProject>", "desc": "Comma-separated Gitorious projects" },
-        { "arg": "--fromcwd", "desc": "Look for checked out repos in current directory" }
+        { "arg": "--local", "desc": "Create configuration file from local repositories" }
       ],
       "examples": [
         "repoman --github-user cliffano config",
-        "repoman --github-org jenkinsci config"
+        "repoman --github-org jenkinsci config",
+        "repoman --local config"
       ]
     },
     "delete": {
