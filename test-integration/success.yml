@@ -12,6 +12,11 @@
   exitcode: 0
   output: 'Cloning into '
 
+- description: Command config local should create configuration file from existing repositories
+  command: ../../../../../bin/repoman config --local
+  exitcode: 0
+  output: 'Creating configuration file: .repoman.json, with local repositories'
+
 - description: Command get should update repositories
   command: ../../../../../bin/repoman get
   exitcode: 0
