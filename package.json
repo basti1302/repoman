@@ -32,12 +32,12 @@
     "test": "./test"
   },
   "dependencies": {
-    "async": "~0.2.9",
+    "async": "~0.2.10",
     "bagofcli": "~0.0.8",
     "bagofrequest": "~0.0.6",
     "commander": "~2.1.0",
     "fs.extra": "~1.2.1",
-    "github": "~0.1.12",
+    "github": "~0.1.14",
     "gitoriou.js": "~0.0.1",
     "ini": "~1.1.0",
     "jazz": "~0.0.18",
