@@ -1,11 +1,11 @@
-var bag = require('bagofcli'),
-  buster = require('buster-node'),
-  cli = require('../lib/cli'),
-  fs = require('fs'),
-  referee = require('referee'),
-  prompt = require('prompt'),
-  Repoman = new require('../lib/repoman'),
-  assert = referee.assert;
+var bag     = require('bagofcli');
+var buster  = require('buster-node');
+var cli     = require('../lib/cli');
+var fs      = require('fs');
+var referee = require('referee');
+var prompt  = require('prompt');
+var Repoman = new require('../lib/repoman');
+var assert  = referee.assert;
 
 buster.testCase('cli - exec', {
   'should contain commands with actions': function (done) {

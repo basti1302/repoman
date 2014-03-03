@@ -1,9 +1,9 @@
-var bag = require('bagofrequest'),
-  buster = require('buster-node'),
-  github = require('github'),
-  GitHub = require('../../lib/generator/github'),
-  referee = require('referee'),
-  assert = referee.assert;
+var bag     = require('bagofrequest');
+var buster  = require('buster-node');
+var github  = require('github');
+var GitHub  = require('../../lib/generator/github');
+var referee = require('referee');
+var assert  = referee.assert;
 
 buster.testCase('github - github', {
   setUp: function () {
