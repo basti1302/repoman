@@ -1,4 +1,7 @@
-### 0.0.16-pre
+### 0.0.17-pre
+*
+
+### 0.0.16
 * Add --local flag to config command, for generating config file from local repositories [Stephen Steneker](https://github.com/stennie)
 
 ### 0.0.15
