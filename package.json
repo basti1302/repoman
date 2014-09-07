@@ -32,18 +32,18 @@
     "test": "./test"
   },
   "dependencies": {
-    "async": "~0.2.10",
-    "bagofcli": "~0.0.8",
+    "async": "~0.9.0",
+    "bagofcli": "~0.1.0",
     "bagofrequest": "~0.0.6",
-    "commander": "~2.1.0",
+    "commander": "~2.3.0",
     "fs.extra": "~1.2.1",
-    "github": "~0.1.14",
+    "github": "~0.2.2",
     "gitoriou.js": "~0.0.1",
-    "ini": "~1.1.0",
+    "ini": "~1.2.1",
     "jazz": "~0.0.18",
     "lodash": "~2.4.1",
-    "prompt": "~0.2.12",
-    "svn-info": "~0.1.2"
+    "prompt": "~0.2.13",
+    "svn-info": "~0.2.1"
   },
   "devDependencies": {
     "buster-node": "~0.7.0",

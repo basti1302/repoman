@@ -203,7 +203,7 @@ buster.testCase('repoman - clean', {
     this.mockFsx.expects('remove').withArgs('dir2').callsArgWith(1, null, 'dir2');
 
     this.repoman.clean(false, function (err, results) {
-      assert.isNull(err);
+      assert.equals(err, undefined);
       assert.equals(results, ['dir1', 'dir2']);
       done();
     });
