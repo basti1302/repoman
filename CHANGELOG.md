@@ -1,5 +1,5 @@
 ### 0.0.17-pre
-*
+* Set min node engine to >= 0.10.0
 
 ### 0.0.16
 * Add --local flag to config command, for generating config file from local repositories [Stephen Steneker](https://github.com/stennie)
