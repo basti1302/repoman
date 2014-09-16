@@ -39,10 +39,10 @@
     "fs.extra": "~1.2.1",
     "github": "~0.2.2",
     "gitoriou.js": "~0.0.1",
-    "ini": "~1.2.1",
+    "ini": "~1.3.0",
     "jazz": "~0.0.18",
     "lodash": "~2.4.1",
-    "prompt": "~0.2.13",
+    "prompt": "~0.2.14",
     "svn-info": "~0.2.1"
   },
   "devDependencies": {
