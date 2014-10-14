@@ -1,18 +1,21 @@
+- params:
+    repoman: ../../../../../bin/repoman
+
 - description: Prepare failure test fixture with inexisting repo
   command: cp ../../../../../test-integration/fixtures/.somerepoman_failure.json .repoman.json
   exitcode: 0
 
 - description: Command list should list down all repositories
-  command: ../../../../../bin/repoman list
+  command: '{repoman} list'
   exitcode: 0
   output: ^foobar\n$
 
 - description: Command init should fail due to inexisting repo but give exit code 0 due to non-fail-fast
-  command: ../../../../../bin/repoman init
+  command: '{repoman} init'
   exitcode: 0
   output: 'someinexistinghost'
 
 - description: Command init should fail due to inexisting repo and give exit code 1 due to fail-fast
-  command: ../../../../../bin/repoman init --fail-fast
+  command: '{repoman} init --fail-fast'
   exitcode: 1
   output: 'someinexistinghost'
