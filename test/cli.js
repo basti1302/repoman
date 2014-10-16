@@ -153,7 +153,7 @@ buster.testCase('cli - _exec', {
   },
   'should use custom config file when specified in args': function () {
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.exec.action({ _name: 'init', config: '.somerepoman.json', parent: { failFast: true } });
+      actions.commands.exec.action({ _name: 'init', parent: { failFast: true, configFile: '.somerepoman.json' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');
@@ -197,7 +197,7 @@ buster.testCase('cli - list', {
       cb(null, []);
     });
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.list.action({ _name: 'list', config: '.somerepoman.json' });
+      actions.commands.list.action({ _name: 'list', parent: { configFile: '.somerepoman.json' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');
@@ -221,7 +221,7 @@ buster.testCase('cli - clean', {
       cb(null, null);
     });
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+      actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');
@@ -242,7 +242,7 @@ buster.testCase('cli - clean', {
       }
     });
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+      actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');
@@ -261,7 +261,7 @@ buster.testCase('cli - clean', {
       cb(null, ['dir1', 'dir2']);
     });
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+      actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');
@@ -280,7 +280,7 @@ buster.testCase('cli - clean', {
       cb(null, ['dir1', 'dir2']);
     });
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.clean.action({ _name: 'clean', config: '.somerepoman.json' });
+      actions.commands.clean.action({ _name: 'clean', parent: { configFile: '.somerepoman.json' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');

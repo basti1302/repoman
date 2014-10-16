@@ -1,5 +1,5 @@
-### 0.1.1-pre
-*
+### 0.2.0-pre
+* Change --config flag to --config-file as per README
 
 ### 0.1.0
 * Set min node engine to >= 0.10.0

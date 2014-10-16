@@ -1,6 +1,7 @@
 {
   "options": [
-    { "arg": "-f, --fail-fast", "desc": "Exit as soon as any command failure" }
+    { "arg": "-f, --fail-fast", "desc": "Exit as soon as any command failure" },
+    { "arg": "-c, --config-file <configFile>", "desc": "Configuration file" }
   ],
   "commands": {
     "config": {
@@ -21,48 +22,27 @@
       ]
     },
     "delete": {
-      "desc": "Delete local repositories",
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
-      ]
+      "desc": "Delete local repositories"
     },
     "init": {
-      "desc": "Initialise local repositories",
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
-      ]
+      "desc": "Initialise local repositories"
     },
     "get": {
-      "desc": "Update local repositories with changes from remote repositories",
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
-      ]
+      "desc": "Update local repositories with changes from remote repositories"
     },
     "changes": {
-      "desc": "Display the changes in local repositories",
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
-      ]
+      "desc": "Display the changes in local repositories"
     },
     "save": {
-      "desc": "Update remote repositories with changes from local repositories",
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
-      ]
+      "desc": "Update remote repositories with changes from local repositories"
     },
     "undo": {
-      "desc": "Remove uncommitted changes from local repositories",
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
-      ]
+      "desc": "Remove uncommitted changes from local repositories"
     },
     "exec": {
       "desc": "Execute custom command against local repositories",
       "args": [
         { "name": "command", "rules": [ "required" ] }
-      ],
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
       ],
       "examples": [
         "repoman exec 'touch .gitignore; echo \"Created {workspace}/{name}/.gitignore file;\"'",
@@ -73,10 +53,7 @@
       "desc": "Display a list of repository names"
     },
     "clean": {
-      "desc": "Delete non-Repoman local repositories",
-      "options": [
-        { "arg": "-c, --config <file>", "desc": "Configuration file" }
-      ]
+      "desc": "Delete non-Repoman local repositories"
     }
   }
 }
