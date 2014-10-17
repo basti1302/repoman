@@ -1,0 +1,37 @@
+- params:
+    repoman: ../../../../../bin/repoman --config-file ../../../../../test-integration/fixtures/.somerepoman_success.json
+
+- description: Command list should list down all repositories
+  command: '{repoman} list'
+  exitcode: 0
+  output: ^datagen\nnestor\n$
+
+- description: Command init should succeed due to existing repositories
+  command: '{repoman} init'
+  exitcode: 0
+  output: 'Cloning into '
+
+- description: Command config local should create configuration file from existing repositories
+  command: '{repoman} config --local'
+  exitcode: 0
+  output: 'Creating configuration file: .repoman.json, with local repositories'
+
+- description: Command get should update repositories
+  command: '{repoman} get'
+  exitcode: 0
+  output: 'Current branch master is up to date.'
+
+- description: Command exec should execute same command on all repositories
+  command: '{repoman} exec "touch somefile"'
+  exitcode: 0
+  output: 'touch somefile'
+
+- description: Command changes should display uncommitted changes
+  command: '{repoman} changes'
+  exitcode: 0
+  output: 'somefile'
+
+- description: Command undo should remove uncommitted changes
+  command: '{repoman} undo'
+  exitcode: 0
+  output: 'No local changes to save'
