@@ -154,6 +154,7 @@ buster.testCase('repoman - clean', {
         "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
       }
     };
+    this.mock({});
   },
   'should pass repositories keys as list value': function (done) {
     var repoman = new Repoman(this.repos);
@@ -220,6 +221,7 @@ buster.testCase('repoman - clean', {
 
 buster.testCase('repoman - _determineRepoType', {
   setUp: function () {
+    this.mock({});
     this.repoman = new Repoman();
   },
   'should determine repo type based on keywords when repo config does not have type property': function () {

@@ -23,6 +23,9 @@ buster.testCase('github - github', {
 });
 
 buster.testCase('github - generate', {
+  setUp: function () {
+    this.mock({});
+  },
   'should create repoman config with users and orgs\' repos': function (done) {
     var gitHub = new GitHub();
     gitHub.gh.repos.getFromUser = function (opts, cb) {
