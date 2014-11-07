@@ -134,10 +134,8 @@ buster.testCase('cli - _exec', {
     cli.exec();
   },
   'should use win32 command when executed on windows': function () {
-    //this.stub(process, 'platform', 'win32');
-    process.platform = 'win32';
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.exec.action({ _name: 'init', parent: {} });
+      actions.commands.exec.action({ _name: 'init', parent: { platform: 'win32' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.repoman.json');
