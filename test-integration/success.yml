@@ -40,7 +40,12 @@
   exitcode: 0
   output: 'No local changes to save'
 
-- description: Command exec should execute nothing when there is no matching repo
+- description: Command exec should execute nothing when tags is specified and there is no matching repo
   command: '{repoman} --tags inexistingtag exec "touch somefile"'
+  exitcode: 0
+  output: ''
+
+- description: Command exec should execute nothing when regex is specified and there is no matching repo
+  command: '{repoman} --regex .*inexistingrepo.* exec "touch somefile"'
   exitcode: 0
   output: ''
