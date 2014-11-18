@@ -90,9 +90,13 @@ Override default .repoman.json configuration file:
 
     repoman -c somerepoman.json init|get|changes|save|delete|clean|exec|list
 
-Filter repo by tags, if multiple tags (comma-separated) are specified then repo will be included if it matches at least one tag:
+Filter repositories by tags, if multiple tags (comma-separated) are specified then repo will be included if it matches at least one tag:
 
     repoman --tags apache,github init|get|changes|save|delete|exec
+
+Filter repositories by regex against repo name or URL:
+
+    repoman --regex .*github.* init|get|changes|save|delete|exec
 
 Repoman uses the following SCM command mapping, it currently only supports Git and Subversion:
 

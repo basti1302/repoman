@@ -155,6 +155,31 @@ buster.testCase('repoman - exec', {
       assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       done();
     });
+  },
+  'should execute command as-is on matching repository when regex is provided': function (done) {
+    this.mockConsole.expects('log').once().withExactArgs('\n+ %s', 'couchdb');
+    this.mockConsole.expects('log').once().withExactArgs('> %s', 'echo "Created /somedir/couchdb/.gitignore file";');
+    this.stub(bag, 'exec', function (command, fallthrough, cb) {
+      assert.isTrue(fallthrough);
+      cb(null, command);
+    });
+    var repoman = new Repoman(this.repos, this.scms);
+    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', { regex: '.*couchdb.*' }, function cb(err, results) {
+      assert.equals(results.length, 1);
+      assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      done();
+    });
+  },
+  'should not execute any command when neither tags nor regex filters is applicable': function (done) {
+    this.stub(bag, 'exec', function (command, fallthrough, cb) {
+      assert.isTrue(fallthrough);
+      cb(null, command);
+    });
+    var repoman = new Repoman(this.repos, this.scms);
+    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', { regex: 'blah', tags: ['inexistingtag1', 'inexistingtag2'] }, function cb(err, results) {
+      assert.equals(results.length, 0);
+      done();
+    });
   }
 });
 
