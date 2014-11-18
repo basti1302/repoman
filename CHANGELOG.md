@@ -2,6 +2,7 @@
 * Change --config flag to --config-file as per README
 * Add tags filter support
 * Add regex filter support
+* Modify config generator to merge repositories in configuration file
 
 ### 0.1.0
 * Set min node engine to >= 0.10.0

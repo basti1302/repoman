@@ -31,8 +31,9 @@ buster.testCase('repoman - config', {
     });
   },
   'should create .repoman.json containing repos on github when github config is specified': function (done) {
+    this.mockFs.expects('existsSync').withExactArgs('.repoman.json').returns(false);
     this.mockGitHub.expects('generate').once().withArgs(['someuser'], ['someorg']).callsArgWith(2, null, { foo: 'bar' });
-    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with GitHub repositories', '.repoman.json');
+    this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with GitHub repositories', '.repoman.json');
     this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
     this.repoman.config({ github: { user: 'someuser', org: 'someorg' } }, function (err, result) {
       assert.isNull(err);
@@ -41,15 +42,17 @@ buster.testCase('repoman - config', {
   },
   'should pass error to callback when an error occurs while creating config containing github repos': function (done) {
     this.mockGitHub.expects('generate').once().withArgs([], []).callsArgWith(2, new Error('some error'));
-    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with GitHub repositories', '.repoman.json');
+    this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with GitHub repositories', '.repoman.json');
     this.repoman.config({ github: {} }, function (err, result) {
       assert.equals(err.message, 'some error');
       done();
     });
   },
   'should create .repoman.json containing repos on gitorious when gitorious config is specified': function (done) {
+    this.mockFs.expects('existsSync').withExactArgs('.repoman.json').returns(true);
     this.mockGitorious.expects('generate').once().withArgs(['someproject1', 'someproject2']).callsArgWith(1, null, { foo: 'bar' });
-    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with Gitorious repositories', '.repoman.json');
+    this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with Gitorious repositories', '.repoman.json');
+    this.mockFs.expects('readFileSync').once().withExactArgs('.repoman.json', 'utf-8').returns('{}');
     this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
     this.repoman.config({ gitorious: { url: 'http://someurl', project: 'someproject1,someproject2' } }, function (err, result) {
       assert.isNull(err);
@@ -57,8 +60,9 @@ buster.testCase('repoman - config', {
     });
   },
   'should create .repoman.json containing repos on local repositories when local config is specified': function (done) {
+    this.mockFs.expects('existsSync').withExactArgs('.repoman.json').returns(false);
     this.mockLocal.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
-    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with local repositories', '.repoman.json');
+    this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with local repositories', '.repoman.json');
     this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
     this.repoman.config({ local: { dir: 'somedir' } }, function (err, result) {
       assert.isNull(err);
@@ -67,7 +71,7 @@ buster.testCase('repoman - config', {
   },
   'should pass error to callback when an error occurs while creating config containing gitorious repos': function (done) {
     this.mockGitorious.expects('generate').once().withArgs([]).callsArgWith(1, new Error('some error'));
-    this.mockConsole.expects('log').once().withExactArgs('Creating configuration file: %s, with Gitorious repositories', '.repoman.json');
+    this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with Gitorious repositories', '.repoman.json');
     this.repoman.config({ gitorious: { url: 'http://someurl' } }, function (err, result) {
       assert.equals(err.message, 'some error');
       done();

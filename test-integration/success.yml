@@ -18,7 +18,7 @@
 - description: Command config local should create configuration file from existing repositories
   command: '{repoman} config --local'
   exitcode: 0
-  output: 'Creating configuration file: .repoman.json, with local repositories'
+  output: 'Setting configuration file: .repoman.json, with local repositories'
 
 - description: Command get should update repositories
   command: '{repoman} get'
