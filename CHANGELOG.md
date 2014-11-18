@@ -1,4 +1,7 @@
-### 0.2.0-pre
+### 0.2.1-pre
+*
+
+### 0.2.0
 * Change --config flag to --config-file as per README
 * Add tags filter support
 * Add regex filter support
