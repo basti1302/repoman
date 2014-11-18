@@ -84,7 +84,8 @@ buster.testCase('repoman - exec', {
     this.repos = {
       "couchdb": {
         "type": "git",
-        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git",
+        "tags": ["database", "apache"]
       },
       "httpd": {
         "type": "svn",
@@ -135,9 +136,24 @@ buster.testCase('repoman - exec', {
     });
     var repoman = new Repoman(this.repos, this.scms);
     repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', undefined, function cb(err, results) {
+      assert.equals(results.length, 2);
       assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       assert.equals(results[1], 'cd /somedir/httpd; touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
       done();        
+    });
+  },
+  'should execute command as-is on matching repository when tag is provided': function (done) {
+    this.mockConsole.expects('log').once().withExactArgs('\n+ %s', 'couchdb');
+    this.mockConsole.expects('log').once().withExactArgs('> %s', 'echo "Created /somedir/couchdb/.gitignore file";');
+    this.stub(bag, 'exec', function (command, fallthrough, cb) {
+      assert.isTrue(fallthrough);
+      cb(null, command);
+    });
+    var repoman = new Repoman(this.repos, this.scms);
+    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', { tags: ['database', 'someothertag'] }, function cb(err, results) {
+      assert.equals(results.length, 1);
+      assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      done();
     });
   }
 });

@@ -112,6 +112,7 @@ buster.testCase('cli - _exec', {
     this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'ls -al');
       assert.equals(opts.failFast, undefined);
+      assert.equals(opts.tags, undefined);
       cb();
     });
     cli.exec();
@@ -129,6 +130,7 @@ buster.testCase('cli - _exec', {
     this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'init');
       assert.equals(opts.failFast, undefined);
+      assert.equals(opts.tags, undefined);
       cb();
     });
     cli.exec();
@@ -146,13 +148,14 @@ buster.testCase('cli - _exec', {
     this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'init');
       assert.equals(opts.failFast, undefined);
+      assert.equals(opts.tags, undefined);
       cb();
     });
     cli.exec();
   },
   'should use custom config file when specified in args': function () {
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.exec.action({ _name: 'init', parent: { failFast: true, configFile: '.somerepoman.json' } });
+      actions.commands.exec.action({ _name: 'init', parent: { failFast: true, tags: 'tag1,tag2', configFile: '.somerepoman.json' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.somerepoman.json');
@@ -163,6 +166,7 @@ buster.testCase('cli - _exec', {
     this.stub(Repoman.prototype, 'exec', function (command, opts, cb) {
       assert.equals(command, 'init');
       assert.equals(opts.failFast, true);
+      assert.equals(opts.tags, ['tag1', 'tag2']);
       cb();
     });
     cli.exec();

@@ -1,7 +1,8 @@
 {
   "options": [
     { "arg": "-f, --fail-fast", "desc": "Exit as soon as any command failure" },
-    { "arg": "-c, --config-file <configFile>", "desc": "Configuration file" }
+    { "arg": "-c, --config-file <configFile>", "desc": "Configuration file" },
+    { "arg": "-t, --tags <tags>", "desc": "Comma-separated tags" }
   ],
   "commands": {
     "config": {

@@ -90,6 +90,10 @@ Override default .repoman.json configuration file:
 
     repoman -c somerepoman.json init|get|changes|save|delete|clean|exec|list
 
+Filter repo by tags, if multiple tags (comma-separated) are specified then repo will be included if it matches at least one tag:
+
+    repoman --tags apache,github init|get|changes|save|delete|exec
+
 Repoman uses the following SCM command mapping, it currently only supports Git and Subversion:
 
 <table>
@@ -134,15 +138,18 @@ Repositories can be configured in .repoman.json file:
     {
       "couchdb": {
         "type": "git",
-        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git",
+        "tags": ["apache", "database"]
       },
       "httpd": {
         "type": "svn",
-        "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+        "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/",
+        "tags": ["apache", "webserver"]
       },
       "node": {
         "type": "git",
-        "url": "http://github.com/joyent/node"
+        "url": "http://github.com/joyent/node",
+        "tags": ["github", "javascript"]
       }
     }
 

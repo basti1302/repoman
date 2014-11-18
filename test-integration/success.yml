@@ -39,3 +39,8 @@
   command: '{repoman} undo'
   exitcode: 0
   output: 'No local changes to save'
+
+- description: Command exec should execute nothing when there is no matching repo
+  command: '{repoman} --tags inexistingtag exec "touch somefile"'
+  exitcode: 0
+  output: ''
