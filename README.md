@@ -168,4 +168,8 @@ Repoman will choose which configuration file to use in this order:
 Colophon
 --------
 
+[Developer's Guide](http://cliffano.github.io/developers_guide.html#nodejs)
+
+Articles:
+
 * [Introducing Repoman](http://blog.cliffano.com/2013/05/26/introducing-repoman/)
