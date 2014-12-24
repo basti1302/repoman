@@ -186,11 +186,11 @@ buster.testCase('cli - list', {
     this.mockConsole.expects('log').once().withExactArgs('somerepo1');
     this.mockConsole.expects('log').once().withExactArgs('somerepo2');
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.stub(Repoman.prototype, 'list', function (cb) {
+    this.stub(Repoman.prototype, 'list', function (opts, cb) {
       cb(null, ['somerepo1', 'somerepo2']);
     });
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.list.action({ _name: 'list' });
+      actions.commands.list.action({ _name: 'list', parent: { tags: 'somerepo' } });
     });
     this.stub(bag, 'lookupFile', function (file) {
       assert.equals(file, '.repoman.json');
@@ -200,7 +200,7 @@ buster.testCase('cli - list', {
   },
   'should not log anything when there is no result': function () {
     this.mockProcess.expects('exit').once().withExactArgs(0);
-    this.stub(Repoman.prototype, 'list', function (cb) {
+    this.stub(Repoman.prototype, 'list', function (opts, cb) {
       cb(null, []);
     });
     this.stub(bag, 'command', function (base, actions) {

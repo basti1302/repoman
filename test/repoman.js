@@ -187,12 +187,13 @@ buster.testCase('repoman - exec', {
   }
 });
 
-buster.testCase('repoman - clean', {
+buster.testCase('repoman - list', {
   setUp: function () {
     this.repos = {
       "couchdb": {
         "type": "git",
-        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+        "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git",
+        "tags": ["apache"]
       },
       "httpd": {
         "type": "svn",
@@ -203,9 +204,25 @@ buster.testCase('repoman - clean', {
   },
   'should pass repositories keys as list value': function (done) {
     var repoman = new Repoman(this.repos);
-    repoman.list(function (err, result) {
+    repoman.list({}, function (err, result) {
       assert.isNull(err);
       assert.equals(result, ['couchdb', 'httpd']);
+      done();
+    });
+  },
+  'should filter repository by tag': function (done) {
+    var repoman = new Repoman(this.repos);
+    repoman.list({ tags: ['apache'] }, function (err, result) {
+      assert.isNull(err);
+      assert.equals(result, ['couchdb']);
+      done();
+    });
+  },
+  'should filter repository by regex': function (done) {
+    var repoman = new Repoman(this.repos);
+    repoman.list({ regex: '.*httpd.*' }, function (err, result) {
+      assert.isNull(err);
+      assert.equals(result, ['httpd']);
       done();
     });
   }

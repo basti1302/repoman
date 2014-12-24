@@ -1,5 +1,5 @@
 ### 0.2.1-pre
-*
+* Add tags and regex filter support to list command
 
 ### 0.2.0
 * Change --config flag to --config-file as per README
