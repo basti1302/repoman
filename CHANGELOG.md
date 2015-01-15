@@ -1,4 +1,7 @@
-### 0.2.2-pre
+### 0.2.3-pre
+*
+
+### 0.2.2
 * Add Bitbucket generator
 
 ### 0.2.1
