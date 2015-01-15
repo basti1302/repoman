@@ -1,4 +1,5 @@
 var bag       = require('bagofcli');
+var Bitbucket = require('../lib/generator/bitbucket');
 var buster    = require('buster-node');
 var fs        = require('fs');
 var fsx       = require('fs.extra');
@@ -13,6 +14,7 @@ buster.testCase('repoman - config', {
   setUp: function () {
     this.mockConsole = this.mock(console);
     this.mockFs = this.mock(fs);
+    this.mockBitbucket = this.mock(Bitbucket.prototype);
     this.mockGitHub = this.mock(GitHub.prototype);
     this.mockGitorious = this.mock(Gitorious.prototype);
     this.mockLocal = this.mock(Local.prototype);
@@ -27,6 +29,16 @@ buster.testCase('repoman - config', {
     });
     this.repoman.config({}, function (err, result) {
       assert.equals(err, undefined);
+      done();
+    });
+  },
+  'should create .repoman.json containing repos on bitbucket when bitbucket config is specified': function (done) {
+    this.mockFs.expects('existsSync').withExactArgs('.repoman.json').returns(false);
+    this.mockBitbucket.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
+    this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with Bitbucket repositories', '.repoman.json');
+    this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    this.repoman.config({ bitbucket: { authUser: 'someuser', authPass: 'somepassword' } }, function (err, result) {
+      assert.isNull(err);
       done();
     });
   },

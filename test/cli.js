@@ -44,6 +44,21 @@ buster.testCase('cli - config', {
     });
     cli.exec();
   },
+  'should pass bitbucket opts when specified in args': function () {
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.config.action({
+        bitbucketAuthUser: 'someauthuser',
+        bitbucketAuthPass: 'someauthpass'
+      });
+    });
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(Repoman.prototype, 'config', function (opts, cb) {
+      assert.equals(opts.bitbucket.authUser, 'someauthuser');
+      assert.equals(opts.bitbucket.authPass, 'someauthpass');
+      cb();
+    });
+    cli.exec();
+  },
   'should pass github opts when specified in args': function () {
     this.stub(bag, 'command', function (base, actions) {
       actions.commands.config.action({

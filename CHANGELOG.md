@@ -1,5 +1,5 @@
 ### 0.2.2-pre
-*
+* Add Bitbucket generator
 
 ### 0.2.1
 * Add tags and regex filter support to list command

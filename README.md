@@ -42,6 +42,10 @@ Create .repoman.json containing GitHub projects of multiple users and organisati
 
     repoman config --github-user cliffano --github-org jenkinsci,github
 
+Create .repoman.json containing Bitbucket projects:
+
+    repoman config --bitbucket-auth-user cliffano --bitbucket-auth-pass somepassword
+
 Create .repoman.json configuration file from local repositories in current directory:
 
     repoman config --local
