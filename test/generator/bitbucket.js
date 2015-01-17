@@ -22,15 +22,15 @@ buster.testCase('bitbucket - generate', {
     var bitbucket = new Bitbucket('someuser', 'somepassword');
     bitbucket.client.repositories = function (cb) {
       var result = [
-        { name: 'repo1', scm: 'git' },
-        { name: 'repo2', scm: 'git' }
+        { slug: 'repo1', owner: 'someuser', scm: 'git' },
+        { slug: 'repo2', owner: 'otheruser', scm: 'git' }
       ];
       cb(null, result);
     };
     bitbucket.generate(function (err, result) {
       assert.equals(err, null);
       assert.equals(result.repo1.url, 'ssh://git@bitbucket.org/someuser/repo1.git');
-      assert.equals(result.repo2.url, 'ssh://git@bitbucket.org/someuser/repo2.git');
+      assert.equals(result.repo2.url, 'ssh://git@bitbucket.org/otheruser/repo2.git');
       done();
     });
   },
@@ -39,14 +39,14 @@ buster.testCase('bitbucket - generate', {
     var bitbucket = new Bitbucket('someuser', 'somepassword');
     bitbucket.client.repositories = function (cb) {
       var result = [
-        { name: 'repo1', scm: 'someunsupportedscm' },
-        { name: 'repo2', scm: 'git' }
+        { slug: 'repo1', owner: 'someuser', scm: 'someunsupportedscm' },
+        { slug: 'repo2', owner: 'otheruser', scm: 'git' }
       ];
       cb(null, result);
     };
     bitbucket.generate(function (err, result) {
       assert.equals(err, null);
-      assert.equals(result.repo2.url, 'ssh://git@bitbucket.org/someuser/repo2.git');
+      assert.equals(result.repo2.url, 'ssh://git@bitbucket.org/otheruser/repo2.git');
       done();
     });
   },

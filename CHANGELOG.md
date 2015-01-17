@@ -1,5 +1,5 @@
 ### 0.2.3-pre
-*
+* Fix Bitbucket repo config URL construction [faandi](https://github.com/faandi)
 
 ### 0.2.2
 * Add Bitbucket generator
