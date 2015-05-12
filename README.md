@@ -1,7 +1,7 @@
 <img align="right" src="https://raw.github.com/cliffano/repoman/master/avatar.jpg" alt="Avatar"/>
 
-[![Build Status](https://secure.travis-ci.org/cliffano/repoman.png?branch=master)](http://travis-ci.org/cliffano/repoman)
-[![Dependencies Status](https://david-dm.org/cliffano/repoman.png)](http://david-dm.org/cliffano/repoman)
+[![Build Status](https://img.shields.io/travis/cliffano/repoman.svg)](http://travis-ci.org/cliffano/repoman)
+[![Dependencies Status](https://img.shields.io/david/cliffano/repoman.svg)](http://david-dm.org/cliffano/repoman)
 [![Coverage Status](https://coveralls.io/repos/cliffano/repoman/badge.png?branch=master)](https://coveralls.io/r/cliffano/repoman?branch=master)
 [![Published Version](https://badge.fury.io/js/repoman.png)](http://badge.fury.io/js/repoman)
 <br/>
