@@ -1,5 +1,5 @@
 ### 0.2.4-pre
-*
+* Add build reports to readme
 
 ### 0.2.3
 * Fix Bitbucket repo config URL construction [faandi](https://github.com/faandi)
