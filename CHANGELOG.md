@@ -1,4 +1,7 @@
-### 0.2.4-pre
+### 0.2.5-pre
+*
+
+### 0.2.4
 * Add build reports to readme
 
 ### 0.2.3
