@@ -34,7 +34,7 @@ buster.testCase('gitorious - generate', {
     });
     var gitorious = new Gitorious('http://someurl');
     gitorious.generate(['someproject'], function (err, config) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       assert.equals(config.somerepo1, { url: 'somecloneurl1' });
       assert.equals(config.somerepo2, { url: 'somecloneurl2' });
       done();

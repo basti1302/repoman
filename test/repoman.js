@@ -120,7 +120,7 @@ buster.testCase('repoman - exec', {
   'should return empty results when there is no repository and scm': function (done) {
     var repoman = new Repoman();
     repoman.exec('init', { failFast: false }, function cb(err, results) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       assert.equals(results, []);
       done();        
     });
@@ -278,7 +278,7 @@ buster.testCase('repoman - clean', {
     this.mockFsx.expects('remove').withArgs('dir2').callsArgWith(1, null, 'dir2');
 
     this.repoman.clean(false, function (err, results) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       assert.equals(results, ['dir1', 'dir2']);
       done();
     });

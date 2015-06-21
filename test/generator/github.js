@@ -44,7 +44,7 @@ buster.testCase('github - generate', {
       cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
     };
     gitHub.generate(['user1'], ['org1'], function (err, result) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       assert.equals(result, { someapp: { url: "https://somecloneurl" } });
       done();
     });
@@ -96,7 +96,7 @@ buster.testCase('github - _paginate', {
     this.mockGithub.expects('getNextPage').once().withArgs(result).callsArgWith(1, null, nextResult);
     var gitHub = new GitHub();
     gitHub._paginate(result, function (err, result) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       assert.equals(result, ['first', 'second']);
       done();
     });
