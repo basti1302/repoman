@@ -4,6 +4,7 @@
     "init": "git clone {url} {workspace}/{name}",
     "get": "cd {workspace}/{name}; git pull --rebase",
     "changes": "cd {workspace}/{name}; git status",
+    "changes-short": "cd {workspace}/{name}; git status -s; git log --branches --not --remotes --oneline",
     "save": "cd {workspace}/{name}; git push origin master",
     "undo": "cd {workspace}/{name}; git stash; git stash clear"
   },
@@ -12,6 +13,7 @@
     "init": "svn checkout {url} {workspace}/{name}",
     "get": "cd {workspace}/{name}; svn up",
     "changes": "cd {workspace}/{name}; svn stat",
+    "changes-short": "cd {workspace}/{name}; svn stat",
     "save": "cd {workspace}/{name}; svn commit -m \"Commited by Repoman\"",
     "undo": "cd {workspace}/{name}; svn revert -R ."
   }

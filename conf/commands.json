@@ -37,6 +37,9 @@
     "changes": {
       "desc": "Display the changes in local repositories"
     },
+    "changes-short": {
+      "desc": "Display the changes in local repositories in short form"
+    },
     "save": {
       "desc": "Update remote repositories with changes from local repositories"
     },
