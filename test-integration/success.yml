@@ -26,7 +26,7 @@
   output: 'Current branch master is up to date.'
 
 - description: Command exec should execute same command on all repositories
-  command: '{repoman} exec "touch somefile"'
+  command: '{repoman} exec "touch somefile" --verbose'
   exitcode: 0
   output: 'touch somefile'
 
@@ -41,11 +41,11 @@
   output: 'No local changes to save'
 
 - description: Command exec should execute nothing when tags is specified and there is no matching repo
-  command: '{repoman} --tags inexistingtag exec "touch somefile"'
+  command: '{repoman} --tags inexistingtag exec "touch somefile" --verbose'
   exitcode: 0
   output: ''
 
 - description: Command exec should execute nothing when regex is specified and there is no matching repo
-  command: '{repoman} --regex .*inexistingrepo.* exec "touch somefile"'
+  command: '{repoman} --regex .*inexistingrepo.* exec "touch somefile" --verbose'
   exitcode: 0
   output: ''

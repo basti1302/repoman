@@ -22,7 +22,7 @@
   output: 'Current branch master is up to date.'
 
 - description: Command exec should execute same command on all repositories
-  command: '{repoman} exec "touch somefile"'
+  command: '{repoman} exec "touch somefile" --verbose'
   exitcode: 0
   output: 'touch somefile'
 

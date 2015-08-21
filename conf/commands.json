@@ -1,6 +1,7 @@
 {
   "options": [
     { "arg": "-f, --fail-fast", "desc": "Exit as soon as any command failure" },
+    { "arg": "-v, --verbose", "desc": "Print executed commands (for debugging" },
     { "arg": "-c, --config-file <configFile>", "desc": "Configuration file" },
     { "arg": "-t, --tags <tags>", "desc": "Comma-separated tags filter, to be matched against repo tags" },
     { "arg": "-r, --regex <regex>", "desc": "Regular expression filter, to be matched against repo name and URL" }
