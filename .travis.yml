@@ -1,14 +1,9 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.11"
-  - "0.10"
-  - "0.12"
-  - "4.0"
-  - "4.1"
+  - "4"
+  - "5"
 before_install:
-  - npm update -g npm
-  - npm install -g bob coveralls --loglevel error
+  - npm install -g bob --loglevel error
 script:
   - bob build
-  - cat .bob/coverage/buster-istanbul/lcov.info | coveralls

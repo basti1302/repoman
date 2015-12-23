@@ -2,7 +2,6 @@
 
 [![Build Status](https://img.shields.io/travis/cliffano/repoman.svg)](http://travis-ci.org/cliffano/repoman)
 [![Dependencies Status](https://img.shields.io/david/cliffano/repoman.svg)](http://david-dm.org/cliffano/repoman)
-[![Coverage Status](https://img.shields.io/coveralls/cliffano/repoman.svg)](https://coveralls.io/r/cliffano/repoman?branch=master)
 [![Published Version](https://img.shields.io/npm/v/repoman.svg)](http://www.npmjs.com/package/repoman)
 <br/>
 [![npm Badge](https://nodei.co/npm/repoman.png)](http://npmjs.org/package/repoman)
