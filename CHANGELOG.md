@@ -1,5 +1,5 @@
-### 0.2.5-pre
-*
+### 0.2.5
+* Improved output for `repoman changes` for git.
 
 ### 0.2.4
 * Add build reports to readme
@@ -26,7 +26,7 @@
 * Add --local flag to config command, for generating config file from local repositories [Stephen Steneker](https://github.com/stennie)
 
 ### 0.0.15
-* Change get command for git to use --rebase 
+* Change get command for git to use --rebase
 
 ### 0.0.14
 * Fix clean command prompt handling
