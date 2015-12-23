@@ -1,7 +1,7 @@
-<img align="right" src="https://raw.github.com/cliffano/repoman/master/avatar.jpg" alt="Avatar"/>
+<img align="right" src="https://raw.github.com/basti1302/repoman/master/avatar.jpg" alt="Avatar"/>
 
-[![Build Status](https://img.shields.io/travis/cliffano/repoman.svg)](http://travis-ci.org/cliffano/repoman)
-[![Dependencies Status](https://img.shields.io/david/cliffano/repoman.svg)](http://david-dm.org/cliffano/repoman)
+[![Build Status](https://img.shields.io/travis/basti1302/repoman.svg)](http://travis-ci.org/basti1302/repoman)
+[![Dependencies Status](https://img.shields.io/david/basti1302/repoman.svg)](http://david-dm.org/basti1302/repoman)
 [![Published Version](https://img.shields.io/npm/v/repoman.svg)](http://www.npmjs.com/package/repoman)
 <br/>
 [![npm Badge](https://nodei.co/npm/repoman.png)](http://npmjs.org/package/repoman)
