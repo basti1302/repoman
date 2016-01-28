@@ -50,8 +50,8 @@
         { "name": "command", "rules": [ "required" ] }
       ],
       "examples": [
-        "repoman exec 'touch .gitignore; echo \"Created {workspace}/{name}/.gitignore file;\"'",
-        "repoman --fail-fast exec 'chown -R user:group /some/path/{name}';"
+        "repoman exec 'touch .gitignore; echo \"Created {{{workspace}}}/{{{name}}}/.gitignore file;\"'",
+        "repoman --fail-fast exec 'chown -R user:group /some/path/{{{name}}}';"
       ]
     },
     "list": {

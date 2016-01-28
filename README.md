@@ -79,7 +79,9 @@ Remove uncommitted changes from local repositories:
 
 Execute custom command against local repositories:
 
-    repoman exec 'touch .gitignore; echo "Created {workspace}/{name}/.gitignore file;"'
+    repoman exec 'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file;"'
+
+You can use [mustache.js](https://github.com/janl/mustache.js) templates in the custom command. The variables `workspace` and `name` will be substituted by the workspace directory (where your `.repoman.json` lives and the directory name of the repository respectively.
 
 Execute custom command and exit as soon as there is any command failure:
 

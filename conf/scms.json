@@ -1,18 +1,18 @@
 {
   "git": {
-    "delete": "rm -rf {workspace}/{name}",
-    "init": "git clone {url} {workspace}/{name}",
-    "get": "cd {workspace}/{name}; git pull --rebase",
-    "changes": "cd {workspace}/{name}; git status -s; git log --branches --not --remotes --oneline",
-    "save": "cd {workspace}/{name}; git push origin master",
-    "undo": "cd {workspace}/{name}; git stash; git stash clear"
+    "delete": "rm -rf {{{workspace}}}{{{pathseparator}}}{{{name}}}",
+    "init": "git clone {{{url}}} {{{workspace}}}{{{pathseparator}}}{{{name}}}",
+    "get": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; git pull --rebase",
+    "changes": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; git status -s; git log --branches --not --remotes --oneline",
+    "save": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; git push origin master",
+    "undo": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; git stash; git stash clear"
   },
   "svn": {
-    "delete": "rm -rf {workspace}/{name}",
-    "init": "svn checkout {url} {workspace}/{name}",
-    "get": "cd {workspace}/{name}; svn up",
-    "changes": "cd {workspace}/{name}; svn stat",
-    "save": "cd {workspace}/{name}; svn commit -m \"Commited by Repoman\"",
-    "undo": "cd {workspace}/{name}; svn revert -R ."
+    "delete": "rm -rf {{{workspace}}}{{{pathseparator}}}{{{name}}}",
+    "init": "svn checkout {{{url}}} {{{workspace}}}{{{pathseparator}}}{{{name}}}",
+    "get": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; svn up",
+    "changes": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; svn stat",
+    "save": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; svn commit -m \"Commited by Repoman\"",
+    "undo": "cd {{{workspace}}}{{{pathseparator}}}{{{name}}}; svn revert -R ."
   }
 }

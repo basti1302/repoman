@@ -110,10 +110,10 @@ buster.testCase('repoman - exec', {
     };
     this.scms = {
       "git": {
-        "init": "git clone {url} {workspace}/{name}"
+        "init": "git clone {{{url}}} {{{workspace}}}/{{{name}}}"
       },
       "svn": {
-        "init": "svn checkout {url} {workspace}/{name}"
+        "init": "svn checkout {{{url}}} {{{workspace}}}/{{{name}}}"
       }
     };
   },
@@ -122,7 +122,7 @@ buster.testCase('repoman - exec', {
     repoman.exec('init', { failFast: false }, function cb(err, results) {
       assert.equals(err, null);
       assert.equals(results, []);
-      done();        
+      done();
     });
   },
   'should log repositories name and execute commands with parameters applied when repositories exist': function (done) {
@@ -138,7 +138,7 @@ buster.testCase('repoman - exec', {
     repoman.exec('init', { verbose: true }, function cb(err, results) {
       assert.equals(results[0], 'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
       assert.equals(results[1], 'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
-      done();        
+      done();
     });
   },
   'should execute command as-is on each repository when command is unsupported': function (done) {
@@ -151,11 +151,11 @@ buster.testCase('repoman - exec', {
       cb(null, command);
     });
     var repoman = new Repoman(this.repos, this.scms);
-    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', { verbose: true }, function cb(err, results) {
+    repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { verbose: true }, function cb(err, results) {
       assert.equals(results.length, 2);
       assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       assert.equals(results[1], 'cd /somedir/httpd; touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
-      done();        
+      done();
     });
   },
   'should execute command as-is on matching repository when tag is provided': function (done) {
@@ -166,7 +166,7 @@ buster.testCase('repoman - exec', {
       cb(null, command);
     });
     var repoman = new Repoman(this.repos, this.scms);
-    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', { tags: ['database', 'someothertag'], verbose: true }, function cb(err, results) {
+    repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { tags: ['database', 'someothertag'], verbose: true }, function cb(err, results) {
       assert.equals(results.length, 1);
       assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       done();
@@ -180,7 +180,7 @@ buster.testCase('repoman - exec', {
       cb(null, command);
     });
     var repoman = new Repoman(this.repos, this.scms);
-    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', { regex: '.*couchdb.*', verbose: true }, function cb(err, results) {
+    repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { regex: '.*couchdb.*', verbose: true }, function cb(err, results) {
       assert.equals(results.length, 1);
       assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       done();
@@ -192,7 +192,7 @@ buster.testCase('repoman - exec', {
       cb(null, command);
     });
     var repoman = new Repoman(this.repos, this.scms);
-    repoman.exec('touch .gitignore; echo "Created {workspace}/{name}/.gitignore file";', { regex: 'blah', tags: ['inexistingtag1', 'inexistingtag2'], verbose: true }, function cb(err, results) {
+    repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { regex: 'blah', tags: ['inexistingtag1', 'inexistingtag2'], verbose: true }, function cb(err, results) {
       assert.equals(results.length, 0);
       done();
     });

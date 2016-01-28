@@ -8,10 +8,11 @@
     "svn",
     "command-line"
   ],
-  "version": "0.2.6",
+  "version": "1.0.0",
   "homepage": "http://github.com/basti1302/repoman",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
-  "contributors": [{
+  "contributors": [
+    {
       "name": "Bastian Krol",
       "email": "bastian.krol@web.de"
     },
@@ -44,8 +45,8 @@
     "github": "^0.2.4",
     "gitoriou.js": "^0.0.1",
     "ini": "^1.3.4",
-    "jazz": "^0.0.18",
     "lodash": "^3.10.1",
+    "mustache": "^2.2.1",
     "prompt": "^0.2.14",
     "svn-info": "^0.2.1"
   },
