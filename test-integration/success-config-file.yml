@@ -34,4 +34,4 @@
 - description: Command undo should remove uncommitted changes
   command: '{repoman} undo'
   exitcode: 0
-  output: 'No local changes to save'
+  output: 'HEAD is now at'

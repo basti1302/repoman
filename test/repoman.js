@@ -153,8 +153,8 @@ buster.testCase('repoman - exec', {
     var repoman = new Repoman(this.repos, this.scms);
     repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { verbose: true }, function cb(err, results) {
       assert.equals(results.length, 2);
-      assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
-      assert.equals(results[1], 'cd /somedir/httpd; touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
+      assert.equals(results[0], 'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      assert.equals(results[1], 'cd "/somedir/httpd" && touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
       done();
     });
   },
@@ -168,7 +168,7 @@ buster.testCase('repoman - exec', {
     var repoman = new Repoman(this.repos, this.scms);
     repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { tags: ['database', 'someothertag'], verbose: true }, function cb(err, results) {
       assert.equals(results.length, 1);
-      assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      assert.equals(results[0], 'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       done();
     });
   },
@@ -182,7 +182,7 @@ buster.testCase('repoman - exec', {
     var repoman = new Repoman(this.repos, this.scms);
     repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { regex: '.*couchdb.*', verbose: true }, function cb(err, results) {
       assert.equals(results.length, 1);
-      assert.equals(results[0], 'cd /somedir/couchdb; touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      assert.equals(results[0], 'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
       done();
     });
   },

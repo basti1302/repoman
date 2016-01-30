@@ -38,7 +38,7 @@
 - description: Command undo should remove uncommitted changes
   command: '{repoman} undo'
   exitcode: 0
-  output: 'No local changes to save'
+  output: 'HEAD is now at'
 
 - description: Command exec should execute nothing when tags is specified and there is no matching repo
   command: '{repoman} --tags inexistingtag exec "touch somefile" --verbose'

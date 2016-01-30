@@ -5,7 +5,7 @@
     "get": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git pull --rebase",
     "changes": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git status -s && git log --branches --not --remotes --oneline",
     "save": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git push origin master",
-    "undo": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git stash && git stash clear"
+    "undo": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git reset --hard"
   },
   "svn": {
     "delete": "rmdir \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" /s /q",
