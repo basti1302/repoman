@@ -1,6 +1,8 @@
-### 1.0.0
-* Use Mustache.js templates instead of Jazz templates for `repoman exec`. This is a breaking change for you if you used Jazz template substitutions in your `repoman exec` commands (that is, if you used something like `repoman exec 'touch .gitignore; echo "Created {workspace}/{name}/.gitignore file;"`. You would need to change this to `repoman exec 'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file;"`.
+### 1.0.0 &ndash; 2016-01-31
+* Use Mustache.js templates instead of Jazz templates for `repoman exec`. This is a breaking change for you if you used Jazz template substitutions in your `repoman exec` commands &ndash; that is, if you used something like `repoman exec 'touch .gitignore && echo "Created {workspace}/{name}/.gitignore file;"`. You would need to change this to `repoman exec 'touch .gitignore && echo "Created {{{workspace}}}/{{{name}}}/.gitignore file;"`.
 * Make `repoman exec` work on Windows ([#20](https://github.com/basti1302/repoman/issues/20), thanks to @Guysbert for the report).
+* Use `&&` instead of `;` in command lines with multiple commands, in particular, when a `cd` command is required before the actual command. That means, if repoman cannot successfully `cd` into the repository directory, it will not attempt to execute the action for this repository.
+* Use `git reset --head` instead of `git stash && git stash clear` for `repoman undo`.
 
 ### 0.2.5
 * Improved output for `repoman changes` for git.
