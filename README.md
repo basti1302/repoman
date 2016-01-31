@@ -179,3 +179,8 @@ Articles
 --------
 
 * [Introducing Repoman](http://blog.cliffano.com/2013/05/26/introducing-repoman/)
+
+History
+-------
+
+Repoman has been developed by @cliffano until late 2015. Nowadays it is maintained by @basti1302.
