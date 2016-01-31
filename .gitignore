@@ -1,4 +1,3 @@
-.bob
-.DS_Store
+.build
 node_modules
 npm-debug.log

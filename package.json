@@ -51,10 +51,25 @@
     "svn-info": "^0.2.1"
   },
   "devDependencies": {
+    "buster": "^0.7.18",
+    "buster-istanbul": "^0.1.15",
     "buster-node": "^0.7.1",
+    "cmdt": "^0.1.4",
+    "dox-foundation": "^0.5.6",
+    "jshint": "^2.9.1-rc2",
+    "plato": "^1.5.0",
     "referee": "^1.1.1"
   },
-  "scripts": {},
+  "scripts": {
+    "clean": "rimraf .build",
+    "lint": "jshint lib/ test/",
+    "complexity": "plato --recurse --dir .build/complexity/plato lib",
+    "test": "buster-test --reporter specification --config buster-test-config.js test",
+    "coverage": "buster-test test --config buster-coverage-config.js",
+    "test-integration": "cmdt --debug --base-dir .build/test-integration/ run test-integration/",
+    "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
+    "build": "npm run clean && npm run lint && npm run complexity && npm run test && npm run coverage && npm run test-integration && npm run doc"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },

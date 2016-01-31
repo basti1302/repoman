@@ -170,19 +170,12 @@ Repoman will choose which configuration file to use in this order:
 2. .repoman.json file in the current directory
 3. .repoman.json file in home directory (process.env.USERPROFILE on Windows, process.env.HOME on *nix)
 
-Colophon
+Contributing
+------------
+
+Run `npm run build` to kick off the full build including tests, integration tests, coverage etc.
+
+Articles
 --------
-
-[Developer's Guide](http://cliffano.github.io/developers_guide.html#nodejs)
-
-Build reports:
-
-* [Code complexity report](http://cliffano.github.io/repoman/complexity/plato/index.html)
-* [Unit tests report](http://cliffano.github.io/repoman/test/buster.out)
-* [Test coverage report](http://cliffano.github.io/repoman/coverage/buster-istanbul/lcov-report/lib/index.html)
-* [Integration tests report](http://cliffano.github.io/repoman/test-integration/cmdt.out)
-* [API Documentation](http://cliffano.github.io/repoman/doc/dox-foundation/index.html)
-
-Articles:
 
 * [Introducing Repoman](http://blog.cliffano.com/2013/05/26/introducing-repoman/)
