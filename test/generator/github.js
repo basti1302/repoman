@@ -2,28 +2,32 @@ var bag     = require('bagofrequest');
 var buster  = require('buster-node');
 var github  = require('github');
 var GitHub  = require('../../lib/generator/github');
+var GithubAuth  = require('../../lib/auth/github');
+var BluePromise  = require('bluebird');
 var referee = require('referee');
+var dotfile = require('dotfile')
 var assert  = referee.assert;
 
 buster.testCase('github - github', {
   setUp: function () {
     this.mockGithub = this.mock(github.prototype);
     this.mockBag = this.mock(bag);
-    // this.spyDot = this.spy(dotfile);
+    this.mockGithubAuth = this.mock(GithubAuth.prototype);
   },
   'should authenticate when username and password are specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-    
     this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });    
     new GitHub('someuser', 'somepass', function(){});
-    // console.log(this.spyDot.getCall(0));
-    // assert(this.spyDot.calledWith('repomanrc'));
   },
-  // 'should authenticate when username and password are not specified but auth token exists': function () {
-  //   this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-  //   this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
-  //   new GitHub('someuser', 'somepass');
-  // },
+  'should authenticate when username and password are not specified but auth token exists': function (done) {
+    this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
+    this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
+    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'oauth', token : 'tooken' });    
+    var tokenPromise = BluePromise.resolve('tooken');
+    this.mockGithubAuth.expects('readAuthToken').once().returns(tokenPromise);
+    new GitHub(undefined, undefined, function(){});
+    tokenPromise.then(done);
+  },
   'should not authenticate when username and password are not specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns(null);
     this.mockGithub.expects('authenticate').never();
