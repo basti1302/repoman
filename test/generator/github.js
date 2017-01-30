@@ -30,6 +30,7 @@ buster.testCase('github - github', {
   },
   'should not authenticate when username and password are not specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns(null);
+    this.mockBag.expects('proxy').withExactArgs().returns(null);
     this.mockGithub.expects('authenticate').never();
     new GitHub(undefined, undefined, function(){});
   }
@@ -40,48 +41,51 @@ buster.testCase('github - generate', {
     this.mock({});
   },
   'should create repoman config with users and orgs\' repos': function (done) {
-    var gitHub = new GitHub();
-    gitHub.gh.repos.getFromUser = function (opts, cb) {
-      assert.equals(opts.user, 'user1');
-      assert.equals(opts.page, 1);
-      assert.equals(opts.per_page, 100);
-      cb(null, 'someuserresult');
-    };
-    gitHub.gh.repos.getFromOrg = function (opts, cb) {
-      assert.equals(opts.org, 'org1');
-      assert.equals(opts.page, 1);
-      assert.equals(opts.per_page, 100);
-      cb(null, 'someorgresult');
-    };
-    gitHub._paginate = function (result, cb) {
-      cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
-    };
-    gitHub.generate(['user1'], ['org1'], function (err, result) {
-      assert.equals(err, null);
-      assert.equals(result, { someapp: { url: "https://somecloneurl" } });
-      done();
+    var gitHub = new GitHub(undefined, undefined, function(){
+      gitHub.gh.repos.getFromUser = function (opts, cb) {
+        assert.equals(opts.user, 'user1');
+        assert.equals(opts.page, 1);
+        assert.equals(opts.per_page, 100);
+        cb(null, 'someuserresult');
+      };
+      gitHub.gh.repos.getFromOrg = function (opts, cb) {
+        assert.equals(opts.org, 'org1');
+        assert.equals(opts.page, 1);
+        assert.equals(opts.per_page, 100);
+        cb(null, 'someorgresult');
+      };
+      gitHub._paginate = function (result, cb) {
+        cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
+      };
+      gitHub.generate(['user1'], ['org1'], function (err, result) {
+        assert.equals(err, null);
+        assert.equals(result, { someapp: { url: "https://somecloneurl" } });
+        done();
+      });
     });
+   
   },
   'should pass error to callback when an error occurs while retrieving repos': function (done) {
-    var gitHub = new GitHub();
-    gitHub.gh.repos.getFromUser = function (opts, cb) {
-      assert.equals(opts.user, 'user1');
-      assert.equals(opts.page, 1);
-      assert.equals(opts.per_page, 100);
-      cb(new Error('some error'));
-    };
-    gitHub.gh.repos.getFromOrg = function (opts, cb) {
-      assert.equals(opts.org, 'org1');
-      assert.equals(opts.page, 1);
-      assert.equals(opts.per_page, 100);
-      cb(new Error('some error'));
-    };
-    gitHub._paginate = function (result, cb) {
-      cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
-    };
-    gitHub.generate(['user1'], ['org1'], function (err, result) {
-      assert.equals(err.message, 'some error');
-      done();
+    var gitHub = new GitHub(undefined, undefined, function(){
+      gitHub.gh.repos.getFromUser = function (opts, cb) {
+        assert.equals(opts.user, 'user1');
+        assert.equals(opts.page, 1);
+        assert.equals(opts.per_page, 100);
+        cb(new Error('some error'));
+      };
+      gitHub.gh.repos.getFromOrg = function (opts, cb) {
+        assert.equals(opts.org, 'org1');
+        assert.equals(opts.page, 1);
+        assert.equals(opts.per_page, 100);
+        cb(new Error('some error'));
+      };
+      gitHub._paginate = function (result, cb) {
+        cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
+      };
+      gitHub.generate(['user1'], ['org1'], function (err, result) {
+        assert.equals(err.message, 'some error');
+        done();
+      });
     });
   }
 });
@@ -107,11 +111,13 @@ buster.testCase('github - _paginate', {
     this.mockGithub.expects('hasNextPage').once().withExactArgs(result).returns(true);
     this.mockGithub.expects('hasNextPage').once().withExactArgs(nextResult).returns(false);
     this.mockGithub.expects('getNextPage').once().withArgs(result).callsArgWith(1, null, nextResult);
-    var gitHub = new GitHub();
-    gitHub._paginate(result, function (err, result) {
-      assert.equals(err, null);
-      assert.equals(result, ['first', 'second']);
-      done();
+    var gitHub = new GitHub(undefined, undefined, function(){
+      gitHub._paginate(result, function (err, result) {
+        assert.equals(err, null);
+        assert.equals(result, ['first', 'second']);
+        done();
+      });
     });
+    
   }
 });
