@@ -5,7 +5,7 @@ var GitHub  = require('../../lib/generator/github');
 var GithubAuth  = require('../../lib/auth/github');
 var BluePromise  = require('bluebird');
 var referee = require('referee');
-var dotfile = require('dotfile')
+var dotfile = require('dotfile');
 var assert  = referee.assert;
 
 buster.testCase('github - github', {
