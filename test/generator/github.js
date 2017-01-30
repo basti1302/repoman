@@ -9,16 +9,25 @@ buster.testCase('github - github', {
   setUp: function () {
     this.mockGithub = this.mock(github.prototype);
     this.mockBag = this.mock(bag);
+    // this.spyDot = this.spy(dotfile);
   },
   'should authenticate when username and password are specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
-    new GitHub('someuser', 'somepass');
+    
+    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });    
+    new GitHub('someuser', 'somepass', function(){});
+    // console.log(this.spyDot.getCall(0));
+    // assert(this.spyDot.calledWith('repomanrc'));
   },
+  // 'should authenticate when username and password are not specified but auth token exists': function () {
+  //   this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
+  //   this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
+  //   new GitHub('someuser', 'somepass');
+  // },
   'should not authenticate when username and password are not specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns(null);
     this.mockGithub.expects('authenticate').never();
-    new GitHub();
+    new GitHub(undefined, undefined, function(){});
   }
 });
 
