@@ -17,7 +17,7 @@ buster.testCase('github - github', {
   'should authenticate when username and password are specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
     this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });    
-    new GitHub('someuser', 'somepass', function(){});
+    new GitHub(function(){}, 'someuser', 'somepass');
   },
   'should authenticate when username and password are not specified but auth token exists': function (done) {
     this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
@@ -25,14 +25,14 @@ buster.testCase('github - github', {
     this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'oauth', token : 'tooken' });    
     var tokenPromise = BluePromise.resolve('tooken');
     this.mockGithubAuth.expects('readAuthToken').once().returns(tokenPromise);
-    new GitHub(undefined, undefined, function(){});
+    new GitHub(function(){});
     tokenPromise.then(done);
   },
   'should not authenticate when username and password are not specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns(null);
     this.mockBag.expects('proxy').withExactArgs().returns(null);
     this.mockGithub.expects('authenticate').never();
-    new GitHub(undefined, undefined, function(){});
+    new GitHub(function(){});
   }
 });
 
@@ -41,7 +41,7 @@ buster.testCase('github - generate', {
     this.mock({});
   },
   'should create repoman config with users and orgs\' repos': function (done) {
-    var gitHub = new GitHub(undefined, undefined, function(){
+    var gitHub = new GitHub(function(){
       gitHub.gh.repos.getFromUser = function (opts, cb) {
         assert.equals(opts.user, 'user1');
         assert.equals(opts.page, 1);
@@ -66,7 +66,7 @@ buster.testCase('github - generate', {
    
   },
   'should pass error to callback when an error occurs while retrieving repos': function (done) {
-    var gitHub = new GitHub(undefined, undefined, function(){
+    var gitHub = new GitHub(function(){
       gitHub.gh.repos.getFromUser = function (opts, cb) {
         assert.equals(opts.user, 'user1');
         assert.equals(opts.page, 1);
@@ -111,7 +111,7 @@ buster.testCase('github - _paginate', {
     this.mockGithub.expects('hasNextPage').once().withExactArgs(result).returns(true);
     this.mockGithub.expects('hasNextPage').once().withExactArgs(nextResult).returns(false);
     this.mockGithub.expects('getNextPage').once().withArgs(result).callsArgWith(1, null, nextResult);
-    var gitHub = new GitHub(undefined, undefined, function(){
+    var gitHub = new GitHub(function(){
       gitHub._paginate(result, function (err, result) {
         assert.equals(err, null);
         assert.equals(result, ['first', 'second']);
