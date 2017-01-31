@@ -4,6 +4,7 @@ var buster    = require('buster-node');
 var fs        = require('fs');
 var fsx       = require('fs.extra');
 var GitHub    = require('../lib/generator/github');
+var GitHubAuth    = require('../lib/auth/github');
 var Gitorious = require('../lib/generator/gitorious');
 var Local     = require('../lib/generator/local');
 var referee   = require('referee');
@@ -16,6 +17,7 @@ buster.testCase('repoman - config', {
     this.mockFs = this.mock(fs);
     this.mockBitbucket = this.mock(Bitbucket.prototype);
     this.mockGitHub = this.mock(GitHub.prototype);
+    this.mockGitHubAuth = this.mock(GitHubAuth.prototype);
     this.mockGitorious = this.mock(Gitorious.prototype);
     this.mockLocal = this.mock(Local.prototype);
     this.repoman = new Repoman();
