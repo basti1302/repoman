@@ -16,13 +16,13 @@ buster.testCase('github - github', {
   },
   'should authenticate when username and password are specified': function () {
     this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });    
+    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
     new GitHub(function(){}, 'someuser', 'somepass');
   },
   'should authenticate when username and password are not specified but auth token exists': function (done) {
     this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
     this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'oauth', token : 'tooken' });    
+    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'oauth', token : 'tooken' });
     var tokenPromise = BluePromise.resolve('tooken');
     this.mockGithubAuth.expects('readAuthToken').once().returns(tokenPromise);
     new GitHub(function(){});
@@ -63,7 +63,7 @@ buster.testCase('github - generate', {
         done();
       });
     });
-   
+
   },
   'should pass error to callback when an error occurs while retrieving repos': function (done) {
     var gitHub = new GitHub(function(){
@@ -89,7 +89,7 @@ buster.testCase('github - generate', {
     });
   }
 });
- 
+
 buster.testCase('github - _paginate', {
   setUp: function () {
     this.mockConsole = this.mock(console);
@@ -118,6 +118,6 @@ buster.testCase('github - _paginate', {
         done();
       });
     });
-    
+
   }
 });
