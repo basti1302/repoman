@@ -83,6 +83,17 @@ buster.testCase('repoman - config', {
       done();
     });
   },
+   'should create .repoman.json containing repos on local repositories and remove any repos not existing locally if removeExtraneous is specified': function (done) {
+    this.mockFs.expects('existsSync').withExactArgs('.repoman.json').returns(true);
+    this.mockFs.expects('readFileSync').withExactArgs('.repoman.json',  'utf-8').returns('{"some_repo" : {"url" : "git://blah.com"}}');
+    this.mockLocal.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
+    this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with local repositories', '.repoman.json');
+    this.mockFs.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    this.repoman.config({ removeExtraneous : true, local: { dir: 'somedir' } }, function (err, result) {
+      assert.isNull(err);
+      done();
+    });
+  },
   'should pass error to callback when an error occurs while creating config containing gitorious repos': function (done) {
     this.mockGitorious.expects('generate').once().withArgs([]).callsArgWith(1, new Error('some error'));
     this.mockConsole.expects('log').once().withExactArgs('Setting configuration file: %s, with Gitorious repositories', '.repoman.json');
