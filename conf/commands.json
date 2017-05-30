@@ -19,7 +19,8 @@
         { "arg": "--github-use-ssh", "desc": "Use the ssh url from Github instead of the standard clone url where possible" },        
         { "arg": "--gitorious-url <gitoriousUrl>", "desc": "Gitorious URL" },
         { "arg": "--gitorious-project <gitoriousProject>", "desc": "Comma-separated Gitorious projects" },
-        { "arg": "--local", "desc": "Create configuration file from local repositories" }
+        { "arg": "--local", "desc": "Create configuration file from local repositories" },
+        { "arg": "--remove-extraneous", "desc": "Will remove any repos found in the config that are not found in the source (org, user, local, etc)" }
       ],
       "examples": [
         "repoman config --github-user <user>",
