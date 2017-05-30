@@ -185,4 +185,5 @@ History
 
 Repoman has been developed by @cliffano until late 2015. Nowadays it is maintained by @basti1302.
 
+1.3.0 (30.05.2017): Add new options `--github-use-ssh` and `--remove-extraneous` (see #23 and #24, thanks to @scamden).
 1.1.0 (21.06.2016): Improve error message when .repoman.json is not found (#19).
