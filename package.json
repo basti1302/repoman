@@ -8,14 +8,15 @@
     "svn",
     "command-line"
   ],
-  "version": "1.3.0",
+  "version": "1.3.1",
   "homepage": "http://github.com/basti1302/repoman",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "contributors": [
     {
       "name": "Bastian Krol",
       "email": "bastian.krol@web.de"
-    }, {
+    },
+    {
       "name": "Sterling Camden"
     },
     "All contributors (https://github.com/basti1302/repoman/graphs/contributors)"
