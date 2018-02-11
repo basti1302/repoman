@@ -61,6 +61,10 @@ Display the changes in local repositories:
 
     repoman changes
 
+Display a brief status summary for each repository:
+
+    repoman report
+
 Update remote repositories with changes from local repositories:
 
     repoman save
