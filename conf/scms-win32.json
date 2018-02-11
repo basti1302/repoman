@@ -4,6 +4,7 @@
     "init": "git clone {{{url}}} \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\"",
     "get": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git pull --rebase",
     "changes": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git status -s && git log --branches --not --remotes --oneline",
+    "report": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && printf \"Branch     : \" && (git symbolic-ref --short --quiet HEAD) && printf \"Uncommitted: \" && ((git diff-index --quiet HEAD -- && echo \"Clean\") || echo \"Dirty\") && printf \"Unpushed   : \" && (git log --branches --not --remotes --oneline | wc -l)",
     "save": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git push origin master",
     "undo": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git reset --hard"
   },
@@ -12,6 +13,7 @@
     "init": "svn checkout {{{url}}} \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\"",
     "get": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && svn up",
     "changes": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && svn stat",
+    "report": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && printf \"Branch     : \" && (svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$') && printf \"Uncommitted: \" && (((svn status -q | grep --quiet [AMCDG]) && echo Dirty) || echo Clean)",
     "save": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && svn commit -m \"Commited by Repoman\"",
     "undo": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && svn revert -R ."
   }

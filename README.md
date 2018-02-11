@@ -61,7 +61,7 @@ Display the changes in local repositories:
 
     repoman changes
 
-Display a brief status summary for each repository:
+Display a brief status summary for each repository (branch name, uncommitted changes, unpushed commits):
 
     repoman report
 
