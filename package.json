@@ -40,10 +40,12 @@
   },
   "dependencies": {
     "async": "^1.5.0",
-    "bagofcli": "^0.2.3",
+    "bagofcli": "basti1302/bagofcli#1.0.1-exec-and-collect",
     "bagofrequest": "^0.1.2",
     "bitbucket-api": "^0.0.7",
     "bluebird": "~3.4.7",
+    "cli-table": "^0.3.1",
+    "colors": "^1.1.2",
     "commander": "^2.9.0",
     "dotfile": "0.0.2",
     "fs.extra": "^1.3.2",
