@@ -74,7 +74,7 @@
     "complexity": "plato --recurse --dir .build/complexity/plato lib",
     "test": "buster-test --reporter specification --config buster-test-config.js",
     "coverage": "buster-test --config buster-coverage-config.js",
-    "test-integration": "cmdt --debug --base-dir .build/test-integration/ run test-integration/",
+    "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
     "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
     "build": "npm run clean && npm run lint && npm run complexity && npm run test && npm run coverage && npm run test-integration && npm run doc"
   },
