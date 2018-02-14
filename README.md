@@ -156,6 +156,7 @@ History
 
 Repoman has been developed by @cliffano until late 2015. Nowadays it is maintained by @basti1302.
 
+* 1.5.2 (14.02.2018): Update to bagofcli@1.1.0.
 * 1.5.1 (14.02.2018): README overhaul.
 * 1.5.0 (13.02.2018): Improve layout for `report` command.
 * 1.4.0 (11.02.2018): Add new command `report`.
