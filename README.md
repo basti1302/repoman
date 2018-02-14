@@ -45,7 +45,19 @@ Usage
 
 * `repoman get`: Update local repositories with changes from remote repositories. For git, it executes `git pull --rebase`, for SVN, `svn up` is executed.
 * `repoman changes`: Display the changes in local repositories.
-* `repoman report`: Display a brief status summary for each repository (branch name, uncommitted changes, unpushed commits).
+* `repoman report`: Display a brief status summary for each repository (branch name, uncommitted changes, unpushed commits). Here is an example of how this looks like:
+```
+┌────────────────┬────────────────────────┬─────────────┬──────────┐
+│ Repository     │ Branch                 │ Uncommitted │ Unpushed │
+│ httpd          │ master                 │ Clean       │ 0        │
+│ nodejs         │ feature-branch-xyz     │ Clean       │ 11       │
+│ benchmarks     │ master                 │ Clean       │ 0        │
+│ internal-tools │ master                 │ Clean       │ 0        │
+│ svn-repo       │ trunk                  │ Clean       │ N. A.    │
+│ documentation  │ master                 │ Dirty       │ 0        │
+│ ui             │ another-feature-branch │ Clean       │ 9        │
+└────────────────┴────────────────────────┴─────────────┴──────────┘
+```
 * `repoman save`: Update remote repositories with changes from local repositories.
 * `repoman delete`: Delete local repositories.
 * `repoman undo`: Remove uncommitted changes from local repositories.
