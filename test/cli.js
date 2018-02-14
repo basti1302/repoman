@@ -1,6 +1,7 @@
 var bag     = require('bagofcli');
 var buster  = require('buster-node');
 var cli     = require('../lib/cli');
+var colors  = require('colors/safe');
 var fs      = require('fs');
 var referee = require('referee');
 var prompt  = require('prompt');
@@ -311,7 +312,7 @@ buster.testCase('cli - clean', {
     cli.exec();
   },
   'should pass error to callback when there is an error during dry run': function () {
-    this.mockConsole.expects('error').once().withExactArgs('some error'.red);
+    this.mockConsole.expects('error').once().withExactArgs(colors.red('some error'));
     this.mockProcess.expects('exit').once().withExactArgs(1);
     this.stub(Repoman.prototype, 'clean', function (dryRun, cb) {
       assert.equals(dryRun, true);
