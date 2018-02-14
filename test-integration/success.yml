@@ -5,6 +5,11 @@
   command: cp ../../../../../test-integration/fixtures/.somerepoman_success.json .repoman.json
   exitcode: 0
 
+- description: Command report should print status report for all
+  command: '{repoman} report'
+  exitcode: 0
+  stdout: ┌─────────┬─────────┬─────────────┬──────────┐\n│ Reposi… │ Branch  │ Uncommitted │ Unpushed │\n│ datagen │ unknown │ Dirty       │ unknown  │\n│ nestor  │ unknown │ Dirty       │ unknown  │\n└─────────┴─────────┴─────────────┴──────────┘\n
+
 - description: Command list should list down all repositories
   command: '{repoman} list'
   exitcode: 0
