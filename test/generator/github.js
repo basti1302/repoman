@@ -1,11 +1,12 @@
 var bag     = require('bagofrequest');
 var buster  = require('buster-node');
-var github  = require('github');
+var github  = require('@octokit/rest');
 var GitHub  = require('../../lib/generator/github');
 var GithubAuth  = require('../../lib/auth/github');
 var BluePromise  = require('bluebird');
 var referee = require('referee');
 var dotfile = require('dotfile');
+var sinon   = require('sinon');
 var assert  = referee.assert;
 
 buster.testCase('github - github', {
@@ -93,7 +94,14 @@ buster.testCase('github - generate', {
 buster.testCase('github - _paginate', {
   setUp: function () {
     this.mockConsole = this.mock(console);
-    this.mockGithub = this.mock(github.prototype);
+    // this.mockGithub = this.mock(githubStub());
+    this.mockGithub = this.mock(github().prototype);
+    // broke with c2c88c0420246bf14369f27a95dfa773e0ce908 in octokit/rest.js
+    // before that, github was a (constructor) function, and all methods were directly attached to its prototype.
+    // Now, the attachment only happens after calling github(). Each call returns
+    // a new instance. There is no more globally unique prototype on which we can
+    // replace methods by mocks/stubs/spies. Hmmm....
+    debugger;
   },
   'should log remaining usage and pass result': function (done) {
     var result = ['first'];
