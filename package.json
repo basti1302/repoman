@@ -41,7 +41,7 @@
   "scripts": {
     "clean": "rimraf .build",
     "lint": "mkdirp .build/lint && jshint lib/ test/ | justtee .build/lint/jshint.out",
-    "complexity": "plato --recurse --dir .build/complexity/plato lib",
+    "complexity": "mkdirp .build/complexity && plato --recurse --dir .build/complexity/plato lib | justtee .build/complexity/plato.out",
     "test": "mocha",
     "coverage": "nyc mocha",
     "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
