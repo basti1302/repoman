@@ -1,131 +1,174 @@
+'use strict';
+
 var bag     = require('bagofrequest');
-var buster  = require('buster-node');
 var github  = require('@octokit/rest');
 var GitHub  = require('../../lib/generator/github');
 var GithubAuth  = require('../../lib/auth/github');
 var BluePromise  = require('bluebird');
-var referee = require('referee');
 var dotfile = require('dotfile');
-var sinon   = require('sinon');
-var assert  = referee.assert;
 
-buster.testCase('github - github', {
-  setUp: function () {
-    this.mockGithub = this.mock(github.prototype);
-    this.mockBag = this.mock(bag);
-    this.mockGithubAuth = this.mock(GithubAuth.prototype);
-  },
-  'should authenticate when username and password are specified': function () {
-    this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
-    new GitHub(function(){}, 'someuser', 'somepass');
-  },
-  'should authenticate when username and password are not specified but auth token exists': function (done) {
-    this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-    this.mockBag.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-    this.mockGithub.expects('authenticate').once().withExactArgs({ type: 'oauth', token : 'tooken' });
-    var tokenPromise = BluePromise.resolve('tooken');
-    this.mockGithubAuth.expects('readAuthToken').once().returns(tokenPromise);
-    new GitHub(function(){});
-    tokenPromise.then(done);
-  },
-  'should not authenticate when username and password are not specified': function () {
-    this.mockBag.expects('proxy').withExactArgs().returns(null);
-    this.mockBag.expects('proxy').withExactArgs().returns(null);
-    this.mockGithub.expects('authenticate').never();
-    new GitHub(function(){});
-  }
-});
+var mocha = require('mocha');
+var chai = require('chai');
+var sinon = require('sinon');
+var assert = chai.assert;
 
-buster.testCase('github - generate', {
-  setUp: function () {
-    this.mock({});
-  },
-  'should create repoman config with users and orgs\' repos': function (done) {
-    var gitHub = new GitHub(function(){
-      gitHub.gh.repos.getFromUser = function (opts, cb) {
-        assert.equals(opts.user, 'user1');
-        assert.equals(opts.page, 1);
-        assert.equals(opts.per_page, 100);
-        cb(null, 'someuserresult');
-      };
-      gitHub.gh.repos.getFromOrg = function (opts, cb) {
-        assert.equals(opts.org, 'org1');
-        assert.equals(opts.page, 1);
-        assert.equals(opts.per_page, 100);
-        cb(null, 'someorgresult');
-      };
-      gitHub._paginate = function (result, cb) {
-        cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
-      };
-      gitHub.generate(['user1'], ['org1'], function (err, result) {
-        assert.equals(err, null);
-        assert.equals(result, { someapp: { url: "https://somecloneurl" } });
+describe('github', function() {
+
+  describe('github', function() {
+
+    var githubMock;
+    var bagMock;
+    var githubAuthMock;
+
+    beforeEach(function () {
+      githubMock = sinon.mock(github.prototype);
+      bagMock = sinon.mock(bag);
+      githubAuthMock = sinon.mock(GithubAuth.prototype);
+    });
+
+    afterEach(function () {
+      githubMock.verify();
+      githubMock.restore();
+      bagMock.verify();
+      bagMock.restore();
+      githubAuthMock.verify();
+      githubAuthMock.restore();
+    });
+
+    it('should authenticate when username and password are specified', function () {
+      bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
+      githubMock.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
+      new GitHub(function(){}, 'someuser', 'somepass');
+    });
+
+    it('should authenticate when username and password are not specified but auth token exists', function (done) {
+      bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
+      bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
+      githubMock.expects('authenticate').once().withExactArgs({ type: 'oauth', token : 'tooken' });
+      var tokenPromise = BluePromise.resolve('tooken');
+      githubAuthMock.expects('readAuthToken').once().returns(tokenPromise);
+      new GitHub(function(){});
+      tokenPromise.then(function() {
         done();
       });
     });
 
-  },
-  'should pass error to callback when an error occurs while retrieving repos': function (done) {
-    var gitHub = new GitHub(function(){
-      gitHub.gh.repos.getFromUser = function (opts, cb) {
-        assert.equals(opts.user, 'user1');
-        assert.equals(opts.page, 1);
-        assert.equals(opts.per_page, 100);
-        cb(new Error('some error'));
-      };
-      gitHub.gh.repos.getFromOrg = function (opts, cb) {
-        assert.equals(opts.org, 'org1');
-        assert.equals(opts.page, 1);
-        assert.equals(opts.per_page, 100);
-        cb(new Error('some error'));
-      };
-      gitHub._paginate = function (result, cb) {
-        cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
-      };
-      gitHub.generate(['user1'], ['org1'], function (err, result) {
-        assert.equals(err.message, 'some error');
-        done();
-      });
+    it('should not authenticate when username and password are not specified', function () {
+      bagMock.expects('proxy').withExactArgs().returns(null);
+      bagMock.expects('proxy').withExactArgs().returns(null);
+      githubMock.expects('authenticate').never();
+      new GitHub(function(){});
     });
-  }
-});
+  });
 
-buster.testCase('github - _paginate', {
-  setUp: function () {
-    this.mockConsole = this.mock(console);
-    // this.mockGithub = this.mock(githubStub());
-    this.mockGithub = this.mock(github().prototype);
-    // broke with c2c88c0420246bf14369f27a95dfa773e0ce908 in octokit/rest.js
-    // before that, github was a (constructor) function, and all methods were directly attached to its prototype.
-    // Now, the attachment only happens after calling github(). Each call returns
-    // a new instance. There is no more globally unique prototype on which we can
-    // replace methods by mocks/stubs/spies. Hmmm....
-    debugger;
-  },
-  'should log remaining usage and pass result': function (done) {
-    var result = ['first'];
-    result.meta = {
-      'x-ratelimit-remaining': 23,
-      'x-ratelimit-limit': 100
-    };
-    var nextResult = ['second'];
-    nextResult.meta = {
-      'x-ratelimit-remaining': 22,
-      'x-ratelimit-limit': 100
-    };
-    this.mockConsole.expects('log').once().withExactArgs('Remaining GitHub API usage: %s/%s', 23, 100);
-    this.mockConsole.expects('log').once().withExactArgs('Remaining GitHub API usage: %s/%s', 22, 100);
-    this.mockGithub.expects('hasNextPage').once().withExactArgs(result).returns(true);
-    this.mockGithub.expects('hasNextPage').once().withExactArgs(nextResult).returns(false);
-    this.mockGithub.expects('getNextPage').once().withArgs(result).callsArgWith(1, null, nextResult);
-    var gitHub = new GitHub(function(){
-      gitHub._paginate(result, function (err, result) {
-        assert.equals(err, null);
-        assert.equals(result, ['first', 'second']);
-        done();
+  describe('generate', function() {
+
+    beforeEach(function () {
+    });
+
+    it('should create repoman config with users and orgs\' repos', function (done) {
+      var gitHub = new GitHub(function(){
+        gitHub.gh.repos.getFromUser = function (opts, cb) {
+          assert.equal(opts.user, 'user1');
+          assert.equal(opts.page, 1);
+          assert.equal(opts.per_page, 100);
+          cb(null, 'someuserresult');
+        };
+        gitHub.gh.repos.getFromOrg = function (opts, cb) {
+          assert.equal(opts.org, 'org1');
+          assert.equal(opts.page, 1);
+          assert.equal(opts.per_page, 100);
+          cb(null, 'someorgresult');
+        };
+        gitHub._paginate = function (result, cb) {
+          cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
+        };
+        gitHub.generate(['user1'], ['org1'], function (err, result) {
+          assert.equal(err, null);
+          assert.deepEqual(result, { someapp: { url: "https://somecloneurl" } });
+          done();
+        });
       });
     });
 
-  }
+    it('should pass error to callback when an error occurs while retrieving repos', function (done) {
+      var gitHub = new GitHub(function(){
+        gitHub.gh.repos.getFromUser = function (opts, cb) {
+          assert.equal(opts.user, 'user1');
+          assert.equal(opts.page, 1);
+          assert.equal(opts.per_page, 100);
+          cb(new Error('some error'));
+        };
+        gitHub.gh.repos.getFromOrg = function (opts, cb) {
+          assert.equal(opts.org, 'org1');
+          assert.equal(opts.page, 1);
+          assert.equal(opts.per_page, 100);
+          cb(new Error('some error'));
+        };
+        gitHub._paginate = function (result, cb) {
+          cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
+        };
+        gitHub.generate(['user1'], ['org1'], function (err, result) {
+          assert.equal(err.message, 'some error');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('_paginate', function() {
+
+    // buster.testCase('github - _paginate', {
+    //   setUp: function () {
+    //     this.mockConsole = this.mock(console);
+    //     // this.mockGithub = this.mock(githubStub());
+    //     this.mockGithub = this.mock(github().prototype);
+    //     // broke with c2c88c0420246bf14369f27a95dfa773e0ce908 in octokit/rest.js
+    //     // before that, github was a (constructor) function, and all methods were directly attached to its prototype.
+    //     // Now, the attachment only happens after calling github(). Each call returns
+    //     // a new instance. There is no more globally unique prototype on which we can
+    //     // replace methods by mocks/stubs/spies. Hmmm....
+    //     debugger;
+    //   },
+
+    var githubMock;
+
+    beforeEach(function () {
+      sinon.spy(console, 'log');
+      githubMock = sinon.mock(github.prototype);
+    });
+
+    afterEach(function () {
+      console.log.restore();
+      githubMock.restore();
+    });
+
+    it('should log remaining usage and pass result', function (done) {
+      var result = ['first'];
+      result.meta = {
+        'x-ratelimit-remaining': 23,
+        'x-ratelimit-limit': 100
+      };
+      var nextResult = ['second'];
+      nextResult.meta = {
+        'x-ratelimit-remaining': 22,
+        'x-ratelimit-limit': 100
+      };
+     githubMock.expects('hasNextPage').once().withExactArgs(result).returns(true);
+      githubMock.expects('hasNextPage').once().withExactArgs(nextResult).returns(false);
+      githubMock.expects('getNextPage').once().withArgs(result).callsArgWith(1, null, nextResult);
+      var gitHub = new GitHub(function(){
+        gitHub._paginate(result, function (err, result) {
+          assert.equal(err, null);
+          assert.sameMembers(result, ['first', 'second']);
+
+          sinon.assert.calledWith(console.log, 'Remaining GitHub API usage: %s/%s', 23, 100);
+          sinon.assert.calledWith(console.log, 'Remaining GitHub API usage: %s/%s', 22, 100);
+
+          done();
+        });
+      });
+    });
+  });
+
 });
