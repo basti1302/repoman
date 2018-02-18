@@ -1,3 +1,5 @@
+'use strict';
+
 var bitbucket = require('bitbucket-api');
 var Bitbucket = require('../../lib/generator/bitbucket');
 
@@ -9,6 +11,8 @@ var assert = chai.assert;
 describe('bitbucket', function() {
 
   describe('bitbucket - bitbucket', function() {
+
+    var bitbucketMock;
 
     beforeEach(function () {
       bitbucketMock = sinon.mock(bitbucket);

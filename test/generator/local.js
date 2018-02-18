@@ -1,4 +1,5 @@
 'use strict';
+
 var fs      = require('fs');
 var ini     = require('ini');
 var Local   = require('../../lib/generator/local');

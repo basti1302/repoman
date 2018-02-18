@@ -1,10 +1,10 @@
 'use strict';
 
-var bag     = require('bagofrequest');
-var github  = require('@octokit/rest');
-var GitHub  = require('../../lib/generator/github');
-var GithubAuth  = require('../../lib/auth/github');
-var BluePromise  = require('bluebird');
+var proxyquire = require('proxyquire');
+
+var bag = require('bagofrequest');
+var GithubAuth = require('../../lib/auth/github');
+var BluePromise = require('bluebird');
 var dotfile = require('dotfile');
 
 var mocha = require('mocha');
@@ -12,23 +12,36 @@ var chai = require('chai');
 var sinon = require('sinon');
 var assert = chai.assert;
 
+var githubStub = {
+  authenticate: sinon.spy(),
+  repos: {},
+  hasNextPage: sinon.stub(),
+  getNextPage: sinon.stub()
+};
+var GitHub =
+  proxyquire('../../lib/generator/github', {
+    '@octokit/rest': function() {
+      return githubStub;
+    }
+  });
+
 describe('github', function() {
+
+  afterEach(function () {
+    githubStub.authenticate.resetHistory();
+  });
 
   describe('github', function() {
 
-    var githubMock;
     var bagMock;
     var githubAuthMock;
 
     beforeEach(function () {
-      githubMock = sinon.mock(github.prototype);
       bagMock = sinon.mock(bag);
       githubAuthMock = sinon.mock(GithubAuth.prototype);
     });
 
     afterEach(function () {
-      githubMock.verify();
-      githubMock.restore();
       bagMock.verify();
       bagMock.restore();
       githubAuthMock.verify();
@@ -37,18 +50,18 @@ describe('github', function() {
 
     it('should authenticate when username and password are specified', function () {
       bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-      githubMock.expects('authenticate').once().withExactArgs({ type: 'basic', username: 'someuser', password: 'somepass' });
       new GitHub(function(){}, 'someuser', 'somepass');
+      sinon.assert.calledWith(githubStub.authenticate, ({ type: 'basic', username: 'someuser', password: 'somepass' }));
     });
 
     it('should authenticate when username and password are not specified but auth token exists', function (done) {
       bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
       bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-      githubMock.expects('authenticate').once().withExactArgs({ type: 'oauth', token : 'tooken' });
       var tokenPromise = BluePromise.resolve('tooken');
       githubAuthMock.expects('readAuthToken').once().returns(tokenPromise);
       new GitHub(function(){});
       tokenPromise.then(function() {
+        sinon.assert.calledWith(githubStub.authenticate, ({ type: 'oauth', token : 'tooken' }));
         done();
       });
     });
@@ -56,8 +69,8 @@ describe('github', function() {
     it('should not authenticate when username and password are not specified', function () {
       bagMock.expects('proxy').withExactArgs().returns(null);
       bagMock.expects('proxy').withExactArgs().returns(null);
-      githubMock.expects('authenticate').never();
       new GitHub(function(){});
+      sinon.assert.notCalled(githubStub.authenticate);
     });
   });
 
@@ -118,29 +131,12 @@ describe('github', function() {
 
   describe('_paginate', function() {
 
-    // buster.testCase('github - _paginate', {
-    //   setUp: function () {
-    //     this.mockConsole = this.mock(console);
-    //     // this.mockGithub = this.mock(githubStub());
-    //     this.mockGithub = this.mock(github().prototype);
-    //     // broke with c2c88c0420246bf14369f27a95dfa773e0ce908 in octokit/rest.js
-    //     // before that, github was a (constructor) function, and all methods were directly attached to its prototype.
-    //     // Now, the attachment only happens after calling github(). Each call returns
-    //     // a new instance. There is no more globally unique prototype on which we can
-    //     // replace methods by mocks/stubs/spies. Hmmm....
-    //     debugger;
-    //   },
-
-    var githubMock;
-
     beforeEach(function () {
       sinon.spy(console, 'log');
-      githubMock = sinon.mock(github.prototype);
     });
 
     afterEach(function () {
       console.log.restore();
-      githubMock.restore();
     });
 
     it('should log remaining usage and pass result', function (done) {
@@ -154,9 +150,10 @@ describe('github', function() {
         'x-ratelimit-remaining': 22,
         'x-ratelimit-limit': 100
       };
-     githubMock.expects('hasNextPage').once().withExactArgs(result).returns(true);
-      githubMock.expects('hasNextPage').once().withExactArgs(nextResult).returns(false);
-      githubMock.expects('getNextPage').once().withArgs(result).callsArgWith(1, null, nextResult);
+
+      githubStub.hasNextPage.withArgs(result).returns(true);
+      githubStub.hasNextPage.withArgs(nextResult).returns(false);
+      githubStub.getNextPage.withArgs(result).callsArgWith(1, null, nextResult);
       var gitHub = new GitHub(function(){
         gitHub._paginate(result, function (err, result) {
           assert.equal(err, null);
