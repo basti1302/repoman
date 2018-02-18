@@ -38,6 +38,16 @@
     "lib": "./lib",
     "test": "./test"
   },
+  "scripts": {
+    "clean": "rimraf .build",
+    "lint": "jshint lib/ test/",
+    "complexity": "plato --recurse --dir .build/complexity/plato lib",
+    "test": "mocha",
+    "coverage": "nyc mocha",
+    "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
+    "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
+    "build": "npm run clean && npm run lint && npm run complexity && npm run test && npm run coverage && npm run test-integration && npm run doc"
+  },
   "dependencies": {
     "@octokit/rest": "^14.0.9",
     "async": "^2.6.0",
@@ -68,16 +78,6 @@
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.2",
     "sinon": "^4.3.0"
-  },
-  "scripts": {
-    "clean": "rimraf .build",
-    "lint": "jshint lib/ test/",
-    "complexity": "plato --recurse --dir .build/complexity/plato lib",
-    "test": "mocha",
-    "coverage": "nyc mocha",
-    "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
-    "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
-    "build": "npm run clean && npm run lint && npm run complexity && npm run test && npm run coverage && npm run test-integration && npm run doc"
   },
   "engines": {
     "node": ">= 4.0.0"
