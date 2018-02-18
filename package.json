@@ -42,7 +42,7 @@
     "clean": "rimraf .build",
     "lint": "mkdirp .build/lint && jshint lib/ test/ | justtee .build/lint/jshint.out",
     "complexity": "mkdirp .build/complexity && plato --recurse --dir .build/complexity/plato lib | justtee .build/complexity/plato.out",
-    "test": "mocha",
+    "test": "mkdirp .build/test && mocha | justtee .build/test/mocha.out",
     "coverage": "nyc mocha",
     "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
     "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
