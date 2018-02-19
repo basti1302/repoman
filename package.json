@@ -51,11 +51,6 @@
     "prepublishOnly": "npm run build",
     "postpublish": "npm run site"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run build"
-    }
-  },
   "dependencies": {
     "@octokit/rest": "^14.0.9",
     "async": "^2.6.0",
@@ -80,7 +75,6 @@
     "chai": "^4.1.2",
     "cmdt": "^1.0.0",
     "dox-foundation": "^0.5.6",
-    "husky": "^0.15.0-rc.8",
     "jshint": "^2.9.5",
     "justtee": "^1.0.4",
     "mkdirp": "^0.5.1",
