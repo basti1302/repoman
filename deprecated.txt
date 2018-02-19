@@ -1,0 +1,6 @@
+npm WARN deprecated jade@1.0.2: Jade has been renamed to pug, please install the latest version of pug instead of jade => dox-foundation
+npm WARN deprecated wrench@1.5.9: wrench.js is deprecated! You should check out fs-extra (https://github.com/jprichardson/node-fs-extra) for any operations you were using wrench for. Thanks for all the usage over the years. => bagofcli, cmdt
+npm WARN deprecated transformers@2.1.0: Deprecated, use jstransformer => dox-foundation
+npm WARN deprecated constantinople@1.0.2: Please update to at least constantinople 3.1.1 => dox-foundation
+npm notice created a lockfile as package-lock.json. You should commit this file.
+added 558 packages in 18.056s
