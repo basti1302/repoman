@@ -45,7 +45,7 @@
     "coverage": "mkdirp .build/coverage && nyc --reporter=lcov --reporter=text-lcov --report-dir .build/coverage mocha | justtee .build/coverage/nyc.out && nyc report --report-dir .build/coverage",
     "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
     "lint": "mkdirp .build/lint && jshint lib/ test/ | justtee .build/lint/jshint.out",
-    "site": "ncp report.html.template .build/index.html && buildbranch gh-pages .build",
+    "site": "ncp report.html.template .build/index.html && buildbranch gh-pages .build --no-verify",
     "test": "mkdirp .build/test && mocha | justtee .build/test/mocha.out",
     "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
     "prepublishOnly": "npm run build",
