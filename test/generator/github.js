@@ -81,13 +81,13 @@ describe('github', function() {
 
     it('should create repoman config with users and orgs\' repos', function (done) {
       var gitHub = new GitHub(function(){
-        gitHub.gh.repos.getFromUser = function (opts, cb) {
-          assert.equal(opts.user, 'user1');
+        gitHub.gh.repos.getForUser = function (opts, cb) {
+          assert.equal(opts.username, 'user1');
           assert.equal(opts.page, 1);
           assert.equal(opts.per_page, 100);
           cb(null, 'someuserresult');
         };
-        gitHub.gh.repos.getFromOrg = function (opts, cb) {
+        gitHub.gh.repos.getForOrg = function (opts, cb) {
           assert.equal(opts.org, 'org1');
           assert.equal(opts.page, 1);
           assert.equal(opts.per_page, 100);
@@ -106,13 +106,13 @@ describe('github', function() {
 
     it('should pass error to callback when an error occurs while retrieving repos', function (done) {
       var gitHub = new GitHub(function(){
-        gitHub.gh.repos.getFromUser = function (opts, cb) {
-          assert.equal(opts.user, 'user1');
+        gitHub.gh.repos.getForUser = function (opts, cb) {
+          assert.equal(opts.username, 'user1');
           assert.equal(opts.page, 1);
           assert.equal(opts.per_page, 100);
           cb(new Error('some error'));
         };
-        gitHub.gh.repos.getFromOrg = function (opts, cb) {
+        gitHub.gh.repos.getForOrg = function (opts, cb) {
           assert.equal(opts.org, 'org1');
           assert.equal(opts.page, 1);
           assert.equal(opts.per_page, 100);
@@ -140,15 +140,19 @@ describe('github', function() {
     });
 
     it('should log remaining usage and pass result', function (done) {
-      var result = ['first'];
-      result.meta = {
-        'x-ratelimit-remaining': 23,
-        'x-ratelimit-limit': 100
+      var result = {
+        data: ['first'],
+        meta: {
+          'x-ratelimit-remaining': 23,
+          'x-ratelimit-limit': 100
+        }
       };
-      var nextResult = ['second'];
-      nextResult.meta = {
-        'x-ratelimit-remaining': 22,
-        'x-ratelimit-limit': 100
+      var nextResult = {
+        data: ['second'],
+        meta: {
+          'x-ratelimit-remaining': 22,
+          'x-ratelimit-limit': 100
+        }
       };
 
       githubStub.hasNextPage.withArgs(result).returns(true);
