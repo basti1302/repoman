@@ -30,10 +30,12 @@ Usage
 ### Initial Configuration
 
 * `repoman config`: Create sample .repoman.json configuration file.
-* `repoman config --github-user cliffano`: Create .repoman.json containing GitHub projects of a user.
+* `repoman config --github-user basti1302`: Create .repoman.json containing public GitHub projects of a user.
+* `repoman config --github-user basti1302 --github-auth-user basti1302 --github-auth-pass somepassword`: Create .repoman.json containing private and public GitHub projects. Basic authentication will be used to get the private projects. This will not work if you have two-factor authentication enabled, see `repoman signin` for support for two factor authentication.
+* `repoman signin`: Starts repoman's GitHub authentication assistant (asking for your GitHub user name, password and a two factor auth token). The generated authentication token is stored in `~/.repomanrc.json` and used for subsequent requests to GitHub (for example, with repoman config --github-user username`).
 * `repoman config --github-org jenkinsci`: Create .repoman.json containing GitHub projects of an organisation.
-* `repoman config --github-user cliffano --github-org jenkinsci,github`: Create .repoman.json containing GitHub projects of multiple users and organisations.
-* `repoman config --bitbucket-auth-user cliffano --bitbucket-auth-pass somepassword`: Create .repoman.json containing Bitbucket projects.
+* `repoman config --github-user basti1302 --github-org jenkinsci,github`: Create .repoman.json containing GitHub projects of multiple users and organisations.
+* `repoman config --bitbucket-auth-user basti1302 --bitbucket-auth-pass somepassword`: Create .repoman.json containing Bitbucket projects.
 * `repoman config --local`: Create .repoman.json configuration file from local repositories in current directory.
 * `repoman clean`: Delete local repositories not managed by Repoman (that is, not configured in .repoman.json).
 
@@ -168,6 +170,7 @@ History
 
 Repoman has been developed by @cliffano until late 2015. Nowadays it is maintained by @basti1302.
 
+* 1.5.4 (11.03.2018): Fix breaking changes from upgrade to octokit/rest.js, add documentation about `repoman signin` and `--github-auth-user`/`--github-auth-pass`.
 * 1.5.3 (18.02.2018): Update all dependencies, upgrade to octokit/rest.js
 * 1.5.2 (14.02.2018): Update to bagofcli@1.1.0.
 * 1.5.1 (14.02.2018): README overhaul.
