@@ -41,12 +41,12 @@
   "scripts": {
     "build": "npm run clean && npm run lint && npm run complexity && npm run test && npm run coverage && npm run test-integration && npm run doc",
     "clean": "rimraf .build",
-    "complexity": "mkdirp .build/complexity && plato --recurse --dir .build/complexity/plato lib | justtee .build/complexity/plato.out",
+    "complexity": "mkdirp .build/complexity && plato --recurse --dir .build/complexity/plato lib",
     "coverage": "mkdirp .build/coverage && nyc --reporter=lcov --reporter=text-lcov --report-dir .build/coverage mocha | justtee .build/coverage/nyc.out && nyc report --report-dir .build/coverage",
     "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
-    "lint": "mkdirp .build/lint && jshint lib/ test/ | justtee .build/lint/jshint.out",
+    "lint": "mkdirp .build/lint && jshint lib/ test/",
     "site": "ncp report.html.template .build/index.html && buildbranch gh-pages .build --no-verify",
-    "test": "mkdirp .build/test && mocha | justtee .build/test/mocha.out",
+    "test": "mkdirp .build/test && mocha",
     "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
     "prepublishOnly": "npm run build",
     "postpublish": "npm run site"
