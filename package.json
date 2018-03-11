@@ -71,7 +71,7 @@
     "svn-info": "^1.0.0"
   },
   "devDependencies": {
-    "buildbranch": "^2.0.0",
+    "buildbranch": "basti1302/buildbranch#2.0.0-update-metapak",
     "chai": "^4.1.2",
     "cmdt": "^1.0.0",
     "dox-foundation": "^0.5.6",
