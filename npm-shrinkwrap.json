@@ -242,7 +242,7 @@
       "dev": true
     },
     "buildbranch": {
-      "version": "github:basti1302/buildbranch#7951f777129ea59297caff70050f452589f99ee3",
+      "version": "github:basti1302/buildbranch#e7d49656941d09ac106e9296d4f89a0b1ab62b27",
       "dev": true,
       "requires": {
         "rimraf": "2.6.2"

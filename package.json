@@ -45,7 +45,7 @@
     "coverage": "mkdirp .build/coverage && tee-pipefail nyc --reporter=lcov --reporter=text-lcov --report-dir .build/coverage mocha .build/coverage/nyc.out && nyc report --report-dir .build/coverage",
     "doc": "dox-foundation --source lib --target .build/doc/dox-foundation/",
     "lint": "mkdirp .build/lint && tee-pipefail jshint lib/ test/ .build/lint/jshint.out",
-    "site": "ncp report.html.template .build/index.html && buildbranch gh-pages .build --no-verify",
+    "site": "ncp report.html.template .build/index.html && buildbranch gh-pages .build '' --no-verify",
     "test": "mkdirp .build/test && tee-pipefail mocha .build/test/mocha.out",
     "test-integration": "cmdt --base-dir .build/test-integration/ run test-integration/",
     "prepublishOnly": "npm run build",
@@ -71,7 +71,7 @@
     "svn-info": "^1.0.0"
   },
   "devDependencies": {
-    "buildbranch": "basti1302/buildbranch#2.0.0-update-metapak",
+    "buildbranch": "basti1302/buildbranch#2.0.0-update-metapak-fix-no-verify",
     "chai": "^4.1.2",
     "cmdt": "^1.0.0",
     "dox-foundation": "^0.5.6",
