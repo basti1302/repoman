@@ -242,7 +242,9 @@
       "dev": true
     },
     "buildbranch": {
-      "version": "github:basti1302/buildbranch#e7d49656941d09ac106e9296d4f89a0b1ab62b27",
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/buildbranch/-/buildbranch-2.0.1.tgz",
+      "integrity": "sha512-zptJa/KCYQMJNyFJ7FXURnc+sF9HWOh9ViUWG0hYVrZdlKxSsJuurs8sKN3p0iTZ+z2Oq37P3+RKQLGqJ32eAw==",
       "dev": true,
       "requires": {
         "rimraf": "2.6.2"
