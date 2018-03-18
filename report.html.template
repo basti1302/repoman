@@ -17,7 +17,7 @@
     <li><a href="test/mocha.out">Tests</a></li>
     <li><a href="coverage/lcov-report">Coverage</a></li>
     <li><a href="">Integration Tests</a></li>
-    <li><a href="doc/dox-foundation">Docs</a></li>
+    <li><a href="docs">Docs</a></li>
   </ul>
 </body>
 </html>
