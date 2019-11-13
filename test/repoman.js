@@ -16,8 +16,7 @@ var sinon = require('sinon');
 var assert = chai.assert;
 
 describe('repoman', function() {
-
-  beforeEach(function () {
+  beforeEach(function() {
     sinon.spy(console, 'log');
     sinon.spy(process, 'exit');
   });
@@ -28,7 +27,6 @@ describe('repoman', function() {
   });
 
   describe('config', function() {
-
     var fsMock;
     var fsxCopyStub;
     var bitbucketMock;
@@ -37,7 +35,7 @@ describe('repoman', function() {
     var gitoriousMock;
     var localMock;
 
-    beforeEach(function () {
+    beforeEach(function() {
       bitbucketMock = sinon.mock(Bitbucket.prototype);
       gitHubMock = sinon.mock(GitHub.prototype);
       gitoriousMock = sinon.mock(Gitorious.prototype);
@@ -62,135 +60,258 @@ describe('repoman', function() {
       localMock.restore();
     });
 
-    it('should copy sample couchpenter.js file to current directory when init is called', function (done) {
-      fsxCopyStub.callsFake(function (src, dest, cb) {
+    it('should copy sample couchpenter.js file to current directory when init is called', function(done) {
+      fsxCopyStub.callsFake(function(src, dest, cb) {
         assert.isTrue(src.match(/\/examples\/.repoman.json$/).length === 1);
         assert.equal(dest, '.repoman.json');
         cb();
       });
       var repoman = new Repoman();
-      repoman.config({}, function (err, result) {
+      repoman.config({}, function(err, result) {
         assert.equal(err, undefined);
-        sinon.assert.calledWith(console.log, 'Creating sample configuration file: %s', '.repoman.json');
+        sinon.assert.calledWith(
+          console.log,
+          'Creating sample configuration file: %s',
+          '.repoman.json'
+        );
         done();
       });
     });
 
-    it('should create .repoman.json containing repos on bitbucket when bitbucket config is specified', function (done) {
-      fsMock.expects('existsSync').withExactArgs('.repoman.json').returns(false);
-      bitbucketMock.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
-      fsMock.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    it('should create .repoman.json containing repos on bitbucket when bitbucket config is specified', function(done) {
+      fsMock
+        .expects('existsSync')
+        .withExactArgs('.repoman.json')
+        .returns(false);
+      bitbucketMock
+        .expects('generate')
+        .once()
+        .withArgs()
+        .callsArgWith(0, null, { foo: 'bar' });
+      fsMock
+        .expects('writeFile')
+        .once()
+        .withArgs('.repoman.json', '{\n  "foo": "bar"\n}')
+        .callsArgWith(2, null);
       var repoman = new Repoman();
-      repoman.config({ bitbucket: { authUser: 'someuser', authPass: 'somepassword' } }, function (err, result) {
+      repoman.config(
+        { bitbucket: { authUser: 'someuser', authPass: 'somepassword' } },
+        function(err, result) {
+          assert.isNull(err);
+          sinon.assert.calledWith(
+            console.log,
+            'Setting configuration file: %s, with Bitbucket repositories',
+            '.repoman.json'
+          );
+          done();
+        }
+      );
+    });
+
+    it('should create .repoman.json containing repos on github when github config is specified', function(done) {
+      fsMock
+        .expects('existsSync')
+        .withExactArgs('.repoman.json')
+        .returns(false);
+      gitHubMock
+        .expects('generate')
+        .once()
+        .withArgs(['someuser'], ['someorg'])
+        .callsArgWith(2, null, { foo: 'bar' });
+      fsMock
+        .expects('writeFile')
+        .once()
+        .withArgs('.repoman.json', '{\n  "foo": "bar"\n}')
+        .callsArgWith(2, null);
+      var repoman = new Repoman();
+      repoman.config({ github: { user: 'someuser', org: 'someorg' } }, function(
+        err,
+        result
+      ) {
         assert.isNull(err);
-        sinon.assert.calledWith(console.log, 'Setting configuration file: %s, with Bitbucket repositories', '.repoman.json');
+        sinon.assert.calledWith(
+          console.log,
+          'Setting configuration file: %s, with GitHub repositories',
+          '.repoman.json'
+        );
         done();
       });
     });
 
-    it('should create .repoman.json containing repos on github when github config is specified', function (done) {
-      fsMock.expects('existsSync').withExactArgs('.repoman.json').returns(false);
-      gitHubMock.expects('generate').once().withArgs(['someuser'], ['someorg']).callsArgWith(2, null, { foo: 'bar' });
-      fsMock.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    it('should pass error to callback when an error occurs while creating config containing github repos', function(done) {
+      gitHubMock
+        .expects('generate')
+        .once()
+        .withArgs([], [])
+        .callsArgWith(2, new Error('some error'));
       var repoman = new Repoman();
-      repoman.config({ github: { user: 'someuser', org: 'someorg' } }, function (err, result) {
-        assert.isNull(err);
-        sinon.assert.calledWith(console.log, 'Setting configuration file: %s, with GitHub repositories', '.repoman.json');
-        done();
-      });
-    });
-
-    it('should pass error to callback when an error occurs while creating config containing github repos', function (done) {
-      gitHubMock.expects('generate').once().withArgs([], []).callsArgWith(2, new Error('some error'));
-      var repoman = new Repoman();
-      repoman.config({ github: {} }, function (err, result) {
+      repoman.config({ github: {} }, function(err, result) {
         assert.equal(err.message, 'some error');
-        sinon.assert.calledWith(console.log, 'Setting configuration file: %s, with GitHub repositories', '.repoman.json');
+        sinon.assert.calledWith(
+          console.log,
+          'Setting configuration file: %s, with GitHub repositories',
+          '.repoman.json'
+        );
         done();
       });
     });
 
-    it('should create .repoman.json containing repos on gitorious when gitorious config is specified', function (done) {
-      fsMock.expects('existsSync').withExactArgs('.repoman.json').returns(true);
-      gitoriousMock.expects('generate').once().withArgs(['someproject1', 'someproject2']).callsArgWith(1, null, { foo: 'bar' });
-      fsMock.expects('readFileSync').once().withExactArgs('.repoman.json', 'utf-8').returns('{}');
-      fsMock.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    it('should create .repoman.json containing repos on gitorious when gitorious config is specified', function(done) {
+      fsMock
+        .expects('existsSync')
+        .withExactArgs('.repoman.json')
+        .returns(true);
+      gitoriousMock
+        .expects('generate')
+        .once()
+        .withArgs(['someproject1', 'someproject2'])
+        .callsArgWith(1, null, { foo: 'bar' });
+      fsMock
+        .expects('readFileSync')
+        .once()
+        .withExactArgs('.repoman.json', 'utf-8')
+        .returns('{}');
+      fsMock
+        .expects('writeFile')
+        .once()
+        .withArgs('.repoman.json', '{\n  "foo": "bar"\n}')
+        .callsArgWith(2, null);
 
       var repoman = new Repoman();
-      repoman.config({ gitorious: { url: 'http://someurl', project: 'someproject1,someproject2' } }, function (err, result) {
+      repoman.config(
+        {
+          gitorious: {
+            url: 'http://someurl',
+            project: 'someproject1,someproject2'
+          }
+        },
+        function(err, result) {
+          assert.isNull(err);
+          sinon.assert.calledWith(
+            console.log,
+            'Setting configuration file: %s, with Gitorious repositories',
+            '.repoman.json'
+          );
+          done();
+        }
+      );
+    });
+
+    it('should create .repoman.json containing repos on local repositories when local config is specified', function(done) {
+      fsMock
+        .expects('existsSync')
+        .withExactArgs('.repoman.json')
+        .returns(false);
+      localMock
+        .expects('generate')
+        .once()
+        .withArgs()
+        .callsArgWith(0, null, { foo: 'bar' });
+      fsMock
+        .expects('writeFile')
+        .once()
+        .withArgs('.repoman.json', '{\n  "foo": "bar"\n}')
+        .callsArgWith(2, null);
+
+      var repoman = new Repoman();
+      repoman.config({ local: { dir: 'somedir' } }, function(err, result) {
+        sinon.assert.calledWith(
+          console.log,
+          'Setting configuration file: %s, with local repositories',
+          '.repoman.json'
+        );
         assert.isNull(err);
-        sinon.assert.calledWith(console.log, 'Setting configuration file: %s, with Gitorious repositories', '.repoman.json');
         done();
       });
     });
 
-    it('should create .repoman.json containing repos on local repositories when local config is specified', function (done) {
-      fsMock.expects('existsSync').withExactArgs('.repoman.json').returns(false);
-      localMock.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
-      fsMock.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    it('should create .repoman.json containing repos on local repositories and remove any repos not existing locally if removeExtraneous is specified', function(done) {
+      fsMock
+        .expects('existsSync')
+        .withExactArgs('.repoman.json')
+        .returns(true);
+      fsMock
+        .expects('readFileSync')
+        .withExactArgs('.repoman.json', 'utf-8')
+        .returns('{"some_repo" : {"url" : "git://blah.com"}}');
+      localMock
+        .expects('generate')
+        .once()
+        .withArgs()
+        .callsArgWith(0, null, { foo: 'bar' });
+      fsMock
+        .expects('writeFile')
+        .once()
+        .withArgs('.repoman.json', '{\n  "foo": "bar"\n}')
+        .callsArgWith(2, null);
 
       var repoman = new Repoman();
-      repoman.config({ local: { dir: 'somedir' } }, function (err, result) {
-        sinon.assert.calledWith(console.log, 'Setting configuration file: %s, with local repositories', '.repoman.json');
-        assert.isNull(err);
-        done();
-      });
+      repoman.config(
+        { removeExtraneous: true, local: { dir: 'somedir' } },
+        function(err, result) {
+          assert.isNull(err);
+          sinon.assert.calledWith(
+            console.log,
+            'Setting configuration file: %s, with local repositories',
+            '.repoman.json'
+          );
+          done();
+        }
+      );
     });
 
-    it('should create .repoman.json containing repos on local repositories and remove any repos not existing locally if removeExtraneous is specified', function (done) {
-      fsMock.expects('existsSync').withExactArgs('.repoman.json').returns(true);
-      fsMock.expects('readFileSync').withExactArgs('.repoman.json',  'utf-8').returns('{"some_repo" : {"url" : "git://blah.com"}}');
-      localMock.expects('generate').once().withArgs().callsArgWith(0, null, { foo: 'bar' });
-      fsMock.expects('writeFile').once().withArgs('.repoman.json', '{\n  "foo": "bar"\n}').callsArgWith(2, null);
+    it('should pass error to callback when an error occurs while creating config containing gitorious repos', function(done) {
+      gitoriousMock
+        .expects('generate')
+        .once()
+        .withArgs([])
+        .callsArgWith(1, new Error('some error'));
 
       var repoman = new Repoman();
-      repoman.config({ removeExtraneous : true, local: { dir: 'somedir' } }, function (err, result) {
-        assert.isNull(err);
-        sinon.assert.calledWith(console.log, 'Setting configuration file: %s, with local repositories', '.repoman.json');
-        done();
-      });
-    });
-
-    it('should pass error to callback when an error occurs while creating config containing gitorious repos', function (done) {
-      gitoriousMock.expects('generate').once().withArgs([]).callsArgWith(1, new Error('some error'));
-
-      var repoman = new Repoman();
-      repoman.config({ gitorious: { url: 'http://someurl' } }, function (err, result) {
+      repoman.config({ gitorious: { url: 'http://someurl' } }, function(
+        err,
+        result
+      ) {
         assert.equal(err.message, 'some error');
-        sinon.assert.calledWith(console.log, 'Setting configuration file: %s, with Gitorious repositories', '.repoman.json');
+        sinon.assert.calledWith(
+          console.log,
+          'Setting configuration file: %s, with Gitorious repositories',
+          '.repoman.json'
+        );
         done();
       });
     });
   });
 
   describe('exec', function() {
-
     var repos;
     var scms;
     var bagExecStub;
 
-    beforeEach(function () {
-
-      sinon.stub(process, 'cwd').onFirstCall().returns('/somedir');
+    beforeEach(function() {
+      sinon
+        .stub(process, 'cwd')
+        .onFirstCall()
+        .returns('/somedir');
       bagExecStub = sinon.stub(bag, 'exec');
 
       repos = {
-        "couchdb": {
-          "type": "git",
-          "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git",
-          "tags": ["database", "apache"]
+        couchdb: {
+          type: 'git',
+          url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git',
+          tags: ['database', 'apache']
         },
-        "httpd": {
-          "type": "svn",
-          "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+        httpd: {
+          type: 'svn',
+          url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/'
         }
       };
       scms = {
-        "git": {
-          "init": "git clone {{{url}}} {{{workspace}}}/{{{name}}}"
+        git: {
+          init: 'git clone {{{url}}} {{{workspace}}}/{{{name}}}'
         },
-        "svn": {
-          "init": "svn checkout {{{url}}} {{{workspace}}}/{{{name}}}"
+        svn: {
+          init: 'svn checkout {{{url}}} {{{workspace}}}/{{{name}}}'
         }
       };
     });
@@ -201,7 +322,7 @@ describe('repoman', function() {
       process.cwd.restore();
     });
 
-    it('should return empty results when there is no repository and scm', function (done) {
+    it('should return empty results when there is no repository and scm', function(done) {
       var repoman = new Repoman();
       repoman.exec('init', { failFast: false }, function cb(err, results) {
         assert.equal(err, null);
@@ -210,132 +331,193 @@ describe('repoman', function() {
       });
     });
 
-    it('should log repositories name and execute commands with parameters applied when repositories exist', function (done) {
-      bagExecStub.callsFake(function (command, fallthrough, cb) {
+    it('should log repositories name and execute commands with parameters applied when repositories exist', function(done) {
+      bagExecStub.callsFake(function(command, fallthrough, cb) {
         assert.isTrue(fallthrough);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
       repoman.exec('init', { verbose: true }, function cb(err, results) {
-        assert.equal(results[0], 'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
-        assert.equal(results[1], 'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
+        assert.equal(
+          results[0],
+          'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb'
+        );
+        assert.equal(
+          results[1],
+          'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd'
+        );
 
         sinon.assert.calledWith(console.log, '\n+ %s', 'couchdb');
-        sinon.assert.calledWith(console.log, '> %s', 'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb');
+        sinon.assert.calledWith(
+          console.log,
+          '> %s',
+          'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb'
+        );
         sinon.assert.calledWith(console.log, '\n+ %s', 'httpd');
-        sinon.assert.calledWith(console.log, '> %s', 'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd');
+        sinon.assert.calledWith(
+          console.log,
+          '> %s',
+          'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd'
+        );
 
         done();
       });
     });
 
-    it('should execute command as-is on each repository when command is unsupported', function (done) {
-      bagExecStub.callsFake(function (command, fallthrough, cb) {
+    it('should execute command as-is on each repository when command is unsupported', function(done) {
+      bagExecStub.callsFake(function(command, fallthrough, cb) {
         assert.isTrue(fallthrough);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
-      repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { verbose: true }, function cb(err, results) {
-        assert.equal(results.length, 2);
-        assert.equal(results[0], 'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
-        assert.equal(results[1], 'cd "/somedir/httpd" && touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
+      repoman.exec(
+        'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
+        { verbose: true },
+        function cb(err, results) {
+          assert.equal(results.length, 2);
+          assert.equal(
+            results[0],
+            'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
+          );
+          assert.equal(
+            results[1],
+            'cd "/somedir/httpd" && touch .gitignore; echo "Created /somedir/httpd/.gitignore file";'
+          );
 
-        sinon.assert.calledWith(console.log, '\n+ %s', 'couchdb');
-        sinon.assert.calledWith(console.log, '> %s', 'touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
-        sinon.assert.calledWith(console.log, '\n+ %s', 'httpd');
-        sinon.assert.calledWith(console.log, '> %s', 'touch .gitignore; echo "Created /somedir/httpd/.gitignore file";');
+          sinon.assert.calledWith(console.log, '\n+ %s', 'couchdb');
+          sinon.assert.calledWith(
+            console.log,
+            '> %s',
+            'touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
+          );
+          sinon.assert.calledWith(console.log, '\n+ %s', 'httpd');
+          sinon.assert.calledWith(
+            console.log,
+            '> %s',
+            'touch .gitignore; echo "Created /somedir/httpd/.gitignore file";'
+          );
 
-        done();
-      });
+          done();
+        }
+      );
     });
 
-    it('should execute command as-is on matching repository when tag is provided', function (done) {
-      bagExecStub.callsFake(function (command, fallthrough, cb) {
+    it('should execute command as-is on matching repository when tag is provided', function(done) {
+      bagExecStub.callsFake(function(command, fallthrough, cb) {
         assert.isTrue(fallthrough);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
-      repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { tags: ['database', 'someothertag'], verbose: true }, function cb(err, results) {
-        assert.equal(results.length, 1);
-        assert.equal(results[0], 'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      repoman.exec(
+        'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
+        { tags: ['database', 'someothertag'], verbose: true },
+        function cb(err, results) {
+          assert.equal(results.length, 1);
+          assert.equal(
+            results[0],
+            'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
+          );
 
-        sinon.assert.calledWith(console.log, '\n+ %s', 'couchdb');
-        sinon.assert.calledWith(console.log, '> %s', 'touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+          sinon.assert.calledWith(console.log, '\n+ %s', 'couchdb');
+          sinon.assert.calledWith(
+            console.log,
+            '> %s',
+            'touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
+          );
 
-        done();
-      });
+          done();
+        }
+      );
     });
 
-    it('should execute command as-is on matching repository when regex is provided', function (done) {
-      bagExecStub.callsFake(function (command, fallthrough, cb) {
+    it('should execute command as-is on matching repository when regex is provided', function(done) {
+      bagExecStub.callsFake(function(command, fallthrough, cb) {
         assert.isTrue(fallthrough);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
-      repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { regex: '.*couchdb.*', verbose: true }, function cb(err, results) {
-        assert.equal(results.length, 1);
-        assert.equal(results[0], 'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+      repoman.exec(
+        'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
+        { regex: '.*couchdb.*', verbose: true },
+        function cb(err, results) {
+          assert.equal(results.length, 1);
+          assert.equal(
+            results[0],
+            'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
+          );
 
-        sinon.assert.calledWith(console.log, '\n+ %s', 'couchdb');
-        sinon.assert.calledWith(console.log, '> %s', 'touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";');
+          sinon.assert.calledWith(console.log, '\n+ %s', 'couchdb');
+          sinon.assert.calledWith(
+            console.log,
+            '> %s',
+            'touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
+          );
 
-        done();
-      });
+          done();
+        }
+      );
     });
 
-    it('should not execute any command when neither tags nor regex filters is applicable', function (done) {
-      bagExecStub.callsFake(function (command, fallthrough, cb) {
+    it('should not execute any command when neither tags nor regex filters is applicable', function(done) {
+      bagExecStub.callsFake(function(command, fallthrough, cb) {
         assert.isTrue(fallthrough);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
-      repoman.exec('touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";', { regex: 'blah', tags: ['inexistingtag1', 'inexistingtag2'], verbose: true }, function cb(err, results) {
-        assert.equal(results.length, 0);
-        done();
-      });
+      repoman.exec(
+        'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
+        {
+          regex: 'blah',
+          tags: ['inexistingtag1', 'inexistingtag2'],
+          verbose: true
+        },
+        function cb(err, results) {
+          assert.equal(results.length, 0);
+          done();
+        }
+      );
     });
   });
 
   describe('list', function() {
-
     var repos;
     var scms;
 
-    beforeEach(function () {
+    beforeEach(function() {
       repos = {
-        "couchdb": {
-          "type": "git",
-          "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git",
-          "tags": ["apache"]
+        couchdb: {
+          type: 'git',
+          url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git',
+          tags: ['apache']
         },
-        "httpd": {
-          "type": "svn",
-          "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+        httpd: {
+          type: 'svn',
+          url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/'
         }
       };
     });
 
-    it('should pass repositories keys as list value', function (done) {
+    it('should pass repositories keys as list value', function(done) {
       var repoman = new Repoman(repos);
-      repoman.list({}, function (err, result) {
+      repoman.list({}, function(err, result) {
         assert.isNull(err);
         assert.sameMembers(result, ['couchdb', 'httpd']);
         done();
       });
     });
 
-    it('should filter repository by tag', function (done) {
+    it('should filter repository by tag', function(done) {
       var repoman = new Repoman(repos);
-      repoman.list({ tags: ['apache'] }, function (err, result) {
+      repoman.list({ tags: ['apache'] }, function(err, result) {
         assert.isNull(err);
         assert.sameMembers(result, ['couchdb']);
         done();
       });
     });
 
-    it('should filter repository by regex', function (done) {
+    it('should filter repository by regex', function(done) {
       var repoman = new Repoman(repos);
-      repoman.list({ regex: '.*httpd.*' }, function (err, result) {
+      repoman.list({ regex: '.*httpd.*' }, function(err, result) {
         assert.isNull(err);
         assert.sameMembers(result, ['httpd']);
         done();
@@ -344,24 +526,26 @@ describe('repoman', function() {
   });
 
   describe('clean', function() {
-
     var fsReaddirStub;
     var fsxMock;
     var repoman;
 
-    beforeEach(function () {
+    beforeEach(function() {
       fsReaddirStub = sinon.stub(fs, 'readdir');
       fsxMock = sinon.mock(fsx);
-      sinon.stub(process, 'cwd').onFirstCall().returns('/somedir');
+      sinon
+        .stub(process, 'cwd')
+        .onFirstCall()
+        .returns('/somedir');
 
       var repos = {
-        "couchdb": {
-          "type": "git",
-          "url": "http://git-wip-us.apache.org/repos/asf/couchdb.git"
+        couchdb: {
+          type: 'git',
+          url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git'
         },
-        "httpd": {
-          "type": "svn",
-          "url": "http://svn.apache.org/repos/asf/httpd/httpd/trunk/"
+        httpd: {
+          type: 'svn',
+          url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/'
         }
       };
 
@@ -376,23 +560,29 @@ describe('repoman', function() {
       process.cwd.restore();
     });
 
-    it('should return a list of non-repo dirs to delete during dry run', function (done) {
+    it('should return a list of non-repo dirs to delete during dry run', function(done) {
       var dirs = ['dir1', 'couchdb', 'httpd', 'dir2'];
       fsReaddirStub.withArgs('/somedir').callsArgWith(1, null, dirs);
-      repoman.clean(true, function (err, results) {
+      repoman.clean(true, function(err, results) {
         assert.isNull(err);
         assert.sameMembers(results, ['dir1', 'dir2']);
         done();
       });
     });
 
-    it('should remove a list of non-repo dirs during non dry run', function (done) {
+    it('should remove a list of non-repo dirs during non dry run', function(done) {
       var dirs = ['dir1', 'couchdb', 'httpd', 'dir2'];
       fsReaddirStub.withArgs('/somedir').callsArgWith(1, null, dirs);
-      fsxMock.expects('remove').withArgs('dir1').callsArgWith(1, null, 'dir1');
-      fsxMock.expects('remove').withArgs('dir2').callsArgWith(1, null, 'dir2');
+      fsxMock
+        .expects('remove')
+        .withArgs('dir1')
+        .callsArgWith(1, null, 'dir1');
+      fsxMock
+        .expects('remove')
+        .withArgs('dir2')
+        .callsArgWith(1, null, 'dir2');
 
-      repoman.clean(false, function (err, results) {
+      repoman.clean(false, function(err, results) {
         assert.equal(err, null);
         assert.sameMembers(results, ['dir1', 'dir2']);
 
@@ -403,10 +593,12 @@ describe('repoman', function() {
       });
     });
 
-    it('should pass error to callback when an error occurs while reading the workspace dir', function (done) {
+    it('should pass error to callback when an error occurs while reading the workspace dir', function(done) {
       var dirs = ['dir1', 'couchdb', 'httpd', 'dir2'];
-      fsReaddirStub.withArgs('/somedir').callsArgWith(1, new Error('some error'));
-      repoman.clean(true, function (err, results) {
+      fsReaddirStub
+        .withArgs('/somedir')
+        .callsArgWith(1, new Error('some error'));
+      repoman.clean(true, function(err, results) {
         assert.equal(err.message, 'some error');
         done();
       });
@@ -414,36 +606,43 @@ describe('repoman', function() {
   });
 
   describe('_determineRepoType', function() {
-
     var repoman;
 
-    beforeEach(function () {
+    beforeEach(function() {
       repoman = new Repoman();
     });
 
-    it('should determine repo type based on keywords when repo config does not have type property', function () {
+    it('should determine repo type based on keywords when repo config does not have type property', function() {
       assert.equal(
-        repoman._determineRepoType({ url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git' }),
-        'git');
+        repoman._determineRepoType({
+          url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git'
+        }),
+        'git'
+      );
       assert.equal(
-        repoman._determineRepoType({ url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/' }),
-        'svn');
+        repoman._determineRepoType({
+          url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/'
+        }),
+        'svn'
+      );
       assert.equal(
         repoman._determineRepoType({ url: 'http://somesubversion/repo' }),
-        'svn');
+        'svn'
+      );
     });
 
-    it('should default repo type to git when repo config does not have type property and URL does not contain repo keyword', function () {
+    it('should default repo type to git when repo config does not have type property and URL does not contain repo keyword', function() {
       assert.equal(
         repoman._determineRepoType({ url: 'http://unknown/repo' }),
-        'git');
+        'git'
+      );
     });
 
-    it('should use type if specified in repo', function () {
+    it('should use type if specified in repo', function() {
       assert.equal(
         repoman._determineRepoType({ url: 'http://unknown/repo', type: 'svn' }),
-        'svn');
+        'svn'
+      );
     });
   });
-
 });
