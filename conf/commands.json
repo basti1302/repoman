@@ -28,8 +28,28 @@
         "repoman config --local"
       ]
     },
-    "delete": {
-      "desc": "Delete local repositories"
+    "add": {
+      "desc": "Add a repository to the repoman configuration and clone it",
+      "options": [
+        { "arg": "--type <type>", "desc": "Type of the repository, git or svn" },
+        { "arg": "--repository-name <name>", "desc": "Name of the repository (will become the key in configuration file and the local directory name)" },
+        { "arg": "--name <name>", "desc": "Alias for --repository-name" },
+        { "arg": "--url <url>", "desc": "Remote URL of the repository" }
+      ],
+      "examples": [
+        "repoman add --name my-awesome-project --url git@github.com:basti1302/my-awesome-project.git"
+      ]
+    },
+     "remove": {
+      "desc": "Remove a single repository from the configuration and from disk",
+      "options": [
+        { "arg": "--repository-name <name>", "desc": "Name of the repository (the key in configuration file and the local directory name)" },
+        { "arg": "--name <name>", "desc": "Alias for --repository-name" },
+        { "arg": "--force", "desc": "Do not ask for confirmation" }
+      ],
+      "examples": [
+        "repoman remove --name my-awesome-project"
+      ]
     },
     "init": {
       "desc": "Initialise local repositories"
