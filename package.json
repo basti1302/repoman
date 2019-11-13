@@ -71,6 +71,7 @@
     "lodash": "^4.17.5",
     "mustache": "^2.3.0",
     "prompt": "^1.0.0",
+    "prompts": "^2.3.0",
     "svn-info": "^1.0.0"
   },
   "devDependencies": {
