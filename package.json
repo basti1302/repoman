@@ -1,8 +1,14 @@
 {
   "name": "repoman",
   "description": "Multi-repository source code management command-line tool",
-  "keywords": ["repository", "scm", "git", "svn", "command-line"],
-  "version": "1.5.5",
+  "keywords": [
+    "repository",
+    "scm",
+    "git",
+    "svn",
+    "command-line"
+  ],
+  "version": "1.5.6",
   "homepage": "http://github.com/basti1302/repoman",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "contributors": [
