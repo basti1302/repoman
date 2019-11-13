@@ -158,7 +158,7 @@ Repoman uses the following SCM command mapping.
 Contributing
 ------------
 
-Run `npm run build` to kick off the full build including tests, integration tests, coverage etc.
+Run `npm run build` to kick off the full build including tests, integration tests, coverage etc. Note: Currently, the integration tests will fail on systems where git uses a different localization than English.
 
 Articles
 --------
