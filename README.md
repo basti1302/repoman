@@ -170,6 +170,7 @@ History
 
 Repoman has been developed by @cliffano until late 2015. Nowadays it is maintained by @basti1302.
 
+* 1.6.0 (13.11.2019): Add new commands `add` and `remove` to add/remove repos from a config.
 * 1.5.5 (12.11.2019): Fix "repoman config --local crashes when a repo has no origin" (#30, thanks @stennie).
 * 1.5.4 (11.03.2018): Fix breaking changes from upgrade to octokit/rest.js, add documentation about `repoman signin` and `--github-auth-user`/`--github-auth-pass`.
 * 1.5.3 (18.02.2018): Update all dependencies, upgrade to octokit/rest.js
