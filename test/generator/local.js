@@ -1,9 +1,10 @@
 'use strict';
 
-var fs = require('fs');
 var ini = require('ini');
 var Local = require('../../lib/generator/local');
 var svnInfo = require('svn-info');
+
+var mockFs = require('mock-fs');
 
 var mocha = require('mocha');
 var chai = require('chai');
@@ -17,14 +18,12 @@ describe('local', function() {
     var svnInfoMock;
 
     beforeEach(function() {
-      fsMock = sinon.mock(fs);
       iniMock = sinon.mock(ini);
       svnInfoMock = sinon.mock(svnInfo);
     });
 
     afterEach(function() {
-      fsMock.verify();
-      fsMock.restore();
+      mockFs.restore();
       iniMock.verify();
       iniMock.restore();
       svnInfoMock.verify();
@@ -32,26 +31,18 @@ describe('local', function() {
     });
 
     it('should construct config of git repos using git config remote origin', function(done) {
-      fsMock
-        .expects('readdirSync')
-        .withExactArgs('somedir')
-        .returns(['repo1', 'repo2']);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo1/.git/config')
-        .returns(true);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo2/.git/config')
-        .returns(true);
-      fsMock
-        .expects('readFileSync')
-        .withExactArgs('repo1/.git/config', 'utf-8')
-        .returns('somedata1');
-      fsMock
-        .expects('readFileSync')
-        .withExactArgs('repo2/.git/config', 'utf-8')
-        .returns('somedata2');
+      mockFs({
+        repo1: {
+          '.git': {
+            config: 'somedata1'
+          }
+        },
+        repo2: {
+          '.git': {
+            config: 'somedata2'
+          }
+        }
+      });
       iniMock
         .expects('parse')
         .withExactArgs('somedata1')
@@ -65,7 +56,7 @@ describe('local', function() {
           'remote "origin"': { url: 'http://github.com/some/repo2' }
         });
 
-      var local = new Local('somedir');
+      var local = new Local('.');
 
       local.generate(function(err, result) {
         assert.isNull(err);
@@ -79,26 +70,19 @@ describe('local', function() {
     });
 
     it('should construct config of svn repos using svn info repository root', function(done) {
-      fsMock
-        .expects('readdirSync')
-        .withExactArgs('somedir')
-        .returns(['repo1', 'repo2']);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo1/.git/config')
-        .returns(false);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo2/.git/config')
-        .returns(false);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo1/.svn/entries')
-        .returns(true);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo2/.svn/entries')
-        .returns(true);
+      mockFs({
+        repo1: {
+          '.svn': {
+            entries: 'foo'
+          }
+        },
+        repo2: {
+          '.svn': {
+            entries: 'bar'
+          }
+        }
+      });
+
       svnInfoMock
         .expects('sync')
         .withExactArgs('repo1')
@@ -108,7 +92,7 @@ describe('local', function() {
         .withExactArgs('repo2')
         .returns({ repositoryRoot: 'http://svnhub.com/some/repo2' });
 
-      var local = new Local('somedir');
+      var local = new Local('.');
 
       local.generate(function(err, result) {
         assert.isNull(err);
@@ -122,28 +106,12 @@ describe('local', function() {
     });
 
     it('should pass empty config when repo is neither git nor svn', function(done) {
-      fsMock
-        .expects('readdirSync')
-        .withExactArgs('somedir')
-        .returns(['repo1', 'repo2']);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo1/.git/config')
-        .returns(false);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo2/.git/config')
-        .returns(false);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo1/.svn/entries')
-        .returns(false);
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('repo2/.svn/entries')
-        .returns(false);
+      mockFs({
+        repo1: {},
+        repo2: {}
+      });
 
-      var local = new Local('somedir');
+      var local = new Local('.');
 
       local.generate(function(err, result) {
         assert.isNull(err);
