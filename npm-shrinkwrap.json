@@ -375,60 +375,47 @@
       "dev": true
     },
     "cmdt": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/cmdt/-/cmdt-1.0.0.tgz",
-      "integrity": "sha1-jshltPYNTkqQoKm/i5RCfVFIFl8=",
+      "version": "github:basti1302/cmdt#2429320dd69806db6603d1c79ddae561e3cdf22c",
+      "from": "github:basti1302/cmdt#v1.0.2",
       "dev": true,
       "requires": {
-        "async": "^2.0.1",
-        "bagofcli": "^0.2.4",
+        "async": "^2.5.0",
+        "bagofcli": "^1.0.0",
         "colors": "^1.1.2",
-        "fs-extra": "^0.30.0",
+        "fs-extra": "^4.0.1",
         "jazz": "^0.0.18",
-        "lodash": "^4.14.2",
+        "lodash": "^4.17.4",
         "mkdirp": "^0.5.1",
         "ncp": "^2.0.0",
-        "rimraf": "^2.5.4",
-        "yaml-js": "^0.1.3"
+        "rimraf": "^2.6.1",
+        "yaml-js": "^0.2.0"
       },
       "dependencies": {
-        "bagofcli": {
-          "version": "0.2.5",
-          "resolved": "https://registry.npmjs.org/bagofcli/-/bagofcli-0.2.5.tgz",
-          "integrity": "sha1-Kta75Uy/d8dOqGSgel/kTbEoIH4=",
-          "dev": true,
-          "requires": {
-            "async": "^2.0.1",
-            "colors": "^1.1.2",
-            "commander": "^2.9.0",
-            "iz": "^0.7.1",
-            "lodash": "^4.14.1",
-            "prompt": "^1.0.0",
-            "wrench": "^1.5.9",
-            "yaml-js": "^0.1.3"
-          }
-        },
         "fs-extra": {
-          "version": "0.30.0",
-          "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-0.30.0.tgz",
-          "integrity": "sha1-8jP/zAjU2n1DLapEl3aYnbHfk/A=",
+          "version": "4.0.3",
+          "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-4.0.3.tgz",
+          "integrity": "sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==",
           "dev": true,
           "requires": {
             "graceful-fs": "^4.1.2",
-            "jsonfile": "^2.1.0",
-            "klaw": "^1.0.0",
-            "path-is-absolute": "^1.0.0",
-            "rimraf": "^2.2.8"
+            "jsonfile": "^4.0.0",
+            "universalify": "^0.1.0"
           }
         },
         "jsonfile": {
-          "version": "2.4.0",
-          "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-2.4.0.tgz",
-          "integrity": "sha1-NzaitCi4e72gzIO1P6PWM6NcKug=",
+          "version": "4.0.0",
+          "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-4.0.0.tgz",
+          "integrity": "sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=",
           "dev": true,
           "requires": {
             "graceful-fs": "^4.1.6"
           }
+        },
+        "yaml-js": {
+          "version": "0.2.3",
+          "resolved": "https://registry.npmjs.org/yaml-js/-/yaml-js-0.2.3.tgz",
+          "integrity": "sha512-6xUQtVKl1qcd0EXtTEzUDVJy9Ji1fYa47LtkDtYKlIjhibPE9knNPmoRyf6SGREFHlOAUyDe9OdYqRP4DuSi5Q==",
+          "dev": true
         }
       }
     },
@@ -4173,6 +4160,12 @@
       "version": "1.8.3",
       "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz",
       "integrity": "sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI="
+    },
+    "universalify": {
+      "version": "0.1.2",
+      "resolved": "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz",
+      "integrity": "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==",
+      "dev": true
     },
     "url-template": {
       "version": "2.0.8",
