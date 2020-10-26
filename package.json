@@ -81,7 +81,7 @@
   "devDependencies": {
     "buildbranch": "^2.0.1",
     "chai": "^4.1.2",
-    "cmdt": "^1.0.0",
+    "cmdt": "basti1302/cmdt#v1.0.2",
     "jsdoc": "^3.6.3",
     "jshint": "^2.9.5",
     "mkdirp": "^0.5.1",
