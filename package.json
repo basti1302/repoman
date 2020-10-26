@@ -22,6 +22,9 @@
     {
       "name": "Stephen Steneker"
     },
+    {
+      "name": "Andreas Houben"
+    },
     "All contributors (https://github.com/basti1302/repoman/graphs/contributors)"
   ],
   "main": "./lib/repoman",
