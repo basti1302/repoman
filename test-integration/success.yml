@@ -28,7 +28,7 @@
 - description: Command get should update repositories
   command: '{repoman} get'
   exitcode: 0
-  output: 'Current branch master is up to date.'
+  output: 'Already up to date.'
 
 - description: Command exec should execute same command on all repositories
   command: '{repoman} exec "touch somefile" --verbose'
