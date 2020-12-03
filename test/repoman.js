@@ -27,7 +27,6 @@ describe('repoman', function() {
     var fsxCopyStub;
     var bitbucketMock;
     var gitHubMock;
-    var gitHubAuthMock;
     var gitoriousMock;
     var localMock;
 
@@ -63,7 +62,7 @@ describe('repoman', function() {
         cb();
       });
       var repoman = new Repoman();
-      repoman.config({}, function(err, result) {
+      repoman.config({}, function(err) {
         expect(err).toEqual(undefined);
         sinon.assert.calledWith(
           console.log,
@@ -92,7 +91,7 @@ describe('repoman', function() {
       var repoman = new Repoman();
       repoman.config(
         { bitbucket: { authUser: 'someuser', authPass: 'somepassword' } },
-        function(err, result) {
+        function(err) {
           expect(err).toBeNull();
           sinon.assert.calledWith(
             console.log,
@@ -121,8 +120,7 @@ describe('repoman', function() {
         .callsArgWith(2, null);
       var repoman = new Repoman();
       repoman.config({ github: { user: 'someuser', org: 'someorg' } }, function(
-        err,
-        result
+        err
       ) {
         expect(err).toBeNull();
         sinon.assert.calledWith(
@@ -141,7 +139,7 @@ describe('repoman', function() {
         .withArgs([], [])
         .callsArgWith(2, new Error('some error'));
       var repoman = new Repoman();
-      repoman.config({ github: {} }, function(err, result) {
+      repoman.config({ github: {} }, function(err) {
         expect(err.message).toEqual('some error');
         sinon.assert.calledWith(
           console.log,
@@ -181,7 +179,7 @@ describe('repoman', function() {
             project: 'someproject1,someproject2'
           }
         },
-        function(err, result) {
+        function(err) {
           expect(err).toBeNull();
           sinon.assert.calledWith(
             console.log,
@@ -210,7 +208,7 @@ describe('repoman', function() {
         .callsArgWith(2, null);
 
       var repoman = new Repoman();
-      repoman.config({ local: { dir: 'somedir' } }, function(err, result) {
+      repoman.config({ local: { dir: 'somedir' } }, function(err) {
         sinon.assert.calledWith(
           console.log,
           'Setting configuration file: %s, with local repositories',
@@ -244,7 +242,7 @@ describe('repoman', function() {
       var repoman = new Repoman();
       repoman.config(
         { removeExtraneous: true, local: { dir: 'somedir' } },
-        function(err, result) {
+        function(err) {
           expect(err).toBeNull();
           sinon.assert.calledWith(
             console.log,
@@ -264,10 +262,7 @@ describe('repoman', function() {
         .callsArgWith(1, new Error('some error'));
 
       var repoman = new Repoman();
-      repoman.config({ gitorious: { url: 'http://someurl' } }, function(
-        err,
-        result
-      ) {
+      repoman.config({ gitorious: { url: 'http://someurl' } }, function(err) {
         expect(err.message).toEqual('some error');
         sinon.assert.calledWith(
           console.log,
@@ -471,7 +466,6 @@ describe('repoman', function() {
 
   describe('list', function() {
     var repos;
-    var scms;
 
     beforeEach(function() {
       repos = {
@@ -584,11 +578,10 @@ describe('repoman', function() {
     });
 
     it('should pass error to callback when an error occurs while reading the workspace dir', function(done) {
-      var dirs = ['dir1', 'couchdb', 'httpd', 'dir2'];
       fsReaddirStub
         .withArgs('/somedir')
         .callsArgWith(1, new Error('some error'));
-      repoman.clean(true, function(err, results) {
+      repoman.clean(true, function(err) {
         expect(err.message).toEqual('some error');
         done();
       });

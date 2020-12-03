@@ -87,7 +87,7 @@ describe('bitbucket', function() {
       bitbucket.client.repositories = function(cb) {
         cb(new Error('some error'));
       };
-      bitbucket.generate(function(err, result) {
+      bitbucket.generate(function(err) {
         expect(err.message).toEqual('some error');
         done();
       });

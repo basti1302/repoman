@@ -11,7 +11,7 @@ describe('gitorious', function() {
     var gitorioujsMock;
 
     beforeEach(function() {
-      clientMock = { getProject: function(project, cb) {} };
+      clientMock = { getProject: function() {} };
       gitorioujsMock = sinon.mock(gitorioujs);
     });
 

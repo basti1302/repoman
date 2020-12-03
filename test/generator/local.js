@@ -10,7 +10,6 @@ var sinon = require('sinon');
 
 describe('local', function() {
   describe('generate', function() {
-    var fsMock;
     var iniMock;
     var svnInfoMock;
 

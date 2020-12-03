@@ -142,7 +142,7 @@ describe('github', function() {
         gitHub._paginate = function(result, cb) {
           cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
         };
-        gitHub.generate(['user1'], ['org1'], function(err, result) {
+        gitHub.generate(['user1'], ['org1'], function(err) {
           expect(err.message).toEqual('some error');
           done();
         });
