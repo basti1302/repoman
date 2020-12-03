@@ -9819,12 +9819,6 @@
       "integrity": "sha1-fLy2S1oUG2ou/CxdLGe04VCyomg=",
       "dev": true
     },
-    "tee-pipefail": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/tee-pipefail/-/tee-pipefail-1.0.0.tgz",
-      "integrity": "sha512-U4B6hMO0c9Ux/elA0RTCM3ZSzM0uBt2vtJRIeyv4UCE9p1W+MjQFIsMnYU35BkSBOhriNYUrn0mbND62OUauUw==",
-      "dev": true
-    },
     "terminal-link": {
       "version": "2.1.1",
       "resolved": "https://registry.npmjs.org/terminal-link/-/terminal-link-2.1.1.tgz",

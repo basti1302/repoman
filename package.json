@@ -45,10 +45,8 @@
     "test": "./test"
   },
   "scripts": {
-    "build": "npm run clean && npm run lint && npm run complexity && npm run test && npm run coverage && npm run test-integration && npm run docs",
+    "build": "npm run clean && npm run lint && npm run test:ci && npm run test-integration && npm run docs",
     "clean": "rimraf .build",
-    "complexity": "mkdirp .build/complexity && tee-pipefail plato --recurse --dir .build/complexity/plato lib .build/complexity/plato.out",
-    "coverage": "mkdirp .build/coverage && tee-pipefail nyc --reporter=lcov --reporter=text-lcov --report-dir .build/coverage mocha .build/coverage/nyc.out && nyc report --report-dir .build/coverage",
     "docs": "jsdoc --configure .jsdoc.json",
     "lint": "eslint --ignore-path .gitignore --ext .js .",
     "prettier": "prettier --write 'lib/**/*.js' 'conf/**/*.json' 'test/**/*.js' 'test-integration/**/*.json'",
@@ -97,8 +95,7 @@
     "prettier": "^1.19.1",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.2",
-    "sinon": "^4.3.0",
-    "tee-pipefail": "^1.0.0"
+    "sinon": "^4.3.0"
   },
   "engines": {
     "node": ">= 4.0.0"
