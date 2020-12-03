@@ -1,16 +1,12 @@
 'use strict';
 
-var proxyquire = require('proxyquire');
-
 var bag = require('bagofrequest');
 var GithubAuth = require('../../lib/auth/github');
 var BluePromise = require('bluebird');
 var dotfile = require('dotfile');
 
 var mocha = require('mocha');
-var chai = require('chai');
 var sinon = require('sinon');
-var assert = chai.assert;
 
 var githubStub = {
   authenticate: sinon.spy(),
@@ -18,11 +14,12 @@ var githubStub = {
   hasNextPage: sinon.stub(),
   getNextPage: sinon.stub()
 };
-var GitHub = proxyquire('../../lib/generator/github', {
-  '@octokit/rest': function() {
-    return githubStub;
-  }
-});
+
+jest.mock('@octokit/rest', () => (function() {
+  return githubStub;
+}));
+
+var GitHub = require('../../lib/generator/github');
 
 describe('github', function() {
   afterEach(function() {
@@ -102,23 +99,23 @@ describe('github', function() {
     it("should create repoman config with users and orgs' repos", function(done) {
       var gitHub = new GitHub(function() {
         gitHub.gh.repos.getForUser = function(opts, cb) {
-          assert.equal(opts.username, 'user1');
-          assert.equal(opts.page, 1);
-          assert.equal(opts.per_page, 100);
+          expect(opts.username).toEqual('user1');
+          expect(opts.page).toEqual(1);
+          expect(opts.per_page).toEqual(100);
           cb(null, 'someuserresult');
         };
         gitHub.gh.repos.getForOrg = function(opts, cb) {
-          assert.equal(opts.org, 'org1');
-          assert.equal(opts.page, 1);
-          assert.equal(opts.per_page, 100);
+          expect(opts.org).toEqual('org1');
+          expect(opts.page).toEqual(1);
+          expect(opts.per_page).toEqual(100);
           cb(null, 'someorgresult');
         };
         gitHub._paginate = function(result, cb) {
           cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
         };
         gitHub.generate(['user1'], ['org1'], function(err, result) {
-          assert.equal(err, null);
-          assert.deepEqual(result, {
+          expect(err).toEqual(null);
+          expect(result).toEqual({
             someapp: { url: 'https://somecloneurl' }
           });
           done();
@@ -129,22 +126,22 @@ describe('github', function() {
     it('should pass error to callback when an error occurs while retrieving repos', function(done) {
       var gitHub = new GitHub(function() {
         gitHub.gh.repos.getForUser = function(opts, cb) {
-          assert.equal(opts.username, 'user1');
-          assert.equal(opts.page, 1);
-          assert.equal(opts.per_page, 100);
+          expect(opts.username).toEqual('user1');
+          expect(opts.page).toEqual(1);
+          expect(opts.per_page).toEqual(100);
           cb(new Error('some error'));
         };
         gitHub.gh.repos.getForOrg = function(opts, cb) {
-          assert.equal(opts.org, 'org1');
-          assert.equal(opts.page, 1);
-          assert.equal(opts.per_page, 100);
+          expect(opts.org).toEqual('org1');
+          expect(opts.page).toEqual(1);
+          expect(opts.per_page).toEqual(100);
           cb(new Error('some error'));
         };
         gitHub._paginate = function(result, cb) {
           cb(null, [{ name: 'someapp', clone_url: 'https://somecloneurl' }]);
         };
         gitHub.generate(['user1'], ['org1'], function(err, result) {
-          assert.equal(err.message, 'some error');
+          expect(err.message).toEqual('some error');
           done();
         });
       });
@@ -181,8 +178,8 @@ describe('github', function() {
       githubStub.getNextPage.withArgs(result).callsArgWith(1, null, nextResult);
       var gitHub = new GitHub(function() {
         gitHub._paginate(result, function(err, result) {
-          assert.equal(err, null);
-          assert.sameMembers(result, ['first', 'second']);
+          expect(err).toEqual(null);
+          expect(result).toEqual(['first', 'second']);
 
           sinon.assert.calledWith(
             console.log,

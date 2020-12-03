@@ -4,9 +4,7 @@ var gitorioujs = require('gitoriou.js');
 var Gitorious = require('../../lib/generator/gitorious');
 
 var mocha = require('mocha');
-var chai = require('chai');
 var sinon = require('sinon');
-var assert = chai.assert;
 
 describe('gitorious', function() {
   describe('generate', function() {
@@ -30,12 +28,12 @@ describe('gitorious', function() {
         .withExactArgs({ url: 'http://someurl' })
         .returns(clientMock);
       sinon.stub(clientMock, 'getProject').callsFake(function(project, cb) {
-        assert.equal(project, 'someproject');
+        expect(project).toEqual('someproject');
         cb(new Error('some error'));
       });
       var gitorious = new Gitorious('http://someurl');
       gitorious.generate(['someproject'], function(err, config) {
-        assert.equal(err.message, 'some error');
+        expect(err.message).toEqual('some error');
         assert.isEmpty(config);
         done();
       });
@@ -48,7 +46,7 @@ describe('gitorious', function() {
         .withExactArgs({ url: 'http://someurl' })
         .returns(clientMock);
       sinon.stub(clientMock, 'getProject').callsFake(function(project, cb) {
-        assert.equal(project, 'someproject');
+        expect(project).toEqual('someproject');
         var repos = [
           { name: 'somerepo1', clone_url: 'somecloneurl1' },
           { name: 'somerepo2', clone_url: 'somecloneurl2' }
@@ -59,9 +57,9 @@ describe('gitorious', function() {
       });
       var gitorious = new Gitorious('http://someurl');
       gitorious.generate(['someproject'], function(err, config) {
-        assert.equal(err, null);
-        assert.deepEqual(config.somerepo1, { url: 'somecloneurl1' });
-        assert.deepEqual(config.somerepo2, { url: 'somecloneurl2' });
+        expect(err).toEqual(null);
+        expect(config.somerepo1).toEqual({ url: 'somecloneurl1' });
+        expect(config.somerepo2).toEqual({ url: 'somecloneurl2' });
         done();
       });
     });
