@@ -5,9 +5,8 @@ var cli = require('../lib/cli');
 var colors = require('colors/safe');
 var fs = require('fs');
 var prompt = require('prompt');
-var Repoman = new require('../lib/repoman');
+var Repoman = require('../lib/repoman');
 
-var mocha = require('mocha');
 var sinon = require('sinon');
 
 describe('cli', function() {
@@ -68,7 +67,7 @@ describe('cli', function() {
         actions.commands.config.action({});
       });
       configStub.callsFake(function(opts, cb) {
-        assert.isEmpty(opts);
+        expect(opts).toEqual({});
         cb();
       });
       cli.exec();

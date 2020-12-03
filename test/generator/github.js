@@ -3,27 +3,29 @@
 var bag = require('bagofrequest');
 var GithubAuth = require('../../lib/auth/github');
 var BluePromise = require('bluebird');
-var dotfile = require('dotfile');
 
-var mocha = require('mocha');
 var sinon = require('sinon');
 
-var githubStub = {
+var mockGithub = {
   authenticate: sinon.spy(),
   repos: {},
   hasNextPage: sinon.stub(),
   getNextPage: sinon.stub()
 };
 
-jest.mock('@octokit/rest', () => (function() {
-  return githubStub;
-}));
+jest.mock(
+  '@octokit/rest',
+  () =>
+    function() {
+      return mockGithub;
+    }
+);
 
 var GitHub = require('../../lib/generator/github');
 
 describe('github', function() {
   afterEach(function() {
-    githubStub.authenticate.resetHistory();
+    mockGithub.authenticate.resetHistory();
   });
 
   describe('github', function() {
@@ -48,7 +50,7 @@ describe('github', function() {
         .withExactArgs()
         .returns('http://someproxy:1234');
       new GitHub(function() {}, 'someuser', 'somepass');
-      sinon.assert.calledWith(githubStub.authenticate, {
+      sinon.assert.calledWith(mockGithub.authenticate, {
         type: 'basic',
         username: 'someuser',
         password: 'somepass'
@@ -71,7 +73,7 @@ describe('github', function() {
         .returns(tokenPromise);
       new GitHub(function() {});
       tokenPromise.then(function() {
-        sinon.assert.calledWith(githubStub.authenticate, {
+        sinon.assert.calledWith(mockGithub.authenticate, {
           type: 'oauth',
           token: 'tooken'
         });
@@ -89,7 +91,7 @@ describe('github', function() {
         .withExactArgs()
         .returns(null);
       new GitHub(function() {});
-      sinon.assert.notCalled(githubStub.authenticate);
+      sinon.assert.notCalled(mockGithub.authenticate);
     });
   });
 
@@ -173,9 +175,9 @@ describe('github', function() {
         }
       };
 
-      githubStub.hasNextPage.withArgs(result).returns(true);
-      githubStub.hasNextPage.withArgs(nextResult).returns(false);
-      githubStub.getNextPage.withArgs(result).callsArgWith(1, null, nextResult);
+      mockGithub.hasNextPage.withArgs(result).returns(true);
+      mockGithub.hasNextPage.withArgs(nextResult).returns(false);
+      mockGithub.getNextPage.withArgs(result).callsArgWith(1, null, nextResult);
       var gitHub = new GitHub(function() {
         gitHub._paginate(result, function(err, result) {
           expect(err).toEqual(null);

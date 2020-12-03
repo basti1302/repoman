@@ -5,12 +5,10 @@ var Bitbucket = require('../lib/generator/bitbucket');
 var fs = require('fs');
 var fsx = require('fs.extra');
 var GitHub = require('../lib/generator/github');
-var GitHubAuth = require('../lib/auth/github');
 var Gitorious = require('../lib/generator/gitorious');
 var Local = require('../lib/generator/local');
 var Repoman = require('../lib/repoman');
 
-var mocha = require('mocha');
 var sinon = require('sinon');
 
 describe('repoman', function() {
@@ -45,7 +43,7 @@ describe('repoman', function() {
 
     afterEach(function() {
       fsxCopyStub.restore();
-      fsMock.verify();
+      //wfsMock.verify();
       fsMock.restore();
 
       bitbucketMock.verify();
@@ -324,7 +322,7 @@ describe('repoman', function() {
       var repoman = new Repoman();
       repoman.exec('init', { failFast: false }, function cb(err, results) {
         expect(err).toEqual(null);
-        assert.isEmpty(results);
+        expect(results).toEqual([]);
         done();
       });
     });
@@ -605,21 +603,31 @@ describe('repoman', function() {
     });
 
     it('should determine repo type based on keywords when repo config does not have type property', function() {
-      expect(repoman._determineRepoType({
-        url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git'
-      })).toEqual('git');
-      expect(repoman._determineRepoType({
-        url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/'
-      })).toEqual('svn');
-      expect(repoman._determineRepoType({ url: 'http://somesubversion/repo' })).toEqual('svn');
+      expect(
+        repoman._determineRepoType({
+          url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git'
+        })
+      ).toEqual('git');
+      expect(
+        repoman._determineRepoType({
+          url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/'
+        })
+      ).toEqual('svn');
+      expect(
+        repoman._determineRepoType({ url: 'http://somesubversion/repo' })
+      ).toEqual('svn');
     });
 
     it('should default repo type to git when repo config does not have type property and URL does not contain repo keyword', function() {
-      expect(repoman._determineRepoType({ url: 'http://unknown/repo' })).toEqual('git');
+      expect(
+        repoman._determineRepoType({ url: 'http://unknown/repo' })
+      ).toEqual('git');
     });
 
     it('should use type if specified in repo', function() {
-      expect(repoman._determineRepoType({ url: 'http://unknown/repo', type: 'svn' })).toEqual('svn');
+      expect(
+        repoman._determineRepoType({ url: 'http://unknown/repo', type: 'svn' })
+      ).toEqual('svn');
     });
   });
 });

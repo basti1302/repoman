@@ -6,7 +6,6 @@ var svnInfo = require('svn-info');
 
 var mockFs = require('mock-fs');
 
-var mocha = require('mocha');
 var sinon = require('sinon');
 
 describe('local', function() {
@@ -113,7 +112,7 @@ describe('local', function() {
 
       local.generate(function(err, result) {
         expect(err).toBeNull();
-        assert.isEmpty(result);
+        expect(result).toEqual({});
 
         done();
       });

@@ -3,7 +3,6 @@
 var gitorioujs = require('gitoriou.js');
 var Gitorious = require('../../lib/generator/gitorious');
 
-var mocha = require('mocha');
 var sinon = require('sinon');
 
 describe('gitorious', function() {
@@ -34,7 +33,7 @@ describe('gitorious', function() {
       var gitorious = new Gitorious('http://someurl');
       gitorious.generate(['someproject'], function(err, config) {
         expect(err.message).toEqual('some error');
-        assert.isEmpty(config);
+        expect(config).toEqual({});
         done();
       });
     });

@@ -3,7 +3,6 @@
 var bitbucket = require('bitbucket-api');
 var Bitbucket = require('../../lib/generator/bitbucket');
 
-var mocha = require('mocha');
 var sinon = require('sinon');
 
 describe('bitbucket', function() {
@@ -50,8 +49,12 @@ describe('bitbucket', function() {
       };
       bitbucket.generate(function(err, result) {
         expect(err).toEqual(null);
-        expect(result.repo1.url).toEqual('ssh://git@bitbucket.org/someuser/repo1.git');
-        expect(result.repo2.url).toEqual('ssh://git@bitbucket.org/otheruser/repo2.git');
+        expect(result.repo1.url).toEqual(
+          'ssh://git@bitbucket.org/someuser/repo1.git'
+        );
+        expect(result.repo2.url).toEqual(
+          'ssh://git@bitbucket.org/otheruser/repo2.git'
+        );
         done();
       });
     });
@@ -67,7 +70,9 @@ describe('bitbucket', function() {
       };
       bitbucket.generate(function(err, result) {
         expect(err).toEqual(null);
-        expect(result.repo2.url).toEqual('ssh://git@bitbucket.org/otheruser/repo2.git');
+        expect(result.repo2.url).toEqual(
+          'ssh://git@bitbucket.org/otheruser/repo2.git'
+        );
         sinon.assert.calledWith(
           console.error,
           'TODO: %s scm is not yet supported',
