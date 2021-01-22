@@ -5,15 +5,11 @@ var Bitbucket = require('../lib/generator/bitbucket');
 var fs = require('fs');
 var fsx = require('fs.extra');
 var GitHub = require('../lib/generator/github');
-var GitHubAuth = require('../lib/auth/github');
 var Gitorious = require('../lib/generator/gitorious');
 var Local = require('../lib/generator/local');
 var Repoman = require('../lib/repoman');
 
-var mocha = require('mocha');
-var chai = require('chai');
 var sinon = require('sinon');
-var assert = chai.assert;
 
 describe('repoman', function() {
   beforeEach(function() {
@@ -31,7 +27,6 @@ describe('repoman', function() {
     var fsxCopyStub;
     var bitbucketMock;
     var gitHubMock;
-    var gitHubAuthMock;
     var gitoriousMock;
     var localMock;
 
@@ -47,7 +42,7 @@ describe('repoman', function() {
 
     afterEach(function() {
       fsxCopyStub.restore();
-      fsMock.verify();
+      //wfsMock.verify();
       fsMock.restore();
 
       bitbucketMock.verify();
@@ -62,13 +57,13 @@ describe('repoman', function() {
 
     it('should copy sample couchpenter.js file to current directory when init is called', function(done) {
       fsxCopyStub.callsFake(function(src, dest, cb) {
-        assert.isTrue(src.match(/\/examples\/.repoman.json$/).length === 1);
-        assert.equal(dest, '.repoman.json');
+        expect(src.match(/\/examples\/.repoman.json$/).length === 1).toBe(true);
+        expect(dest).toEqual('.repoman.json');
         cb();
       });
       var repoman = new Repoman();
-      repoman.config({}, function(err, result) {
-        assert.equal(err, undefined);
+      repoman.config({}, function(err) {
+        expect(err).toEqual(undefined);
         sinon.assert.calledWith(
           console.log,
           'Creating sample configuration file: %s',
@@ -96,8 +91,8 @@ describe('repoman', function() {
       var repoman = new Repoman();
       repoman.config(
         { bitbucket: { authUser: 'someuser', authPass: 'somepassword' } },
-        function(err, result) {
-          assert.isNull(err);
+        function(err) {
+          expect(err).toBeNull();
           sinon.assert.calledWith(
             console.log,
             'Setting configuration file: %s, with Bitbucket repositories',
@@ -125,10 +120,9 @@ describe('repoman', function() {
         .callsArgWith(2, null);
       var repoman = new Repoman();
       repoman.config({ github: { user: 'someuser', org: 'someorg' } }, function(
-        err,
-        result
+        err
       ) {
-        assert.isNull(err);
+        expect(err).toBeNull();
         sinon.assert.calledWith(
           console.log,
           'Setting configuration file: %s, with GitHub repositories',
@@ -145,8 +139,8 @@ describe('repoman', function() {
         .withArgs([], [])
         .callsArgWith(2, new Error('some error'));
       var repoman = new Repoman();
-      repoman.config({ github: {} }, function(err, result) {
-        assert.equal(err.message, 'some error');
+      repoman.config({ github: {} }, function(err) {
+        expect(err.message).toEqual('some error');
         sinon.assert.calledWith(
           console.log,
           'Setting configuration file: %s, with GitHub repositories',
@@ -185,8 +179,8 @@ describe('repoman', function() {
             project: 'someproject1,someproject2'
           }
         },
-        function(err, result) {
-          assert.isNull(err);
+        function(err) {
+          expect(err).toBeNull();
           sinon.assert.calledWith(
             console.log,
             'Setting configuration file: %s, with Gitorious repositories',
@@ -214,13 +208,13 @@ describe('repoman', function() {
         .callsArgWith(2, null);
 
       var repoman = new Repoman();
-      repoman.config({ local: { dir: 'somedir' } }, function(err, result) {
+      repoman.config({ local: { dir: 'somedir' } }, function(err) {
         sinon.assert.calledWith(
           console.log,
           'Setting configuration file: %s, with local repositories',
           '.repoman.json'
         );
-        assert.isNull(err);
+        expect(err).toBeNull();
         done();
       });
     });
@@ -248,8 +242,8 @@ describe('repoman', function() {
       var repoman = new Repoman();
       repoman.config(
         { removeExtraneous: true, local: { dir: 'somedir' } },
-        function(err, result) {
-          assert.isNull(err);
+        function(err) {
+          expect(err).toBeNull();
           sinon.assert.calledWith(
             console.log,
             'Setting configuration file: %s, with local repositories',
@@ -268,11 +262,8 @@ describe('repoman', function() {
         .callsArgWith(1, new Error('some error'));
 
       var repoman = new Repoman();
-      repoman.config({ gitorious: { url: 'http://someurl' } }, function(
-        err,
-        result
-      ) {
-        assert.equal(err.message, 'some error');
+      repoman.config({ gitorious: { url: 'http://someurl' } }, function(err) {
+        expect(err.message).toEqual('some error');
         sinon.assert.calledWith(
           console.log,
           'Setting configuration file: %s, with Gitorious repositories',
@@ -325,25 +316,23 @@ describe('repoman', function() {
     it('should return empty results when there is no repository and scm', function(done) {
       var repoman = new Repoman();
       repoman.exec('init', { failFast: false }, function cb(err, results) {
-        assert.equal(err, null);
-        assert.isEmpty(results);
+        expect(err).toEqual(null);
+        expect(results).toEqual([]);
         done();
       });
     });
 
     it('should log repositories name and execute commands with parameters applied when repositories exist', function(done) {
       bagExecStub.callsFake(function(command, fallthrough, cb) {
-        assert.isTrue(fallthrough);
+        expect(fallthrough).toBe(true);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
       repoman.exec('init', { verbose: true }, function cb(err, results) {
-        assert.equal(
-          results[0],
+        expect(results[0]).toEqual(
           'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb'
         );
-        assert.equal(
-          results[1],
+        expect(results[1]).toEqual(
           'svn checkout http://svn.apache.org/repos/asf/httpd/httpd/trunk/ /somedir/httpd'
         );
 
@@ -366,7 +355,7 @@ describe('repoman', function() {
 
     it('should execute command as-is on each repository when command is unsupported', function(done) {
       bagExecStub.callsFake(function(command, fallthrough, cb) {
-        assert.isTrue(fallthrough);
+        expect(fallthrough).toBe(true);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
@@ -374,13 +363,11 @@ describe('repoman', function() {
         'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
         { verbose: true },
         function cb(err, results) {
-          assert.equal(results.length, 2);
-          assert.equal(
-            results[0],
+          expect(results.length).toEqual(2);
+          expect(results[0]).toEqual(
             'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
           );
-          assert.equal(
-            results[1],
+          expect(results[1]).toEqual(
             'cd "/somedir/httpd" && touch .gitignore; echo "Created /somedir/httpd/.gitignore file";'
           );
 
@@ -404,7 +391,7 @@ describe('repoman', function() {
 
     it('should execute command as-is on matching repository when tag is provided', function(done) {
       bagExecStub.callsFake(function(command, fallthrough, cb) {
-        assert.isTrue(fallthrough);
+        expect(fallthrough).toBe(true);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
@@ -412,9 +399,8 @@ describe('repoman', function() {
         'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
         { tags: ['database', 'someothertag'], verbose: true },
         function cb(err, results) {
-          assert.equal(results.length, 1);
-          assert.equal(
-            results[0],
+          expect(results.length).toEqual(1);
+          expect(results[0]).toEqual(
             'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
           );
 
@@ -432,7 +418,7 @@ describe('repoman', function() {
 
     it('should execute command as-is on matching repository when regex is provided', function(done) {
       bagExecStub.callsFake(function(command, fallthrough, cb) {
-        assert.isTrue(fallthrough);
+        expect(fallthrough).toBe(true);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
@@ -440,9 +426,8 @@ describe('repoman', function() {
         'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
         { regex: '.*couchdb.*', verbose: true },
         function cb(err, results) {
-          assert.equal(results.length, 1);
-          assert.equal(
-            results[0],
+          expect(results.length).toEqual(1);
+          expect(results[0]).toEqual(
             'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
           );
 
@@ -460,7 +445,7 @@ describe('repoman', function() {
 
     it('should not execute any command when neither tags nor regex filters is applicable', function(done) {
       bagExecStub.callsFake(function(command, fallthrough, cb) {
-        assert.isTrue(fallthrough);
+        expect(fallthrough).toBe(true);
         cb(null, command);
       });
       var repoman = new Repoman(repos, scms);
@@ -472,7 +457,7 @@ describe('repoman', function() {
           verbose: true
         },
         function cb(err, results) {
-          assert.equal(results.length, 0);
+          expect(results.length).toEqual(0);
           done();
         }
       );
@@ -481,7 +466,6 @@ describe('repoman', function() {
 
   describe('list', function() {
     var repos;
-    var scms;
 
     beforeEach(function() {
       repos = {
@@ -500,8 +484,8 @@ describe('repoman', function() {
     it('should pass repositories keys as list value', function(done) {
       var repoman = new Repoman(repos);
       repoman.list({}, function(err, result) {
-        assert.isNull(err);
-        assert.sameMembers(result, ['couchdb', 'httpd']);
+        expect(err).toBeNull();
+        expect(result).toEqual(['couchdb', 'httpd']);
         done();
       });
     });
@@ -509,8 +493,8 @@ describe('repoman', function() {
     it('should filter repository by tag', function(done) {
       var repoman = new Repoman(repos);
       repoman.list({ tags: ['apache'] }, function(err, result) {
-        assert.isNull(err);
-        assert.sameMembers(result, ['couchdb']);
+        expect(err).toBeNull();
+        expect(result).toEqual(['couchdb']);
         done();
       });
     });
@@ -518,8 +502,8 @@ describe('repoman', function() {
     it('should filter repository by regex', function(done) {
       var repoman = new Repoman(repos);
       repoman.list({ regex: '.*httpd.*' }, function(err, result) {
-        assert.isNull(err);
-        assert.sameMembers(result, ['httpd']);
+        expect(err).toBeNull();
+        expect(result).toEqual(['httpd']);
         done();
       });
     });
@@ -564,8 +548,8 @@ describe('repoman', function() {
       var dirs = ['dir1', 'couchdb', 'httpd', 'dir2'];
       fsReaddirStub.withArgs('/somedir').callsArgWith(1, null, dirs);
       repoman.clean(true, function(err, results) {
-        assert.isNull(err);
-        assert.sameMembers(results, ['dir1', 'dir2']);
+        expect(err).toBeNull();
+        expect(results).toEqual(['dir1', 'dir2']);
         done();
       });
     });
@@ -583,8 +567,8 @@ describe('repoman', function() {
         .callsArgWith(1, null, 'dir2');
 
       repoman.clean(false, function(err, results) {
-        assert.equal(err, null);
-        assert.sameMembers(results, ['dir1', 'dir2']);
+        expect(err).toEqual(null);
+        expect(results).toEqual(['dir1', 'dir2']);
 
         sinon.assert.calledWith(console.log, '- %s has been deleted', 'dir1');
         sinon.assert.calledWith(console.log, '- %s has been deleted', 'dir2');
@@ -594,12 +578,11 @@ describe('repoman', function() {
     });
 
     it('should pass error to callback when an error occurs while reading the workspace dir', function(done) {
-      var dirs = ['dir1', 'couchdb', 'httpd', 'dir2'];
       fsReaddirStub
         .withArgs('/somedir')
         .callsArgWith(1, new Error('some error'));
-      repoman.clean(true, function(err, results) {
-        assert.equal(err.message, 'some error');
+      repoman.clean(true, function(err) {
+        expect(err.message).toEqual('some error');
         done();
       });
     });
@@ -613,36 +596,31 @@ describe('repoman', function() {
     });
 
     it('should determine repo type based on keywords when repo config does not have type property', function() {
-      assert.equal(
+      expect(
         repoman._determineRepoType({
           url: 'http://git-wip-us.apache.org/repos/asf/couchdb.git'
-        }),
-        'git'
-      );
-      assert.equal(
+        })
+      ).toEqual('git');
+      expect(
         repoman._determineRepoType({
           url: 'http://svn.apache.org/repos/asf/httpd/httpd/trunk/'
-        }),
-        'svn'
-      );
-      assert.equal(
-        repoman._determineRepoType({ url: 'http://somesubversion/repo' }),
-        'svn'
-      );
+        })
+      ).toEqual('svn');
+      expect(
+        repoman._determineRepoType({ url: 'http://somesubversion/repo' })
+      ).toEqual('svn');
     });
 
     it('should default repo type to git when repo config does not have type property and URL does not contain repo keyword', function() {
-      assert.equal(
-        repoman._determineRepoType({ url: 'http://unknown/repo' }),
-        'git'
-      );
+      expect(
+        repoman._determineRepoType({ url: 'http://unknown/repo' })
+      ).toEqual('git');
     });
 
     it('should use type if specified in repo', function() {
-      assert.equal(
-        repoman._determineRepoType({ url: 'http://unknown/repo', type: 'svn' }),
-        'svn'
-      );
+      expect(
+        repoman._determineRepoType({ url: 'http://unknown/repo', type: 'svn' })
+      ).toEqual('svn');
     });
   });
 });
