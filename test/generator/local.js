@@ -6,14 +6,10 @@ var svnInfo = require('svn-info');
 
 var mockFs = require('mock-fs');
 
-var mocha = require('mocha');
-var chai = require('chai');
 var sinon = require('sinon');
-var assert = chai.assert;
 
 describe('local', function() {
   describe('generate', function() {
-    var fsMock;
     var iniMock;
     var svnInfoMock;
 
@@ -59,11 +55,11 @@ describe('local', function() {
       var local = new Local('.');
 
       local.generate(function(err, result) {
-        assert.isNull(err);
-        assert.equal(result.repo1.type, 'git');
-        assert.equal(result.repo1.url, 'http://github.com/some/repo1');
-        assert.equal(result.repo2.type, 'git');
-        assert.equal(result.repo2.url, 'http://github.com/some/repo2');
+        expect(err).toBeNull();
+        expect(result.repo1.type).toEqual('git');
+        expect(result.repo1.url).toEqual('http://github.com/some/repo1');
+        expect(result.repo2.type).toEqual('git');
+        expect(result.repo2.url).toEqual('http://github.com/some/repo2');
 
         done();
       });
@@ -95,11 +91,11 @@ describe('local', function() {
       var local = new Local('.');
 
       local.generate(function(err, result) {
-        assert.isNull(err);
-        assert.equal(result.repo1.type, 'svn');
-        assert.equal(result.repo1.url, 'http://svnhub.com/some/repo1');
-        assert.equal(result.repo2.type, 'svn');
-        assert.equal(result.repo2.url, 'http://svnhub.com/some/repo2');
+        expect(err).toBeNull();
+        expect(result.repo1.type).toEqual('svn');
+        expect(result.repo1.url).toEqual('http://svnhub.com/some/repo1');
+        expect(result.repo2.type).toEqual('svn');
+        expect(result.repo2.url).toEqual('http://svnhub.com/some/repo2');
 
         done();
       });
@@ -114,8 +110,8 @@ describe('local', function() {
       var local = new Local('.');
 
       local.generate(function(err, result) {
-        assert.isNull(err);
-        assert.isEmpty(result);
+        expect(err).toBeNull();
+        expect(result).toEqual({});
 
         done();
       });

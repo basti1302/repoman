@@ -5,12 +5,9 @@ var cli = require('../lib/cli');
 var colors = require('colors/safe');
 var fs = require('fs');
 var prompt = require('prompt');
-var Repoman = new require('../lib/repoman');
+var Repoman = require('../lib/repoman');
 
-var mocha = require('mocha');
-var chai = require('chai');
 var sinon = require('sinon');
-var assert = chai.assert;
 
 describe('cli', function() {
   var commandStub;
@@ -35,16 +32,16 @@ describe('cli', function() {
   describe('exec', function() {
     it('should contain commands with actions', function(done) {
       var mockCommand = function(base, actions) {
-        assert.isDefined(base);
-        assert.isDefined(actions.commands.config.action);
-        assert.isDefined(actions.commands['delete'].action);
-        assert.isDefined(actions.commands.init.action);
-        assert.isDefined(actions.commands.get.action);
-        assert.isDefined(actions.commands.changes.action);
-        assert.isDefined(actions.commands.save.action);
-        assert.isDefined(actions.commands.undo.action);
-        assert.isDefined(actions.commands.exec.action);
-        assert.isDefined(actions.commands.clean.action);
+        expect(base).toBeDefined();
+        expect(actions.commands.config.action).toBeDefined();
+        expect(actions.commands['delete'].action).toBeDefined();
+        expect(actions.commands.init.action).toBeDefined();
+        expect(actions.commands.get.action).toBeDefined();
+        expect(actions.commands.changes.action).toBeDefined();
+        expect(actions.commands.save.action).toBeDefined();
+        expect(actions.commands.undo.action).toBeDefined();
+        expect(actions.commands.exec.action).toBeDefined();
+        expect(actions.commands.clean.action).toBeDefined();
         done();
       };
       commandStub.callsFake(mockCommand);
@@ -70,7 +67,7 @@ describe('cli', function() {
         actions.commands.config.action({});
       });
       configStub.callsFake(function(opts, cb) {
-        assert.isEmpty(opts);
+        expect(opts).toEqual({});
         cb();
       });
       cli.exec();
@@ -85,8 +82,8 @@ describe('cli', function() {
         });
       });
       configStub.callsFake(function(opts, cb) {
-        assert.equal(opts.bitbucket.authUser, 'someauthuser');
-        assert.equal(opts.bitbucket.authPass, 'someauthpass');
+        expect(opts.bitbucket.authUser).toEqual('someauthuser');
+        expect(opts.bitbucket.authPass).toEqual('someauthpass');
         cb();
       });
       cli.exec();
@@ -103,10 +100,10 @@ describe('cli', function() {
         });
       });
       configStub.callsFake(function(opts, cb) {
-        assert.equal(opts.github.user, 'someuser');
-        assert.equal(opts.github.org, 'someorg');
-        assert.equal(opts.github.authUser, 'someauthuser');
-        assert.equal(opts.github.authPass, 'someauthpass');
+        expect(opts.github.user).toEqual('someuser');
+        expect(opts.github.org).toEqual('someorg');
+        expect(opts.github.authUser).toEqual('someauthuser');
+        expect(opts.github.authPass).toEqual('someauthpass');
         cb();
       });
       cli.exec();
@@ -121,8 +118,8 @@ describe('cli', function() {
         });
       });
       configStub.callsFake(function(opts, cb) {
-        assert.equal(opts.gitorious.url, 'http://somehost.com');
-        assert.equal(opts.gitorious.project, 'someproject');
+        expect(opts.gitorious.url).toEqual('http://somehost.com');
+        expect(opts.gitorious.project).toEqual('someproject');
         cb();
       });
       cli.exec();
@@ -137,7 +134,7 @@ describe('cli', function() {
         });
       });
       configStub.callsFake(function(opts, cb) {
-        assert.equal(opts.local.dir, 'somedir');
+        expect(opts.local.dir).toEqual('somedir');
         cb();
       });
       cli.exec();
@@ -165,15 +162,15 @@ describe('cli', function() {
         actions.commands.exec.action('ls -al', { _name: 'exec', parent: {} });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.repoman.json');
+        expect(file).toEqual('.repoman.json');
         return '{}';
       });
       mockFs.expects('readFileSync').returns('{}');
       execStub.callsFake(function(command, opts, cb) {
-        assert.equal(command, 'ls -al');
-        assert.equal(opts.failFast, undefined);
-        assert.equal(opts.regex, undefined);
-        assert.equal(opts.tags, undefined);
+        expect(command).toEqual('ls -al');
+        expect(opts.failFast).toEqual(undefined);
+        expect(opts.regex).toEqual(undefined);
+        expect(opts.tags).toEqual(undefined);
         cb();
       });
       cli.exec();
@@ -185,15 +182,15 @@ describe('cli', function() {
         actions.commands.exec.action({ _name: 'init', parent: {} });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.repoman.json');
+        expect(file).toEqual('.repoman.json');
         return '{}';
       });
       mockFs.expects('readFileSync').returns('{}');
       execStub.callsFake(function(command, opts, cb) {
-        assert.equal(command, 'init');
-        assert.equal(opts.failFast, undefined);
-        assert.equal(opts.regex, undefined);
-        assert.equal(opts.tags, undefined);
+        expect(command).toEqual('init');
+        expect(opts.failFast).toEqual(undefined);
+        expect(opts.regex).toEqual(undefined);
+        expect(opts.tags).toEqual(undefined);
         cb();
       });
       cli.exec();
@@ -208,15 +205,15 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.repoman.json');
+        expect(file).toEqual('.repoman.json');
         return '{}';
       });
       mockFs.expects('readFileSync').returns('{}');
       execStub.callsFake(function(command, opts, cb) {
-        assert.equal(command, 'init');
-        assert.equal(opts.failFast, undefined);
-        assert.equal(opts.regex, undefined);
-        assert.equal(opts.tags, undefined);
+        expect(command).toEqual('init');
+        expect(opts.failFast).toEqual(undefined);
+        expect(opts.regex).toEqual(undefined);
+        expect(opts.tags).toEqual(undefined);
         cb();
       });
       cli.exec();
@@ -236,15 +233,15 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.somerepoman.json');
+        expect(file).toEqual('.somerepoman.json');
         return '{}';
       });
       mockFs.expects('readFileSync').returns('{}');
       execStub.callsFake(function(command, opts, cb) {
-        assert.equal(command, 'init');
-        assert.equal(opts.failFast, true);
-        assert.equal(opts.regex, '.*github.*');
-        assert.sameMembers(opts.tags, ['tag1', 'tag2']);
+        expect(command).toEqual('init');
+        expect(opts.failFast).toEqual(true);
+        expect(opts.regex).toEqual('.*github.*');
+        expect(opts.tags).toEqual(['tag1', 'tag2']);
         cb();
       });
       cli.exec();
@@ -274,7 +271,7 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.repoman.json');
+        expect(file).toEqual('.repoman.json');
         return '{}';
       });
       cli.exec();
@@ -294,7 +291,7 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.somerepoman.json');
+        expect(file).toEqual('.somerepoman.json');
         return '{}';
       });
       cli.exec();
@@ -319,7 +316,7 @@ describe('cli', function() {
 
     it('should delete nothing when there is no directory to clean up', function() {
       cleanStub.callsFake(function(dryRun, cb) {
-        assert.equal(dryRun, true);
+        expect(dryRun).toEqual(true);
         cb(null, null);
       });
       commandStub.callsFake(function(base, actions) {
@@ -329,7 +326,7 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.somerepoman.json');
+        expect(file).toEqual('.somerepoman.json');
         return '{}';
       });
       cli.exec();
@@ -361,7 +358,7 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.somerepoman.json');
+        expect(file).toEqual('.somerepoman.json');
         return '{}';
       });
       cli.exec();
@@ -384,7 +381,7 @@ describe('cli', function() {
         .withArgs(['Are you sure? (Y/N)'])
         .callsArgWith(1, null, { 'Are you sure? (Y/N)': 'N' });
       cleanStub.callsFake(function(dryRun, cb) {
-        assert.equal(dryRun, true);
+        expect(dryRun).toEqual(true);
         cb(null, ['dir1', 'dir2']);
       });
       commandStub.callsFake(function(base, actions) {
@@ -394,7 +391,7 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.somerepoman.json');
+        expect(file).toEqual('.somerepoman.json');
         return '{}';
       });
       cli.exec();
@@ -418,7 +415,7 @@ describe('cli', function() {
         .withArgs(['Are you sure? (Y/N)'])
         .callsArgWith(1, null, { 'Are you sure? (Y/N)': '' });
       cleanStub.callsFake(function(dryRun, cb) {
-        assert.equal(dryRun, true);
+        expect(dryRun).toEqual(true);
         cb(null, ['dir1', 'dir2']);
       });
       commandStub.callsFake(function(base, actions) {
@@ -428,7 +425,7 @@ describe('cli', function() {
         });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.somerepoman.json');
+        expect(file).toEqual('.somerepoman.json');
         return '{}';
       });
       cli.exec();
@@ -443,14 +440,14 @@ describe('cli', function() {
 
     it('should pass error to callback when there is an error during dry run', function() {
       cleanStub.callsFake(function(dryRun, cb) {
-        assert.equal(dryRun, true);
+        expect(dryRun).toEqual(true);
         cb(new Error('some error'));
       });
       commandStub.callsFake(function(base, actions) {
         actions.commands.clean.action({ _name: 'clean', parent: {} });
       });
       lookupFileStub.callsFake(function(file) {
-        assert.equal(file, '.repoman.json');
+        expect(file).toEqual('.repoman.json');
         return '{}';
       });
       cli.exec();

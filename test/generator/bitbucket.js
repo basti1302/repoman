@@ -3,10 +3,7 @@
 var bitbucket = require('bitbucket-api');
 var Bitbucket = require('../../lib/generator/bitbucket');
 
-var mocha = require('mocha');
-var chai = require('chai');
 var sinon = require('sinon');
-var assert = chai.assert;
 
 describe('bitbucket', function() {
   describe('bitbucket - bitbucket', function() {
@@ -51,13 +48,11 @@ describe('bitbucket', function() {
         cb(null, result);
       };
       bitbucket.generate(function(err, result) {
-        assert.equal(err, null);
-        assert.equal(
-          result.repo1.url,
+        expect(err).toEqual(null);
+        expect(result.repo1.url).toEqual(
           'ssh://git@bitbucket.org/someuser/repo1.git'
         );
-        assert.equal(
-          result.repo2.url,
+        expect(result.repo2.url).toEqual(
           'ssh://git@bitbucket.org/otheruser/repo2.git'
         );
         done();
@@ -74,9 +69,8 @@ describe('bitbucket', function() {
         cb(null, result);
       };
       bitbucket.generate(function(err, result) {
-        assert.equal(err, null);
-        assert.equal(
-          result.repo2.url,
+        expect(err).toEqual(null);
+        expect(result.repo2.url).toEqual(
           'ssh://git@bitbucket.org/otheruser/repo2.git'
         );
         sinon.assert.calledWith(
@@ -93,8 +87,8 @@ describe('bitbucket', function() {
       bitbucket.client.repositories = function(cb) {
         cb(new Error('some error'));
       };
-      bitbucket.generate(function(err, result) {
-        assert.equal(err.message, 'some error');
+      bitbucket.generate(function(err) {
+        expect(err.message).toEqual('some error');
         done();
       });
     });
