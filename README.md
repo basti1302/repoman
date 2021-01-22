@@ -1,6 +1,6 @@
 <img align="right" src="https://raw.github.com/basti1302/repoman/master/avatar.jpg" alt="Avatar"/>
 
-[![Build Status](https://github.com/andreashouben/repoman/workflows/Node.js%20CI/badge.svg)](https://github.com/andreashouben/repoman/actions?query=workflow%3A%22Node.js+CI%22)
+[![Build Status](https://github.com/basti1302/repoman/workflows/Node.js%20CI/badge.svg)](https://github.com/basti1302/repoman/actions?query=workflow%3A%22Node.js+CI%22)
 [![Dependencies Status](https://img.shields.io/david/basti1302/repoman.svg)](http://david-dm.org/basti1302/repoman)
 [![Published Version](https://img.shields.io/npm/v/repoman.svg)](http://www.npmjs.com/package/repoman)
 <br/>
