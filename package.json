@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^14.0.9",
-    "async": "^2.6.3",
+    "async": "^3.2.2",
     "bagofcli": "^1.1.0",
     "bagofrequest": "^1.0.0",
     "bitbucket-api": "^0.1.0",
