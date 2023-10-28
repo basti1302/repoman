@@ -207,6 +207,7 @@ describe('repoman', function() {
         }
       );
     });
+  });
 
   describe('exec', function() {
     var repos;
