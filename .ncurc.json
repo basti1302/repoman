@@ -1,0 +1,3 @@
+{
+  "reject": ["async", "bagofcli", "cmdt", "@octokit/rest"]
+}
