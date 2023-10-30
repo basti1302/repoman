@@ -51,12 +51,12 @@ Usage
 ```
 ┌────────────────┬────────────────────────┬─────────────┬──────────┐
 │ Repository     │ Branch                 │ Uncommitted │ Unpushed │
-│ httpd          │ master                 │ Clean       │ 0        │
+│ httpd          │ main                 │ Clean       │ 0        │
 │ nodejs         │ feature-branch-xyz     │ Clean       │ 11       │
-│ benchmarks     │ master                 │ Clean       │ 0        │
-│ internal-tools │ master                 │ Clean       │ 0        │
+│ benchmarks     │ main                 │ Clean       │ 0        │
+│ internal-tools │ main                 │ Clean       │ 0        │
 │ svn-repo       │ trunk                  │ Clean       │ N. A.    │
-│ documentation  │ master                 │ Dirty       │ 0        │
+│ documentation  │ main                 │ Dirty       │ 0        │
 │ ui             │ another-feature-branch │ Clean       │ 9        │
 └────────────────┴────────────────────────┴─────────────┴──────────┘
 ```
@@ -145,7 +145,7 @@ Repoman uses the following SCM command mapping.
   </tr>
   <tr>
     <td>repoman save</td>
-    <td>git push origin master</td>
+    <td>git push origin main</td>
     <td>svn commit -m "Commited by Repoman"</td>
   </tr>
   <tr>

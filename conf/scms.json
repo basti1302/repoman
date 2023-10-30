@@ -9,7 +9,7 @@
       "hasUncommitted": "(git diff-index --quiet HEAD -- && echo Clean) || echo Dirty",
       "hasUnpushed": "git log --branches --not --remotes --oneline | wc -l"
     },
-    "save": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git push origin master",
+    "save": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git push origin main",
     "undo": "cd \"{{{workspace}}}{{{pathseparator}}}{{{name}}}\" && git reset --hard"
   },
   "svn": {
