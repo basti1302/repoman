@@ -47,11 +47,6 @@
           "arg": "--github-use-ssh",
           "desc": "Use the ssh url from Github instead of the standard clone url where possible"
         },
-        { "arg": "--gitorious-url <gitoriousUrl>", "desc": "Gitorious URL" },
-        {
-          "arg": "--gitorious-project <gitoriousProject>",
-          "desc": "Comma-separated Gitorious projects"
-        },
         {
           "arg": "--local",
           "desc": "Create configuration file from local repositories"
