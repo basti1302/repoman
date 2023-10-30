@@ -5,7 +5,6 @@ var Bitbucket = require('../lib/generator/bitbucket');
 var fs = require('fs');
 var fsx = require('fs.extra');
 var GitHub = require('../lib/generator/github');
-var Gitorious = require('../lib/generator/gitorious');
 var Local = require('../lib/generator/local');
 var Repoman = require('../lib/repoman');
 
@@ -27,13 +26,11 @@ describe('repoman', function() {
     var fsxCopyStub;
     var bitbucketMock;
     var gitHubMock;
-    var gitoriousMock;
     var localMock;
 
     beforeEach(function() {
       bitbucketMock = sinon.mock(Bitbucket.prototype);
       gitHubMock = sinon.mock(GitHub.prototype);
-      gitoriousMock = sinon.mock(Gitorious.prototype);
       localMock = sinon.mock(Local.prototype);
 
       fsMock = sinon.mock(fs);
@@ -49,8 +46,6 @@ describe('repoman', function() {
       bitbucketMock.restore();
       gitHubMock.verify();
       gitHubMock.restore();
-      gitoriousMock.verify();
-      gitoriousMock.restore();
       localMock.verify();
       localMock.restore();
     });
@@ -150,47 +145,6 @@ describe('repoman', function() {
       });
     });
 
-    it('should create .repoman.json containing repos on gitorious when gitorious config is specified', function(done) {
-      fsMock
-        .expects('existsSync')
-        .withExactArgs('.repoman.json')
-        .returns(true);
-      gitoriousMock
-        .expects('generate')
-        .once()
-        .withArgs(['someproject1', 'someproject2'])
-        .callsArgWith(1, null, { foo: 'bar' });
-      fsMock
-        .expects('readFileSync')
-        .once()
-        .withExactArgs('.repoman.json', 'utf-8')
-        .returns('{}');
-      fsMock
-        .expects('writeFile')
-        .once()
-        .withArgs('.repoman.json', '{\n  "foo": "bar"\n}')
-        .callsArgWith(2, null);
-
-      var repoman = new Repoman();
-      repoman.config(
-        {
-          gitorious: {
-            url: 'http://someurl',
-            project: 'someproject1,someproject2'
-          }
-        },
-        function(err) {
-          expect(err).toBeNull();
-          sinon.assert.calledWith(
-            console.log,
-            'Setting configuration file: %s, with Gitorious repositories',
-            '.repoman.json'
-          );
-          done();
-        }
-      );
-    });
-
     it('should create .repoman.json containing repos on local repositories when local config is specified', function(done) {
       fsMock
         .expects('existsSync')
@@ -252,25 +206,6 @@ describe('repoman', function() {
           done();
         }
       );
-    });
-
-    it('should pass error to callback when an error occurs while creating config containing gitorious repos', function(done) {
-      gitoriousMock
-        .expects('generate')
-        .once()
-        .withArgs([])
-        .callsArgWith(1, new Error('some error'));
-
-      var repoman = new Repoman();
-      repoman.config({ gitorious: { url: 'http://someurl' } }, function(err) {
-        expect(err.message).toEqual('some error');
-        sinon.assert.calledWith(
-          console.log,
-          'Setting configuration file: %s, with Gitorious repositories',
-          '.repoman.json'
-        );
-        done();
-      });
     });
   });
 

@@ -110,22 +110,6 @@ describe('cli', function() {
       sinon.assert.calledWith(process.exit, 0);
     });
 
-    it('should pass gitorious opts when specified in args', function() {
-      commandStub.callsFake(function(base, actions) {
-        actions.commands.config.action({
-          gitoriousUrl: 'http://somehost.com',
-          gitoriousProject: 'someproject'
-        });
-      });
-      configStub.callsFake(function(opts, cb) {
-        expect(opts.gitorious.url).toEqual('http://somehost.com');
-        expect(opts.gitorious.project).toEqual('someproject');
-        cb();
-      });
-      cli.exec();
-      sinon.assert.calledWith(process.exit, 0);
-    });
-
     it('should pass local opts when specified in args', function() {
       process.cwd.returns('somedir');
       commandStub.callsFake(function(base, actions) {
