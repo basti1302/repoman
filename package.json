@@ -61,7 +61,7 @@
   "dependencies": {
     "@octokit/rest": "^16.43.2",
     "async": "^2.6.4",
-    "bagofcli": "^1.1.0",
+    "bagofcli": "^2.4.1",
     "bagofrequest": "^1.0.0",
     "bitbucket-api": "^0.1.0",
     "bluebird": "^3.7.2",
