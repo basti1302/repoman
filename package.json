@@ -59,7 +59,7 @@
     "postpublish": "npm run site"
   },
   "dependencies": {
-    "@octokit/rest": "^16.43.2",
+    "@octokit/rest": "^20.0.2",
     "async": "^2.6.4",
     "bagofcli": "^1.1.0",
     "bagofrequest": "^1.0.0",
