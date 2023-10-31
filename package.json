@@ -78,7 +78,7 @@
   },
   "devDependencies": {
     "buildbranch": "^2.0.1",
-    "cmdt": "github:basti1302/cmdt#v1.0.2",
+    "cmdt": "github:basti1302/cmdt#v2.0.0",
     "eslint": "^8.52.0",
     "eslint-plugin-jest": "^27.6.0",
     "is-ci-cli": "^2.2.0",
