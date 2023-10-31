@@ -1,24 +1,24 @@
 'use strict';
 
-var ini = require('ini');
-var Local = require('../../lib/generator/local');
-var svnInfo = require('svn-info');
+const ini = require('ini');
+const Local = require('../../lib/generator/local');
+const svnInfo = require('svn-info');
 
-var mockFs = require('mock-fs');
+const mockFs = require('mock-fs');
 
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-describe('local', function() {
-  describe('generate', function() {
-    var iniMock;
-    var svnInfoMock;
+describe('local', () => {
+  describe('generate', () => {
+    let iniMock;
+    let svnInfoMock;
 
-    beforeEach(function() {
+    beforeEach(() => {
       iniMock = sinon.mock(ini);
       svnInfoMock = sinon.mock(svnInfo);
     });
 
-    afterEach(function() {
+    afterEach(() => {
       mockFs.restore();
       iniMock.verify();
       iniMock.restore();
@@ -26,7 +26,7 @@ describe('local', function() {
       svnInfoMock.restore();
     });
 
-    it('should construct config of git repos using git config remote origin', function(done) {
+    it('should construct config of git repos using git config remote origin', done => {
       mockFs({
         repo1: {
           '.git': {
@@ -52,20 +52,20 @@ describe('local', function() {
           'remote "origin"': { url: 'http://github.com/some/repo2' }
         });
 
-      var local = new Local('.');
+      const local = new Local('.');
 
-      local.generate(function(err, result) {
+      local.generate((err, { repo1, repo2 }) => {
         expect(err).toBeNull();
-        expect(result.repo1.type).toEqual('git');
-        expect(result.repo1.url).toEqual('http://github.com/some/repo1');
-        expect(result.repo2.type).toEqual('git');
-        expect(result.repo2.url).toEqual('http://github.com/some/repo2');
+        expect(repo1.type).toEqual('git');
+        expect(repo1.url).toEqual('http://github.com/some/repo1');
+        expect(repo2.type).toEqual('git');
+        expect(repo2.url).toEqual('http://github.com/some/repo2');
 
         done();
       });
     });
 
-    it('should construct config of svn repos using svn info repository root', function(done) {
+    it('should construct config of svn repos using svn info repository root', done => {
       mockFs({
         repo1: {
           '.svn': {
@@ -88,28 +88,28 @@ describe('local', function() {
         .withExactArgs('repo2')
         .returns({ repositoryRoot: 'http://svnhub.com/some/repo2' });
 
-      var local = new Local('.');
+      const local = new Local('.');
 
-      local.generate(function(err, result) {
+      local.generate((err, { repo1, repo2 }) => {
         expect(err).toBeNull();
-        expect(result.repo1.type).toEqual('svn');
-        expect(result.repo1.url).toEqual('http://svnhub.com/some/repo1');
-        expect(result.repo2.type).toEqual('svn');
-        expect(result.repo2.url).toEqual('http://svnhub.com/some/repo2');
+        expect(repo1.type).toEqual('svn');
+        expect(repo1.url).toEqual('http://svnhub.com/some/repo1');
+        expect(repo2.type).toEqual('svn');
+        expect(repo2.url).toEqual('http://svnhub.com/some/repo2');
 
         done();
       });
     });
 
-    it('should pass empty config when repo is neither git nor svn', function(done) {
+    it('should pass empty config when repo is neither git nor svn', done => {
       mockFs({
         repo1: {},
         repo2: {}
       });
 
-      var local = new Local('.');
+      const local = new Local('.');
 
-      local.generate(function(err, result) {
+      local.generate((err, result) => {
         expect(err).toBeNull();
         expect(result).toEqual({});
 
