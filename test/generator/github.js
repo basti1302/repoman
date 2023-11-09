@@ -1,10 +1,11 @@
 'use strict';
 
 const BluePromise = require('bluebird');
-const bag = require('bagofrequest');
 const sinon = require('sinon');
 
 const GithubAuth = require('../../lib/auth/github');
+
+let lastGithubConstructorOpts;
 
 const mockGithub = {
   authenticate: sinon.spy(),
@@ -16,7 +17,8 @@ const mockGithub = {
 jest.mock(
   '@octokit/rest',
   () =>
-    function fn() {
+    function GithubConstructor(opts) {
+      lastGithubConstructorOpts = opts;
       return mockGithub;
     }
 );
@@ -24,28 +26,27 @@ jest.mock(
 const GitHub = require('../../lib/generator/github');
 
 describe('github', () => {
+  beforeEach(() => {
+    lastGithubConstructorOpts = null;
+  });
+
   afterEach(() => {
     mockGithub.authenticate.resetHistory();
   });
 
   describe('github', () => {
-    let bagMock;
     let githubAuthMock;
 
     beforeEach(() => {
-      bagMock = sinon.mock(bag);
       githubAuthMock = sinon.mock(GithubAuth.prototype);
     });
 
     afterEach(() => {
-      bagMock.verify();
-      bagMock.restore();
       githubAuthMock.verify();
       githubAuthMock.restore();
     });
 
     it('should authenticate when username and password are specified', () => {
-      bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
       new GitHub(() => {}, 'someuser', 'somepass');
       sinon.assert.calledWith(mockGithub.authenticate, {
         type: 'basic',
@@ -55,8 +56,6 @@ describe('github', () => {
     });
 
     it('should authenticate when username and password are not specified but auth token exists', done => {
-      bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
-      bagMock.expects('proxy').withExactArgs().returns('http://someproxy:1234');
       const tokenPromise = BluePromise.resolve('tooken');
       githubAuthMock.expects('readAuthToken').once().returns(tokenPromise);
       new GitHub(() => {});
@@ -70,10 +69,29 @@ describe('github', () => {
     });
 
     it('should not authenticate when username and password are not specified', () => {
-      bagMock.expects('proxy').withExactArgs().returns(null);
-      bagMock.expects('proxy').withExactArgs().returns(null);
       new GitHub(() => {});
       sinon.assert.notCalled(mockGithub.authenticate);
+    });
+  });
+
+  describe('with proxy settings', () => {
+    let originalProxySetting;
+
+    beforeEach(() => {
+      originalProxySetting = process.env.HTTPS_PROXY;
+    });
+
+    afterEach(() => {
+      process.env.HTTPS_PROXY = originalProxySetting;
+    });
+
+    it('should use proxy from env vars ', () => {
+      process.env.HTTPS_PROXY = 'https://proxy.example.com:4711';
+      new GitHub(() => {}, 'someuser', 'somepass');
+      expect(lastGithubConstructorOpts.proxy).toEqual({
+        host: 'proxy.example.com',
+        port: '4711'
+      });
     });
   });
 
