@@ -1,0 +1,65 @@
+# This github action publishes a release. It can be triggered manually.
+name: Publish Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: "Dry Run"
+        required: false
+        default: false
+        type: choice
+        options:
+        - false
+        - true
+
+jobs:
+  publish-release:
+    name: Release the main branch as a new version to the npm registry.
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      DRY_RUN: ${{ inputs.dryRun }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20.4"
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: echo versions
+        run: |
+          node --version
+          npm --version
+
+      # install dependencies
+      - name: install dependencies
+        run: npm ci
+
+      # run all tests before publishing a release
+      - name: run tests
+        run: npm run build
+
+      - name: add token to .npmrc
+        run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> .npmrc
+
+      - name: configure git name/email
+        run: |
+          git config user.name "Repoman Release Action"
+          git config user.email github-actions@github.com
+
+      - name: publish release
+        run: |
+          set -x
+          if [[ $DRY_RUN = true ]]; then
+            npm run release -- --dry-run
+            git --no-pager status
+            git --no-pager log -n5
+            git --no-pager diff --cached
+            git --no-pager diff
+          else
+            npm run release
+            git push --follow-tags origin main
+            npm publish
+          fi
