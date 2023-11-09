@@ -7,8 +7,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
+* This is mostly a maintenance release for updating dependencies and modernizing the code base.
 * assume main instead of master as default branch ([f4bcb9d](https://github.com/mokkapps/changelog-generator-demo/commits/f4bcb9d6495ad9a387c08b4267f6ce0fe2f41606))
-
 
 ### Bug Fixes
 
