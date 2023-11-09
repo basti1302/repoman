@@ -4,3 +4,6 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "build(deps)"
+      prefix-development: "build(deps-dev)"
