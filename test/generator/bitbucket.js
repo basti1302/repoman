@@ -1,9 +1,9 @@
 'use strict';
 
 const bitbucket = require('bitbucket-api');
-const Bitbucket = require('../../lib/generator/bitbucket');
-
 const sinon = require('sinon');
+
+const Bitbucket = require('../../lib/generator/bitbucket');
 
 describe('bitbucket', () => {
   describe('bitbucket - bitbucket', () => {
@@ -39,15 +39,15 @@ describe('bitbucket', () => {
     });
 
     it('should create repoman config with repos', done => {
-      const bitbucket = new Bitbucket('someuser', 'somepassword');
-      bitbucket.client.repositories = cb => {
+      const bitbucketClient = new Bitbucket('someuser', 'somepassword');
+      bitbucketClient.client.repositories = cb => {
         const result = [
           { slug: 'repo1', owner: 'someuser', scm: 'git' },
           { slug: 'repo2', owner: 'otheruser', scm: 'git' }
         ];
         cb(null, result);
       };
-      bitbucket.generate((err, { repo1, repo2 }) => {
+      bitbucketClient.generate((err, { repo1, repo2 }) => {
         expect(err).toEqual(null);
         expect(repo1.url).toEqual('ssh://git@bitbucket.org/someuser/repo1.git');
         expect(repo2.url).toEqual(
@@ -58,15 +58,15 @@ describe('bitbucket', () => {
     });
 
     it('should log an error message when repo scm is unsupported', done => {
-      const bitbucket = new Bitbucket('someuser', 'somepassword');
-      bitbucket.client.repositories = cb => {
+      const bitbucketClient = new Bitbucket('someuser', 'somepassword');
+      bitbucketClient.client.repositories = cb => {
         const result = [
           { slug: 'repo1', owner: 'someuser', scm: 'someunsupportedscm' },
           { slug: 'repo2', owner: 'otheruser', scm: 'git' }
         ];
         cb(null, result);
       };
-      bitbucket.generate((err, { repo2 }) => {
+      bitbucketClient.generate((err, { repo2 }) => {
         expect(err).toEqual(null);
         expect(repo2.url).toEqual(
           'ssh://git@bitbucket.org/otheruser/repo2.git'
@@ -81,11 +81,11 @@ describe('bitbucket', () => {
     });
 
     it('should pass error to callback when an error occurs while retrieving repos', done => {
-      const bitbucket = new Bitbucket('someuser', 'somepassword');
-      bitbucket.client.repositories = cb => {
+      const bitbucketClient = new Bitbucket('someuser', 'somepassword');
+      bitbucketClient.client.repositories = cb => {
         cb(new Error('some error'));
       };
-      bitbucket.generate(({ message }) => {
+      bitbucketClient.generate(({ message }) => {
         expect(message).toEqual('some error');
         done();
       });

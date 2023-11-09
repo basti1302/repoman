@@ -84,6 +84,8 @@
     "buildbranch": "^2.0.1",
     "cmdt": "github:basti1302/cmdt#v1.0.2",
     "eslint": "^8.52.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jest": "^27.6.0",
     "husky": "^8.0.0",
     "is-ci-cli": "^2.2.0",

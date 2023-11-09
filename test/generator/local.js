@@ -1,12 +1,11 @@
 'use strict';
 
 const ini = require('ini');
-const Local = require('../../lib/generator/local');
+const mockFs = require('mock-fs');
+const sinon = require('sinon');
 const svnInfo = require('svn-info');
 
-const mockFs = require('mock-fs');
-
-const sinon = require('sinon');
+const Local = require('../../lib/generator/local');
 
 describe('local', () => {
   describe('generate', () => {

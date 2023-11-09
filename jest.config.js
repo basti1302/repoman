@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   clearMocks: true,
   coverageProvider: 'v8',

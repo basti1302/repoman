@@ -1,13 +1,13 @@
 'use strict';
 
 const bag = require('bagofcli');
-const cli = require('../lib/cli');
 const colors = require('colors/safe');
 const fs = require('fs');
 const prompt = require('prompt');
-const Repoman = require('../lib/repoman');
-
 const sinon = require('sinon');
+
+const Repoman = require('../lib/repoman');
+const cli = require('../lib/cli');
 
 describe('cli', () => {
   let commandStub;
@@ -34,7 +34,7 @@ describe('cli', () => {
       const mockCommand = (base, { commands }) => {
         expect(base).toBeDefined();
         expect(commands.config.action).toBeDefined();
-        expect(commands['delete'].action).toBeDefined();
+        expect(commands.delete.action).toBeDefined();
         expect(commands.init.action).toBeDefined();
         expect(commands.get.action).toBeDefined();
         expect(commands.changes.action).toBeDefined();

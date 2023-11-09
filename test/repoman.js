@@ -1,14 +1,14 @@
 'use strict';
 
 const bag = require('bagofcli');
-const Bitbucket = require('../lib/generator/bitbucket');
 const fs = require('fs');
 const fsx = require('fs.extra');
+const sinon = require('sinon');
+
+const Bitbucket = require('../lib/generator/bitbucket');
 const GitHub = require('../lib/generator/github');
 const Local = require('../lib/generator/local');
 const Repoman = require('../lib/repoman');
-
-const sinon = require('sinon');
 
 describe('repoman', () => {
   beforeEach(() => {
@@ -39,7 +39,6 @@ describe('repoman', () => {
 
     afterEach(() => {
       fsxCopyStub.restore();
-      //wfsMock.verify();
       fsMock.restore();
 
       bitbucketMock.verify();
@@ -171,6 +170,7 @@ describe('repoman', () => {
       });
     });
 
+    // eslint-disable-next-line max-len
     it('should create .repoman.json containing repos on local repositories and remove any repos not existing locally if removeExtraneous is specified', done => {
       fsMock.expects('existsSync').withExactArgs('.repoman.json').returns(true);
       fsMock
@@ -242,7 +242,7 @@ describe('repoman', () => {
 
     it('should return empty results when there is no repository and scm', done => {
       const repoman = new Repoman();
-      repoman.exec('init', { failFast: false }, function cb(err, results) {
+      repoman.exec('init', { failFast: false }, (err, results) => {
         expect(err).toEqual(null);
         expect(results).toEqual([]);
         done();
@@ -255,7 +255,7 @@ describe('repoman', () => {
         cb(null, command);
       });
       const repoman = new Repoman(repos, scms);
-      repoman.exec('init', { verbose: true }, function cb(err, results) {
+      repoman.exec('init', { verbose: true }, (err, results) => {
         expect(results[0]).toEqual(
           'git clone http://git-wip-us.apache.org/repos/asf/couchdb.git /somedir/couchdb'
         );
@@ -289,7 +289,7 @@ describe('repoman', () => {
       repoman.exec(
         'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
         { verbose: true },
-        function cb(err, results) {
+        (err, results) => {
           expect(results.length).toEqual(2);
           expect(results[0]).toEqual(
             'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
@@ -325,7 +325,7 @@ describe('repoman', () => {
       repoman.exec(
         'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
         { tags: ['database', 'someothertag'], verbose: true },
-        function cb(err, results) {
+        (err, results) => {
           expect(results.length).toEqual(1);
           expect(results[0]).toEqual(
             'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
@@ -352,7 +352,7 @@ describe('repoman', () => {
       repoman.exec(
         'touch .gitignore; echo "Created {{{workspace}}}/{{{name}}}/.gitignore file";',
         { regex: '.*couchdb.*', verbose: true },
-        function cb(err, results) {
+        (err, results) => {
           expect(results.length).toEqual(1);
           expect(results[0]).toEqual(
             'cd "/somedir/couchdb" && touch .gitignore; echo "Created /somedir/couchdb/.gitignore file";'
@@ -383,7 +383,7 @@ describe('repoman', () => {
           tags: ['inexistingtag1', 'inexistingtag2'],
           verbose: true
         },
-        function cb(err, results) {
+        (err, results) => {
           expect(results.length).toEqual(0);
           done();
         }
@@ -529,6 +529,7 @@ describe('repoman', () => {
       ).toEqual('svn');
     });
 
+    // eslint-disable-next-line max-len
     it('should default repo type to git when repo config does not have type property and URL does not contain repo keyword', () => {
       expect(
         repoman._determineRepoType({ url: 'http://unknown/repo' })

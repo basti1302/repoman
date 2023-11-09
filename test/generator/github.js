@@ -1,10 +1,10 @@
 'use strict';
 
-const bag = require('bagofrequest');
-const GithubAuth = require('../../lib/auth/github');
 const BluePromise = require('bluebird');
-
+const bag = require('bagofrequest');
 const sinon = require('sinon');
+
+const GithubAuth = require('../../lib/auth/github');
 
 const mockGithub = {
   authenticate: sinon.spy(),
@@ -16,7 +16,7 @@ const mockGithub = {
 jest.mock(
   '@octokit/rest',
   () =>
-    function () {
+    function fn() {
       return mockGithub;
     }
 );
@@ -161,9 +161,9 @@ describe('github', () => {
       mockGithub.hasNextPage.withArgs(nextResult).returns(false);
       mockGithub.getNextPage.withArgs(result).callsArgWith(1, null, nextResult);
       const gitHub = new GitHub(() => {
-        gitHub._paginate(result, (err, result) => {
+        gitHub._paginate(result, (err, resultInner) => {
           expect(err).toEqual(null);
-          expect(result).toEqual(['first', 'second']);
+          expect(resultInner).toEqual(['first', 'second']);
 
           sinon.assert.calledWith(
             console.log,
