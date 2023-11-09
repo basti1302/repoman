@@ -1,3 +1,19 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.6.0...v1.7.0) (2023-11-09)
+
+
+### Features
+
+* assume main instead of master as default branch ([f4bcb9d](https://github.com/mokkapps/changelog-generator-demo/commits/f4bcb9d6495ad9a387c08b4267f6ce0fe2f41606))
+
+
+### Bug Fixes
+
+* fix lebab transform name clash (repo tags vs. opt tags) ([85daa53](https://github.com/mokkapps/changelog-generator-demo/commits/85daa536f402e1424e5628193c3276804144ca02))
+
 ### 1.6.0 (13.11.2019)
 * Add new commands `add` and `remove` to add/remove repos from a config.
 
