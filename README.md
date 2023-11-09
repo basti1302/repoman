@@ -160,23 +160,3 @@ Contributing
 
 Run `npm run build` to kick off the full build including tests, integration tests, coverage etc. Note: Currently, the integration tests will fail on systems where git uses a different localization than English.
 
-Articles
---------
-
-* [Introducing Repoman](http://blog.cliffano.com/2013/05/26/introducing-repoman/)
-
-History
--------
-
-Repoman has been developed by @cliffano until late 2015. Nowadays it is maintained by @basti1302.
-
-* 1.6.0 (13.11.2019): Add new commands `add` and `remove` to add/remove repos from a config.
-* 1.5.5 (12.11.2019): Fix "repoman config --local crashes when a repo has no origin" (#30, thanks @stennie).
-* 1.5.4 (11.03.2018): Fix breaking changes from upgrade to octokit/rest.js, add documentation about `repoman signin` and `--github-auth-user`/`--github-auth-pass`.
-* 1.5.3 (18.02.2018): Update all dependencies, upgrade to octokit/rest.js
-* 1.5.2 (14.02.2018): Update to bagofcli@1.1.0.
-* 1.5.1 (14.02.2018): README overhaul.
-* 1.5.0 (13.02.2018): Improve layout for `report` command.
-* 1.4.0 (11.02.2018): Add new command `report`.
-* 1.3.0 (30.05.2017): Add new options `--github-use-ssh` and `--remove-extraneous` (see #23 and #24, thanks to @scamden).
-* 1.1.0 (21.06.2016): Improve error message when .repoman.json is not found (#19).

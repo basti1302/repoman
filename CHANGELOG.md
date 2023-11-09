@@ -1,4 +1,35 @@
-### 1.0.0 &ndash; 2016-01-31
+### 1.6.0 (13.11.2019)
+* Add new commands `add` and `remove` to add/remove repos from a config.
+
+### 1.5.5 (12.11.2019)
+* Fix "repoman config --local crashes when a repo has no origin" (#30, thanks @stennie).
+
+### 1.5.4 (11.03.2018)
+* Fix breaking changes from upgrade to octokit/rest.js, add documentation about `repoman signin` and `--github-auth-user`/`--github-auth-pass`.
+
+### 1.5.3 (18.02.2018)
+* Update all dependencies, upgrade to octokit/rest.js
+
+### 1.5.2 (14.02.2018)
+* Update to bagofcli@1.1.0.
+
+### 1.5.1 (14.02.2018)
+* README overhaul.
+
+### 1.5.0 (13.02.2018)
+* Improve layout for `report` command.
+
+### 1.4.0 (11.02.2018)
+* Add new command `report`.
+
+### 1.3.0 (30.05.2017)
+* Add new options `--github-use-ssh` and `--remove-extraneous` (see #23 and #24, thanks to @scamden).
+
+### 1.1.0 (21.06.2016)
+* Improve error message when .repoman.json is not found (#19).
+
+### 1.0.0 (2016-01-31)
+
 * Use Mustache.js templates instead of Jazz templates for `repoman exec`. This is a breaking change for you if you used Jazz template substitutions in your `repoman exec` commands &ndash; that is, if you used something like `repoman exec 'touch .gitignore && echo "Created {workspace}/{name}/.gitignore file;"`. You would need to change this to `repoman exec 'touch .gitignore && echo "Created {{{workspace}}}/{{{name}}}/.gitignore file;"`.
 * Make `repoman exec` work on Windows ([#20](https://github.com/basti1302/repoman/issues/20), thanks to @Guysbert for the report).
 * Use `&&` instead of `;` in command lines with multiple commands, in particular, when a `cd` command is required before the actual command. That means, if repoman cannot successfully `cd` into the repository directory, it will not attempt to execute the action for this repository.
