@@ -38,6 +38,8 @@ Usage
 * `repoman config --bitbucket-auth-user basti1302 --bitbucket-auth-pass somepassword`: Create .repoman.json containing Bitbucket projects.
 * `repoman config --local`: Create .repoman.json configuration file from local repositories in current directory.
 * `repoman clean`: Delete local repositories not managed by Repoman (that is, not configured in .repoman.json).
+* `repoman add`: Add a repository to the repoman configuration and clone it
+* `repoman remove`: Remove a single repository from the configuration and from disk
 
 ### Initial Clone/Checkout
 
