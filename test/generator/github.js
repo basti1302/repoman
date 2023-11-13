@@ -1,6 +1,5 @@
 'use strict';
 
-const BluePromise = require('bluebird');
 const sinon = require('sinon');
 
 const GithubAuth = require('../../lib/auth/github');
@@ -56,7 +55,7 @@ describe('github', () => {
     });
 
     it('should authenticate when username and password are not specified but auth token exists', done => {
-      const tokenPromise = BluePromise.resolve('tooken');
+      const tokenPromise = Promise.resolve('tooken');
       githubAuthMock.expects('readAuthToken').once().returns(tokenPromise);
       new GitHub(() => {});
       tokenPromise.then(() => {
