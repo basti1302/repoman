@@ -68,7 +68,6 @@
     "async": "^2.6.4",
     "bagofcli": "^1.1.0",
     "bitbucket-api": "^0.1.0",
-    "bluebird": "^3.7.2",
     "cli-table": "^0.3.11",
     "colors": "^1.4.0",
     "dotfile": "0.0.2",
