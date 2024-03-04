@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@commitlint/cli": "^18.2.0",
-    "@commitlint/config-conventional": "^18.1.0",
+    "@commitlint/config-conventional": "^19.0.3",
     "@octokit/rest": "^16.43.2",
     "async": "^2.6.4",
     "bagofcli": "^1.1.0",
