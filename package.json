@@ -62,7 +62,7 @@
     "release": "standard-version"
   },
   "dependencies": {
-    "@commitlint/cli": "^18.2.0",
+    "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^18.1.0",
     "@octokit/rest": "^16.43.2",
     "async": "^2.6.4",
